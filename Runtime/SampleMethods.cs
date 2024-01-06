@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace mytools.tools{
+namespace MyTools.Tools{
     public class SampleMethods : MonoBehaviour{
         
     }
