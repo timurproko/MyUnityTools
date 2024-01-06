@@ -1,0 +1,12 @@
+{
+    "name": "com.timurproko.mytools",
+    "version": "1.0.0",
+    "displayName": "MyTools",
+    "description": "Set of utilities designed for Unity.",
+    "unity": "2023.0",
+    "author": {
+        "name": "Timur Prokopiev",
+        "email": "timur.proko@gmail.com",
+        "url": ""
+    }
+}
