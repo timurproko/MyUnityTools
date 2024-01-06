@@ -3,10 +3,9 @@
     "version": "1.0.0",
     "displayName": "MyTools",
     "description": "Set of utilities designed to streamline your workflow with Unity.",
-    "unity": "2023.2.4",
+    "unity": "2023.0",
     "author": {
         "name": "Timur Prokopiev",
-        "email": "timur.proko@gmail.com",
-        "url": ""
+        "email": "timur.proko@gmail.com"
     }
 }
