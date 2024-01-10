@@ -7,5 +7,9 @@
     "author": {
         "name": "Timur Prokopiev",
         "email": "timur.proko@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/pojitonov/MyTools.git"
     }
 }

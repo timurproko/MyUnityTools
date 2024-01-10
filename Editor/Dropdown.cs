@@ -29,7 +29,7 @@ public class Dropdown : Editor
         }
         else
         {
-            Debug.LogWarning("Dropdown fields not found in the target script.");
+            return;
         }
     }
 }
