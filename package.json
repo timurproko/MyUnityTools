@@ -4,10 +4,6 @@
     "displayName": "MyTools",
     "description": "Set of utilities designed to streamline your workflow with Unity.",
     "unity": "2019.1",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/pojitonov/MyTools.git"
-    },
     "author": {
         "name": "Timur Prokopiev",
         "email": "timur.proko@gmail.com"
