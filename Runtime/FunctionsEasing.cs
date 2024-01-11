@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-public static class EasingFunctions
+public static class FunctionsEasing
 {
     public static float EaseInSine(float x)
     {
