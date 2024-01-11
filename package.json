@@ -8,9 +8,11 @@
         "name": "Timur Prokopiev",
         "email": "timur.proko@gmail.com"
     },
-    "samples": {
+    "samples": [
+        {
         "displayName": "MyTools Basics",
         "description": "Basic examnples",
         "path": "Samples~/Basics"
-    }
+        }
+    ]
 }
