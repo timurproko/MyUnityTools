@@ -1,7 +1,7 @@
 {
     "name": "com.timurproko.mytools",
     "version": "1.0.0",
-    "displayName": "MyTools for Unity",
+    "displayName": "MyTools",
     "description": "Set of utilities designed to streamline your workflow with Unity.",
     "unity": "2019.1",
     "author": {
