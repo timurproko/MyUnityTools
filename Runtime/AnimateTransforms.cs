@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AnimateTransform : MonoBehaviour
+public class AnimateTransforms : MonoBehaviour
 {
     private Transform MyTransform = null;
     // Customize these values to control the animation
