@@ -7,5 +7,15 @@
     "author": {
         "name": "Timur Prokopiev",
         "email": "timur.proko@gmail.com"
-    }
+    },
+    "samples": [
+        {
+     
+          "displayName": "Basics",
+     
+          "description": "Basic examnples",
+     
+          "path": "Samples~/Basics"
+     
+        },
 }
