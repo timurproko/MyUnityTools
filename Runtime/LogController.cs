@@ -1,5 +1,5 @@
 using UnityEngine;
-[AddComponentMenu("My Tools/Unitls/")]
+[AddComponentMenu("--- My Tools ---/Utility/" + nameof(LogController))]
 
 public class LogController : MonoBehaviour
 {

@@ -1,4 +1,5 @@
 using UnityEngine;
+[AddComponentMenu("--- My Tools ---/Animation/" + nameof(AnimateTransforms))]
 
 public class AnimateTransforms : MonoBehaviour
 {
