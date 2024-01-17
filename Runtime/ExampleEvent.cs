@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
-[AddComponentMenu("--- My Tools ---/Examples/" + nameof(ExampleEvent))]
+[AddComponentMenu("My Tools/Examples/" + nameof(ExampleEvent))]
 
 public class ExampleEvent: MonoBehaviour
 {

@@ -1,5 +1,5 @@
 using UnityEngine;
-[AddComponentMenu("--- My Tools ---/Animation/" + nameof(AnimateTransforms))]
+[AddComponentMenu("My Tools/Animation/" + nameof(AnimateTransforms))]
 
 public class AnimateOrientation : MonoBehaviour
 {

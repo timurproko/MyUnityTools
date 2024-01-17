@@ -1,5 +1,5 @@
 using UnityEngine;
-[AddComponentMenu("--- My Tools ---/Examples/" + nameof(ExampleEventListener))]
+[AddComponentMenu("My Tools/Examples/" + nameof(ExampleEventListener))]
 
 public class ExampleEventListener: MonoBehaviour
 {
