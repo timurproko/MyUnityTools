@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 [AddComponentMenu("My Tools/Utility/" + nameof(DeviceSimulatorCanvasScaler))]
 
 public class DeviceSimulatorCanvasScaler : MonoBehaviour
