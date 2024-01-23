@@ -1,5 +1,5 @@
 using UnityEngine;
-[AddComponentMenu("My Tools/Utility/" + nameof(LogController))]
+[AddComponentMenu("My Tools/Utility/" + nameof(DeviceSimulatorCanvasScaler))]
 
 public class DeviceSimulatorCanvasScaler : MonoBehaviour
 {
