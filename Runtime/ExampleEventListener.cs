@@ -1,19 +1,22 @@
 using UnityEngine;
 [AddComponentMenu("My Tools/Examples/" + nameof(ExampleEventListener))]
 
-public class ExampleEventListener: MonoBehaviour
+namespace MyTools
 {
-	[SerializeField]
-	private ExampleEvent RefToObjectWithEvent;
-	
-	// Assigned to Awake() to make it work with EventsExample class Start()
-	private void Awake()
+	public class ExampleEventListener: MonoBehaviour
 	{
-	RefToObjectWithEvent.EventName.AddListener(HandleEvent);	
-	}
+		[SerializeField]
+		private ExampleEvent RefToObjectWithEvent;
+		
+		// Assigned to Awake() to make it work with EventsExample class Start()
+		private void Awake()
+		{
+		RefToObjectWithEvent.EventName.AddListener(HandleEvent);	
+		}
 
-	private void HandleEvent()
-	{
-		Debug.Log("Event triggered!");
+		private void HandleEvent()
+		{
+			Debug.Log("Event triggered!");
+		}
 	}
 }

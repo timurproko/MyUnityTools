@@ -1,11 +1,14 @@
 using UnityEngine;
-[AddComponentMenu("My Tools/Utility/" + nameof(LogController))]
+[AddComponentMenu("My Tools/Animation/" + nameof(LogController))]
 
-public class LogController : MonoBehaviour
+namespace MyTools
 {
-    [SerializeField] private bool _enableLogging = true;
-    void Awake()
+    public class LogController : MonoBehaviour
     {
-        Debug.unityLogger.logEnabled = _enableLogging;
+        [SerializeField] private bool _enableLogging = true;
+        void Awake()
+        {
+            Debug.unityLogger.logEnabled = _enableLogging;
+        }
     }
 }

@@ -2,34 +2,37 @@ using UnityEngine;
 using UnityEngine.UI;
 [AddComponentMenu("My Tools/Utility/" + nameof(DeviceSimulatorCanvasScaler))]
 
-public class DeviceSimulatorCanvasScaler : MonoBehaviour
-{
-    GameObject _xrDeviceSimulator;
-    Canvas _canvas;
-    CanvasScaler _canvasScaler;
-    
-    [SerializeField] bool helpUI = true;
-    [SerializeField, Range(0.4f, 1.0f)] float scaleFactor = 0.5f;
-
-    void Start()
+namespace MyTools
     {
-        _xrDeviceSimulator = gameObject;
-        _canvas = _xrDeviceSimulator.GetComponentInChildren<Canvas>();
-        _canvasScaler = _xrDeviceSimulator.GetComponentInChildren<CanvasScaler>();
-    }
-
-    void Update()
+    public class DeviceSimulatorCanvasScaler : MonoBehaviour
     {
-        if (_xrDeviceSimulator != null)
+        GameObject _xrDeviceSimulator;
+        Canvas _canvas;
+        CanvasScaler _canvasScaler;
+        
+        [SerializeField] bool helpUI = true;
+        [SerializeField, Range(0.4f, 1.0f)] float scaleFactor = 0.5f;
+
+        void Start()
         {
-            _canvas.enabled = helpUI;
-            _canvas.pixelPerfect = true;
-            _canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
-            _canvasScaler.scaleFactor = scaleFactor;
+            _xrDeviceSimulator = gameObject;
+            _canvas = _xrDeviceSimulator.GetComponentInChildren<Canvas>();
+            _canvasScaler = _xrDeviceSimulator.GetComponentInChildren<CanvasScaler>();
         }
-        else
+
+        void Update()
         {
-            Debug.LogError("XR Device Simulator UI(Clone) not found.");
+            if (_xrDeviceSimulator != null)
+            {
+                _canvas.enabled = helpUI;
+                _canvas.pixelPerfect = true;
+                _canvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize;
+                _canvasScaler.scaleFactor = scaleFactor;
+            }
+            else
+            {
+                Debug.LogError("XR Device Simulator UI(Clone) not found.");
+            }
         }
     }
 }
