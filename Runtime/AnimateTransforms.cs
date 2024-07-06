@@ -1,5 +1,4 @@
 using UnityEngine;
-[AddComponentMenu("My Tools/Animation/" + nameof(AnimateTransforms))]
 
 namespace MyTools
 {

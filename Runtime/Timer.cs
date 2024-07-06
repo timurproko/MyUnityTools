@@ -1,8 +1,8 @@
 using UnityEngine;
-[AddComponentMenu("My Tools/Utility/" + nameof(Timer))]
 
 namespace MyTools
 {
+[AddComponentMenu("My Tools/Utility/" + nameof(Timer))]
     public class Timer : MonoBehaviour
     {
         #region Fields

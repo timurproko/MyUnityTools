@@ -1,8 +1,8 @@
 using UnityEngine;
-[AddComponentMenu("My Tools/Animation/" + nameof(AnimateTransforms))]
 
 namespace MyTools
 {
+[AddComponentMenu("My Tools/Animation/" + nameof(AnimateTransforms))]
     public class AnimateOrientation : MonoBehaviour
     {
         private Transform MyTransform = null;

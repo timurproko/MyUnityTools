@@ -1,8 +1,8 @@
 using UnityEngine;
-[AddComponentMenu("My Tools/Examples/" + nameof(ExampleEventListener))]
 
 namespace MyTools
 {
+[AddComponentMenu("My Tools/Examples/" + nameof(ExampleEventListener))]
 	public class ExampleEventListener: MonoBehaviour
 	{
 		[SerializeField]

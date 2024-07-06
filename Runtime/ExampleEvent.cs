@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
-[AddComponentMenu("My Tools/Examples/" + nameof(ExampleEvent))]
 
 namespace MyTools
 {
+[AddComponentMenu("My Tools/Examples/" + nameof(ExampleEvent))]
 	public class ExampleEvent: MonoBehaviour
 	{
 		public UnityEvent EventName;
