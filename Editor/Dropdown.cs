@@ -2,34 +2,38 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 
-[CustomEditor(typeof(MonoBehaviour), true)]
-public class Dropdown : Editor
+namespace MyTools.UI
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(MonoBehaviour), true)]
+    public class Dropdown : Editor
     {
-        base.OnInspectorGUI();
-
-        // Get the target object
-        MonoBehaviour script = (MonoBehaviour)target;
-
-        // Check if the target object has DropdownIndex, DropdownLabel, and DropdownItems
-        FieldInfo dropdownIndexField = script.GetType().GetField("DropdownIndex");
-        FieldInfo dropdownLabelField = script.GetType().GetField("DropdownLabel");
-        FieldInfo dropdownItemsField = script.GetType().GetField("DropdownItems");
-
-        if (dropdownIndexField != null && dropdownLabelField != null && dropdownItemsField != null)
+        public override void OnInspectorGUI()
         {
-            int dropdownIndex = (int)dropdownIndexField.GetValue(script);
-            string dropdownLabel = (string)dropdownLabelField.GetValue(script);
-            string[] dropdownItems = (string[])dropdownItemsField.GetValue(script);
+            base.OnInspectorGUI();
 
-            GUIContent label = new GUIContent(dropdownLabel);
-            dropdownIndex = EditorGUILayout.Popup(label, dropdownIndex, dropdownItems);
-            dropdownIndexField.SetValue(script, dropdownIndex);
-        }
-        else
-        {
-            return;
+            // Get the target object
+            MonoBehaviour script = (MonoBehaviour)target;
+
+            // Check if the target object has DropdownIndex, DropdownLabel, and DropdownItems
+            FieldInfo dropdownIndexField = script.GetType().GetField("DropdownIndex");
+            FieldInfo dropdownLabelField = script.GetType().GetField("DropdownLabel");
+            FieldInfo dropdownItemsField = script.GetType().GetField("DropdownItems");
+
+            if (dropdownIndexField != null && dropdownLabelField != null && dropdownItemsField != null)
+            {
+                int dropdownIndex = (int)dropdownIndexField.GetValue(script);
+                string dropdownLabel = (string)dropdownLabelField.GetValue(script);
+                string[] dropdownItems = (string[])dropdownItemsField.GetValue(script);
+
+                GUIContent label = new GUIContent(dropdownLabel);
+                dropdownIndex = EditorGUILayout.Popup(label, dropdownIndex, dropdownItems);
+                dropdownIndexField.SetValue(script, dropdownIndex);
+            }
+            else
+            {
+                return;
+            }
         }
     }
 }
+    
