@@ -42,7 +42,7 @@ namespace SceneViewBookmarks
 
             for (var slot = 1; slot <= SceneViewBookmarkManager.maxBookmarkCount; slot++)
             {
-                var content = new GUIContent($"Move to Bookmark {slot} #{slot}");
+                var content = new GUIContent($"Move to Bookmark {slot} %{slot}");
 
                 if (SceneViewBookmarkManager.HasBookmark(slot))
                 {
@@ -56,7 +56,7 @@ namespace SceneViewBookmarks
 
             menu.AddSeparator(string.Empty);
 
-            var returnToPreviousViewContent = new GUIContent("Return to Previous View #0");
+            var returnToPreviousViewContent = new GUIContent("Return to Previous View %0");
 
             if (SceneViewBookmarkManager.hasPreviousView)
             {
@@ -71,7 +71,7 @@ namespace SceneViewBookmarks
 
             for (var slot = 1; slot <= SceneViewBookmarkManager.maxBookmarkCount; slot++)
             {
-                menu.AddItem(new GUIContent($"Set Bookmark {slot} &#{slot}"), false, HandleSetBookmark, slot);
+                menu.AddItem(new GUIContent($"Set Bookmark {slot} %&{slot}"), false, HandleSetBookmark, slot);
             }
 
             menu.ShowAsContext();

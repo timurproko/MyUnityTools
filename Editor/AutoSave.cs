@@ -7,7 +7,7 @@ namespace MyTools.AutoSave
     [InitializeOnLoad]
     static class CheckmarkMenuItem
     {
-        private const string MENU_NAME = "Tools/My Tools/Auto Save on Play";
+        private const string MENU_NAME = "My Tools/Auto Save on Play";
 
         internal static bool _enabled;
 

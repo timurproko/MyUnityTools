@@ -6,8 +6,132 @@ namespace MyTools.Shortcuts
 {
     static class Shortcuts
     {
-        // This simply does "LogEntries.Clear()" the long way:
-        [MenuItem("Tools/My Tools/Clear Console &c")] // Alt+C
+        // Toggle Gizmos
+        [MenuItem("My Tools/Toogle All Gizmos &g", priority = 10)] // Alt+G
+        public static void ToggleSceneViewGizmos()
+        {
+            var currentValue = GetSceneViewGizmosEnabled();
+            SetSceneViewGizmos(!currentValue);
+        }
+
+        public static void SetSceneViewGizmos(bool gizmosOn)
+        {
+#if UNITY_EDITOR
+            SceneView sv = EditorWindow.GetWindow<SceneView>(null, false);
+            sv.drawGizmos = gizmosOn;
+#endif
+        }
+
+        public static bool GetSceneViewGizmosEnabled()
+        {
+#if UNITY_EDITOR
+            SceneView sv = EditorWindow.GetWindow<SceneView>(null, false);
+            return sv.drawGizmos;
+#else
+            return false;
+#endif
+        }
+
+
+#if !UNITY_5
+        static float iconSize;
+        static bool use3dGizmos;
+#endif
+
+        [MenuItem("My Tools/Toogle 3D Icons", priority = 11)]
+        public static void HideGizmoIcons()
+        {
+            Assembly asm = Assembly.GetAssembly(typeof(Editor));
+            Type type = asm.GetType("UnityEditor.AnnotationUtility");
+            if (type != null)
+            {
+                PropertyInfo use3dGizmosProperty =
+                    type.GetProperty("use3dGizmos", BindingFlags.Static | BindingFlags.NonPublic);
+                PropertyInfo iconSizeProperty =
+                    type.GetProperty("iconSize", BindingFlags.Static | BindingFlags.NonPublic);
+
+                float nowIconSize = (float)iconSizeProperty.GetValue(asm, null);
+                if (nowIconSize > 0) // to hide
+                {
+#if UNITY_5
+					EditorPrefs.SetFloat(Strings.prefs_use3dGizmos, nowIconSize);
+#endif
+                    iconSize = nowIconSize;
+                    iconSizeProperty.SetValue(asm, 0, null);
+
+#if UNITY_5
+					bool use3dGizmos = (bool) use3dGizmosProperty.GetValue( asm, null );
+					EditorPrefs.SetBool(Strings.prefs_use3dGizmos, use3dGizmos);
+#else
+                    use3dGizmos = (bool)use3dGizmosProperty.GetValue(asm, null);
+#endif
+                    use3dGizmosProperty.SetValue(asm, true, null);
+                }
+                else // to show
+                {
+#if UNITY_5
+					float iconSize = EditorPrefs.GetFloat(Strings.prefs_iconSize);
+#endif
+                    if (iconSize <= 0)
+                        iconSize = 0.03162277f; // Mathf.Pow(10f, -3f + 3f * 0.5f), see to Convert01ToTexelWorldSize()
+                    iconSizeProperty.SetValue(asm, iconSize, null);
+
+#if UNITY_5
+					bool use3dGizmos = EditorPrefs.GetBool(Strings.prefs_use3dGizmos);
+#endif
+                    use3dGizmosProperty.SetValue(asm, use3dGizmos, null);
+                }
+            }
+        }
+
+
+        [MenuItem("My Tools/Toogle Selection Outline", priority = 12)]
+        public static void HideOutline()
+        {
+            Assembly asm = Assembly.GetAssembly(typeof(Editor));
+            Type type = asm.GetType("UnityEditor.AnnotationUtility");
+            if (type != null)
+            {
+                PropertyInfo property = type.GetProperty("showSelectionOutline",
+                    BindingFlags.Static | BindingFlags.NonPublic);
+                bool flag = (bool)property.GetValue(asm, null);
+                property.SetValue(asm, !flag, null);
+            }
+        }
+
+
+        [MenuItem("My Tools/Toogle Selection Wire", priority = 13)]
+        public static void HideWireframe()
+        {
+            Assembly asm = Assembly.GetAssembly(typeof(Editor));
+            Type type = asm.GetType("UnityEditor.AnnotationUtility");
+            if (type != null)
+            {
+                PropertyInfo property = type.GetProperty("showSelectionWire",
+                    BindingFlags.Static | BindingFlags.NonPublic);
+                bool flag = (bool)property.GetValue(asm, null);
+                property.SetValue(asm, !flag, null);
+            }
+        }
+        
+        
+        [MenuItem("My Tools/Toggle Grid %&#g", priority = 14)] // Ctrl+Alt+Shift+G
+        private static void ToggleGridVisibility()
+        {
+            // Iterate through all open SceneViews
+            foreach (var sceneView in SceneView.sceneViews)
+            {
+                if (sceneView is SceneView view)
+                {
+                    // Toggle the grid visibility based on its current state
+                    view.showGrid = !view.showGrid;
+                }
+            }
+        }
+        
+        
+        // Clear Console
+        [MenuItem("My Tools/Clear Console &c", priority = 21)] // Alt+C
         static void ClearConsole()
         {
             var logEntries = Type.GetType("UnityEditor.LogEntries,UnityEditor.dll");
@@ -15,8 +139,9 @@ namespace MyTools.Shortcuts
             clearMethod.Invoke(null, null);
         }
 
-        // Inspector must be inspecting something to be locked
-        [MenuItem("Tools/My Tools/Toggle Lock %&l")] // Ctrl+Alt+L
+
+        // Lock Panels
+        [MenuItem("My Tools/Toggle Lock %&l", priority = 20)] // Ctrl+Alt+L
         static void ToggleWindowLock()
         {
             // "EditorWindow.focusedWindow" can be used instead
@@ -55,11 +180,5 @@ namespace MyTools.Shortcuts
                 windowToBeLocked.Repaint();
             }
         }
-
-        // [MenuItem("Tools/My Tools/Toggle Grid %&#g")] // Ctrl+Alt+Shift+G
-        // static void ToggleGrid()
-        // {
-        // }
     }
 }
-
