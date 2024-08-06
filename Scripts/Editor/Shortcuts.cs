@@ -32,7 +32,6 @@ namespace MyTools.Shortcuts
 #endif
         }
 
-        
 
         [MenuItem("My Tools/Toggle Grid %&#g", priority = 11)] // Ctrl+Alt+Shift+G
         private static void ToggleGridVisibility()
@@ -49,7 +48,6 @@ namespace MyTools.Shortcuts
         }
 
 
-        
         // Lock Panels
         [MenuItem("My Tools/Toggle Lock %&l", priority = 12)] // Ctrl+Alt+L
         static void ToggleWindowLock()
@@ -91,8 +89,7 @@ namespace MyTools.Shortcuts
             }
         }
 
-        
-        
+
         // Clear Console
         [MenuItem("My Tools/Clear Console &c", priority = 13)] // Alt+C
         static void ClearConsole()
@@ -103,14 +100,16 @@ namespace MyTools.Shortcuts
         }
 
 
-        
         // Maximize
         [MenuItem("My Tools/Maximize %b", priority = 14)] // Ctrl+B
         static void ToggleInEditor()
         {
             EditorWindow window = EditorWindow.focusedWindow;
             // Assume the game view is focused.
-            window.maximized = !window.maximized;
+            if (window)
+            {
+                window.maximized = !window.maximized;
+            }
         }
     }
 }
