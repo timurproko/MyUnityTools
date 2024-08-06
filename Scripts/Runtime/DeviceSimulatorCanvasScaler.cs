@@ -30,7 +30,7 @@ namespace MyTools
             }
             else
             {
-                Debug.LogError("XR Device Simulator UI(Clone) not found.");
+                UnityEngine.Debug.LogError("XR Device Simulator UI(Clone) not found.");
             }
         }
     }

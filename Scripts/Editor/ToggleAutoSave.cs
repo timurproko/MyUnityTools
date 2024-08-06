@@ -1,18 +1,17 @@
 ﻿using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
 
 namespace MyTools.AutoSave
 {
     [InitializeOnLoad]
-    static class CheckmarkMenuItem
+    static class ToggleAutoSave
     {
         private const string MENU_NAME = "My Tools/Auto Save on Play";
 
         internal static bool _enabled;
 
         /// Called on load thanks to the InitializeOnLoad attribute
-        static CheckmarkMenuItem()
+        static ToggleAutoSave()
         {
             _enabled = EditorPrefs.GetBool(MENU_NAME, true);
 
@@ -69,7 +68,7 @@ namespace MyTools.AutoSave
         private static void AutoSaveWhenPlaymodeStarts(PlayModeStateChange playModeStateChange)
         {
             // If we're exiting edit mode (entering play mode)
-            if (playModeStateChange == PlayModeStateChange.ExitingEditMode && CheckmarkMenuItem._enabled)
+            if (playModeStateChange == PlayModeStateChange.ExitingEditMode && ToggleAutoSave._enabled)
             {
                 Debug.Log("MyTools: Saving Scenes and Assets");
 
