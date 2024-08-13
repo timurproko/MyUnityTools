@@ -8,7 +8,7 @@ namespace MyTools
         [SerializeField] private bool _enableLogging = true;
         void Awake()
         {
-            UnityEngine.Debug.unityLogger.logEnabled = _enableLogging;
+            Debug.unityLogger.logEnabled = _enableLogging;
         }
     }
 }
