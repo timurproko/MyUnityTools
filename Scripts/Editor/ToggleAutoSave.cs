@@ -27,6 +27,7 @@ namespace MyTools.AutoSave
         {
             // Toggling action
             PerformAction(!_enabled);
+            Debug.Log($"MyTools: Auto Save on Play is {(_enabled ? "Enabled" : "Disabled")}");
         }
 
         private static void PerformAction(bool enabled)

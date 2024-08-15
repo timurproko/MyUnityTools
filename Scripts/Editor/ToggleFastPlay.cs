@@ -40,12 +40,12 @@ namespace MyTools.FastPlay
             ToggleFastPlayMode(_enabled);
         }
 
-        public static void ToggleFastPlayMode(bool enabled)
+        private static void ToggleFastPlayMode(bool enabled)
         {
             EditorSettings.enterPlayModeOptionsEnabled = enabled;
             AssetDatabase.Refresh();
-            var text = EditorSettings.enterPlayModeOptionsEnabled;
-            if (text)
+            bool playModeState = EditorSettings.enterPlayModeOptionsEnabled;
+            if (playModeState)
             {
                 Debug.Log($"MyTools: Fast Play Mode is Enabled");
             }
