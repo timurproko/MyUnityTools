@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using System.Reflection;
+using UnityEngine;
 
 namespace MyTools.Shortcuts
 {
@@ -111,5 +112,22 @@ namespace MyTools.Shortcuts
                 window.maximized = !window.maximized;
             }
         }
+
+
+        // Next Tab
+        // [MenuItem("My Tools/Switch Tab", priority = 15)] //
+        // public static void SwitchToNextTab()
+        // {
+        //     EditorWindow focusedWindow = EditorWindow.focusedWindow;
+        //
+        //     if (focusedWindow != null)
+        //     {
+        //         focusedWindow.SendEvent(EditorGUIUtility.CommandEvent("NextTab"));
+        //     }
+        //     else
+        //     {
+        //         Debug.Log("MyTools: No focused window found.");
+        //     }
+        // }
     }
 }

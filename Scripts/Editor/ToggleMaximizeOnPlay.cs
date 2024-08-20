@@ -9,8 +9,9 @@ namespace MyTools.MaximizeOnPlay
         private const string MENU_NAME = "My Tools/Maximize Game View on Play &f11";
 
         internal static bool _enabled;
+        internal static bool _isSceneViewActivates;
 
-        /// Called on load thanks to the InitializeOnLoad attribute
+        // Called on load thanks to the InitializeOnLoad attribute
         static ToggleMaximizeOnPlay()
         {
             _enabled = EditorPrefs.GetBool(MENU_NAME, true);
@@ -22,6 +23,8 @@ namespace MyTools.MaximizeOnPlay
 
             // Subscribe to play mode state change
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+            // Subscribe to pause state change
+            EditorApplication.pauseStateChanged += OnPauseStateChanged;
         }
 
         [MenuItem(MENU_NAME)]
@@ -46,23 +49,63 @@ namespace MyTools.MaximizeOnPlay
         {
             if (_enabled && state == PlayModeStateChange.EnteredPlayMode)
             {
+                if (SceneView.lastActiveSceneView.hasFocus)
+                {
+                    _isSceneViewActivates = true;
+                }
+                else
+                {
+                    _isSceneViewActivates = false;
+                }
+
                 // Delay the action to ensure the Game view is properly initialized
                 EditorApplication.delayCall += () =>
                 {
-                    // Focus the Game view
-                    EditorWindow gameView = GetGameView();
-                    if (gameView != null)
                     {
-                        gameView.maximized = true;
+                        MaximizeGameView(true);
                     }
                 };
             }
+            else if (_enabled && state == PlayModeStateChange.ExitingPlayMode)
+            {
+                MaximizeGameView(false);
+
+                if (_isSceneViewActivates)
+                {
+                    GetView("UnityEditor.SceneView");
+                }
+            }
         }
 
-        private static EditorWindow GetGameView()
+        private static void OnPauseStateChanged(PauseState state)
         {
-            System.Type gameViewType = typeof(Editor).Assembly.GetType("UnityEditor.GameView");
-            return EditorWindow.GetWindow(gameViewType);
+            if (_enabled)
+            {
+                if (state == PauseState.Paused)
+                {
+                    MaximizeGameView(false);
+                }
+                else if (state == PauseState.Unpaused)
+                {
+                    MaximizeGameView(true);
+                }
+            }
+        }
+
+        private static void MaximizeGameView(bool maximize)
+        {
+            // Focus the Game view and set maximized state
+            EditorWindow gameView = GetView("UnityEditor.GameView");
+            if (gameView != null)
+            {
+                gameView.maximized = maximize;
+            }
+        }
+
+        private static EditorWindow GetView(string name)
+        {
+            System.Type viewType = typeof(Editor).Assembly.GetType(name);
+            return EditorWindow.GetWindow(viewType);
         }
     }
 }
