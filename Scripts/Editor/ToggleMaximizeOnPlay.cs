@@ -8,8 +8,8 @@ namespace MyTools.MaximizeOnPlay
     {
         private const string MENU_NAME = "My Tools/Maximize Game View on Play &f11";
 
-        internal static bool _enabled;
-        internal static bool _isSceneViewActivates;
+        private static bool _enabled;
+        private static bool _isOtherView;
 
         // Called on load thanks to the InitializeOnLoad attribute
         static ToggleMaximizeOnPlay()
@@ -51,11 +51,11 @@ namespace MyTools.MaximizeOnPlay
             {
                 if (SceneView.lastActiveSceneView.hasFocus)
                 {
-                    _isSceneViewActivates = true;
+                    _isOtherView = true;
                 }
                 else
                 {
-                    _isSceneViewActivates = false;
+                    _isOtherView = false;
                 }
 
                 // Delay the action to ensure the Game view is properly initialized
@@ -68,12 +68,17 @@ namespace MyTools.MaximizeOnPlay
             }
             else if (_enabled && state == PlayModeStateChange.ExitingPlayMode)
             {
-                MaximizeGameView(false);
-
-                if (_isSceneViewActivates)
+                EditorApplication.delayCall += () =>
                 {
-                    GetView("UnityEditor.SceneView");
-                }
+                    {
+                        MaximizeGameView(false);
+                        if (_isOtherView)
+                        {
+                            GetView("UnityEditor.SceneView");
+                        }
+                    }
+                };
+                
             }
         }
 

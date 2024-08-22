@@ -103,8 +103,9 @@ namespace MyTools.Shortcuts
 
         // Maximize
         [MenuItem("My Tools/Maximize %b", priority = 14)] // Ctrl+B
-        static void ToggleInEditor()
+        static void Maximize()
         {
+            ActivateWindowUnderCursor();
             EditorWindow window = EditorWindow.focusedWindow;
             // Assume the game view is focused.
             if (window)
@@ -113,21 +114,28 @@ namespace MyTools.Shortcuts
             }
         }
 
+        static void ActivateWindowUnderCursor()
+        {
+            EditorWindow windowUnderCursor = EditorWindow.mouseOverWindow;
 
-        // Next Tab
-        // [MenuItem("My Tools/Switch Tab", priority = 15)] //
-        // public static void SwitchToNextTab()
-        // {
-        //     EditorWindow focusedWindow = EditorWindow.focusedWindow;
-        //
-        //     if (focusedWindow != null)
-        //     {
-        //         focusedWindow.SendEvent(EditorGUIUtility.CommandEvent("NextTab"));
-        //     }
-        //     else
-        //     {
-        //         Debug.Log("MyTools: No focused window found.");
-        //     }
-        // }
+            if (windowUnderCursor != null)
+            {
+                windowUnderCursor.Focus();
+            }
+        }
+
+
+        // Close Tab
+        [MenuItem("My Tools/Close Tab &w", priority = 15)] // Alt+W
+        static void CloseTab()
+        {
+            ActivateWindowUnderCursor();
+            EditorWindow window = EditorWindow.focusedWindow;
+            // Assume the game view is focused.
+            if (window)
+            {
+                window.Close();
+            }
+        }
     }
 }

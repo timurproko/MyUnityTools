@@ -72,8 +72,6 @@ namespace MyTools.AutoSave
             // If we're exiting edit mode (entering play mode)
             if (playModeStateChange == PlayModeStateChange.ExitingEditMode && ToggleAutoSave._enabled)
             {
-                Debug.Log("MyTools: Saving Scenes and Assets");
-
                 // Save the open scenes and any assets.
                 EditorSceneManager.SaveOpenScenes();
                 AssetDatabase.SaveAssets();

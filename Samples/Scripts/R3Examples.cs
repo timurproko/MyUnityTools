@@ -28,6 +28,7 @@ public class R3Examples
         _health.OnNext(2); // Same as above, just different notation
     }
 
+    
     // Example2
     // Property
     // On Subscribe you will get the current value
@@ -47,6 +48,7 @@ public class R3Examples
         _health2.OnNext(22);
     }
 
+    
     // Example3
     // Observable
     // You can get value using Observable in case you don't need to change it
@@ -66,6 +68,7 @@ public class R3Examples
         _health3.OnNext(32);
     }
 
+    
     // Example4
     // Subject
     // Analogue of Events you can Subscribe and use OnNext() and OnComplete() only
@@ -85,6 +88,7 @@ public class R3Examples
         _health4.OnNext(32);
     }
 
+    
     // Example5
     // Dispose
     private static readonly ReactiveProperty<int> _health5 = new();
@@ -104,6 +108,7 @@ public class R3Examples
         _health5.Value = 999;
     }
 
+    
     // Example6
     // Bulk Dispose
     private static readonly ReactiveProperty<int> _health6 = new();
@@ -131,6 +136,7 @@ public class R3Examples
         _armor6.Value = 999;
     }
 
+    
     // Example7
     // Filter Events
     private static readonly ReactiveProperty<int> _health7 = new();
@@ -149,6 +155,7 @@ public class R3Examples
         _health7.Value = 58;
     }
 
+    
     // Example8
     // Merge Events
     private static readonly ReactiveProperty<int> _health8 = new();
@@ -172,6 +179,7 @@ public class R3Examples
         _health8.Value = 0;
     }
 
+    
     // Example9
     // Observable from Action
     private static event Action<int> ValueChanged;
@@ -185,11 +193,12 @@ public class R3Examples
         ValueChanged?.Invoke(20);
     }
 
+    
     // Example10
     // Collections
     private static readonly ObservableList<string> _observableCollection = new();
     public static IObservableCollection<string> ObservableCollection => _observableCollection;
-
+    
     public static void Example10()
     {
         // Add elements before subscription
@@ -213,6 +222,7 @@ public class R3Examples
         }
     }
 
+    
     // Example11
     // Subscription with Deferred Execution
     private static readonly ReactiveProperty<int> _health9 = new();
