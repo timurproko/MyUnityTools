@@ -7,33 +7,7 @@ namespace MyTools.Shortcuts
 {
     static class Shortcuts
     {
-        // Toggle Gizmos
-        [MenuItem("My Tools/Toogle All Gizmos &g", priority = 10)] // Alt+G
-        public static void ToggleSceneViewGizmos()
-        {
-            var currentValue = GetSceneViewGizmosEnabled();
-            SetSceneViewGizmos(!currentValue);
-        }
-
-        public static void SetSceneViewGizmos(bool gizmosOn)
-        {
-#if UNITY_EDITOR
-            SceneView sv = EditorWindow.GetWindow<SceneView>(null, false);
-            sv.drawGizmos = gizmosOn;
-#endif
-        }
-
-        public static bool GetSceneViewGizmosEnabled()
-        {
-#if UNITY_EDITOR
-            SceneView sv = EditorWindow.GetWindow<SceneView>(null, false);
-            return sv.drawGizmos;
-#else
-            return false;
-#endif
-        }
-
-
+        // Grid
         [MenuItem("My Tools/Toggle Grid %&#g", priority = 11)] // Ctrl+Alt+Shift+G
         private static void ToggleGridVisibility()
         {
@@ -47,9 +21,15 @@ namespace MyTools.Shortcuts
                 }
             }
         }
-
-
-        // Lock Panels
+        
+        [MenuItem("My Tools/Toggle Grid Snapping &j", priority = 11)] // Alt+J
+        public static void ToggleGridSnapping()
+        {
+            
+            EditorSnapSettings.snapEnabled = !EditorSnapSettings.snapEnabled;
+        }
+        
+        // Panels
         [MenuItem("My Tools/Toggle Lock %&l", priority = 12)] // Ctrl+Alt+L
         static void ToggleWindowLock()
         {
@@ -89,9 +69,8 @@ namespace MyTools.Shortcuts
                 windowToBeLocked.Repaint();
             }
         }
-
-
-        // Clear Console
+        
+        // Console
         [MenuItem("My Tools/Clear Console &c", priority = 13)] // Alt+C
         static void ClearConsole()
         {
@@ -99,13 +78,12 @@ namespace MyTools.Shortcuts
             var clearMethod = logEntries.GetMethod("Clear", BindingFlags.Static | BindingFlags.Public);
             clearMethod.Invoke(null, null);
         }
-
-
-        // Maximize
+        
+        // View
         [MenuItem("My Tools/Maximize %b", priority = 14)] // Ctrl+B
         static void Maximize()
         {
-            ActivateWindowUnderCursor();
+            Tools.ActivateWindowUnderCursor();
             EditorWindow window = EditorWindow.focusedWindow;
             // Assume the game view is focused.
             if (window)
@@ -114,27 +92,37 @@ namespace MyTools.Shortcuts
             }
         }
 
-        static void ActivateWindowUnderCursor()
-        {
-            EditorWindow windowUnderCursor = EditorWindow.mouseOverWindow;
-
-            if (windowUnderCursor != null)
-            {
-                windowUnderCursor.Focus();
-            }
-        }
-
-
-        // Close Tab
+        // Tabs
         [MenuItem("My Tools/Close Tab &w", priority = 15)] // Alt+W
         static void CloseTab()
         {
-            ActivateWindowUnderCursor();
+            Tools.ActivateWindowUnderCursor();
             EditorWindow window = EditorWindow.focusedWindow;
             // Assume the game view is focused.
             if (window)
             {
                 window.Close();
+            }
+        }
+    }
+}
+
+[InitializeOnLoad]
+public class HandToolActivator
+{
+    static HandToolActivator()
+    {
+        SceneView.duringSceneGui += OnSceneGUI;
+    }
+
+    private static void OnSceneGUI(SceneView sceneView)
+    {
+        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
+        {
+            if (EditorWindow.focusedWindow == SceneView.lastActiveSceneView)
+            {
+                Tools.current = Tool.View;
+                Event.current.Use();
             }
         }
     }

@@ -6,25 +6,71 @@ namespace MyTools.SceneViewTools
     [InitializeOnLoad]
     public class SceneViewRotationBlocker
     {
+        private static bool isPanning;
+        private static Vector2 lastMousePosition;
+
         static SceneViewRotationBlocker()
         {
-            // Subscribe to the Scene View's `duringSceneGui` event
             SceneView.duringSceneGui += OnSceneGUI;
         }
 
-        private static void OnSceneGUI(UnityEditor.SceneView sceneView)
+        private static void OnSceneGUI(SceneView sceneView)
         {
-            if (SceneViewShortcuts.sceneViewType != SceneViewType.Perspective)
+            Event e = Event.current;
+
+            if (SceneViewNavigation.sceneViewType != SceneViewType.Perspective && !sceneView.in2DMode && sceneView.orthographic)
             {
-                // Check if Alt is held and LMB is pressed
-                Event e = Event.current;
-                if (e.alt && e.button == 0 && e.type == EventType.MouseDrag)
+                if (e.alt && e.button == 0)
                 {
-                    // Consume the event to prevent the rotation
-                    e.Use();
+                    EditorGUIUtility.AddCursorRect(sceneView.position, MouseCursor.Pan);
+
+                    switch (e.type)
+                    {
+                        case EventType.MouseDown:
+                            StartPanning(e);
+                            break;
+
+                        case EventType.MouseDrag:
+                            if (isPanning)
+                            {
+                                PerformPanning(sceneView, e);
+                            }
+                            break;
+
+                        case EventType.MouseUp:
+                            if (isPanning)
+                            {
+                                StopPanning(e);
+                            }
+                            break;
+                    }
                 }
             }
         }
+
+        private static void StartPanning(Event e)
+        {
+            isPanning = true;
+            lastMousePosition = e.mousePosition;
+            e.Use();
+            SceneView.RepaintAll(); // Repaint to update cursor
+        }
+
+        private static void PerformPanning(SceneView sceneView, Event e)
+        {
+            Vector2 delta = e.mousePosition - lastMousePosition;
+            delta *= sceneView.size / 500f; 
+            Vector3 move = new Vector3(-delta.x, delta.y, 0); // Adjust for both X and Y
+            sceneView.pivot += sceneView.rotation * move;
+            lastMousePosition = e.mousePosition;
+            e.Use();
+        }
+
+        private static void StopPanning(Event e)
+        {
+            isPanning = false;
+            e.Use();
+            SceneView.RepaintAll(); // Repaint to update cursor
+        }
     }
 }
-
