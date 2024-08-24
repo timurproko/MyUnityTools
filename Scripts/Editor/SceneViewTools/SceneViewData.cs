@@ -64,21 +64,63 @@ namespace MyTools.SceneViewTools
         {
             var viewActions = new Dictionary<SceneViewType, Action<bool>>
             {
-                { SceneViewType.Perspective, shouldRedraw => { if (shouldRedraw) RedrawPerspectiveView(); else ResetPerspectiveView(); }},
-                { SceneViewType.Top, shouldRedraw => { if (shouldRedraw) RedrawTopView(); else ResetTopView(); }},
-                { SceneViewType.Bottom, shouldRedraw => { if (shouldRedraw) RedrawBottomView(); else ResetBottomView(); }},
-                { SceneViewType.Front, shouldRedraw => { if (shouldRedraw) RedrawFrontView(); else ResetFrontView(); }},
-                { SceneViewType.Back, shouldRedraw => { if (shouldRedraw) RedrawBackView(); else ResetBackView(); }},
-                { SceneViewType.Right, shouldRedraw => { if (shouldRedraw) RedrawRightView(); else ResetRightView(); }},
-                { SceneViewType.Left, shouldRedraw => { if (shouldRedraw) RedrawLeftView(); else ResetLeftView(); }},
+                {
+                    SceneViewType.Perspective, shouldRedraw =>
+                    {
+                        if (shouldRedraw) RedrawPerspectiveView();
+                        else ResetPerspectiveView();
+                    }
+                },
+                {
+                    SceneViewType.Top, shouldRedraw =>
+                    {
+                        if (shouldRedraw) RedrawTopView();
+                        else ResetTopView();
+                    }
+                },
+                {
+                    SceneViewType.Bottom, shouldRedraw =>
+                    {
+                        if (shouldRedraw) RedrawBottomView();
+                        else ResetBottomView();
+                    }
+                },
+                {
+                    SceneViewType.Front, shouldRedraw =>
+                    {
+                        if (shouldRedraw) RedrawFrontView();
+                        else ResetFrontView();
+                    }
+                },
+                {
+                    SceneViewType.Back, shouldRedraw =>
+                    {
+                        if (shouldRedraw) RedrawBackView();
+                        else ResetBackView();
+                    }
+                },
+                {
+                    SceneViewType.Right, shouldRedraw =>
+                    {
+                        if (shouldRedraw) RedrawRightView();
+                        else ResetRightView();
+                    }
+                },
+                {
+                    SceneViewType.Left, shouldRedraw =>
+                    {
+                        if (shouldRedraw) RedrawLeftView();
+                        else ResetLeftView();
+                    }
+                },
             };
 
             foreach (var kvp in viewActions)
             {
-                kvp.Value(false);  // Reset
+                kvp.Value(false); // Reset
                 if (kvp.Key == lastActiveSceneViewType)
                 {
-                    kvp.Value(true);  // Redraw only the last active view
+                    kvp.Value(true); // Redraw only the last active view
                 }
             }
 
@@ -87,21 +129,30 @@ namespace MyTools.SceneViewTools
 
         void ResetView(SceneViewType viewType, Quaternion defaultRotation)
         {
-            size = DefaultsValue.size;
-            pivot = DefaultsValue.pivot;
-            rotation = defaultRotation;
-            SaveViewState(viewType, size, rotation, pivot);
+            if (sceneView != null)
+            {
+                size = DefaultsValue.size;
+                pivot = DefaultsValue.pivot;
+                rotation = defaultRotation;
+                SaveViewState(viewType, size, rotation, pivot);
+            }
         }
 
-        void RedrawView(SceneViewType viewType, Quaternion defaultRotation)
+        void RedrawView(Quaternion defaultRotation)
         {
-            sceneView = SceneView.lastActiveSceneView;
-            sceneView.size = DefaultsValue.size;
-            sceneView.pivot = DefaultsValue.pivot;
-            sceneView.rotation = defaultRotation;
-            sceneView.Repaint();
+            if (sceneView != null)
+            {
+                sceneView.size = DefaultsValue.size;
+                sceneView.pivot = DefaultsValue.pivot;
+                if (!sceneView.in2DMode)
+                {
+                    sceneView.rotation = defaultRotation;
+                }
+
+                sceneView.Repaint();
+            }
         }
-        
+
         void ResetPerspectiveView() => ResetView(SceneViewType.Perspective, DefaultRotation.Perspective);
         void ResetTopView() => ResetView(SceneViewType.Top, DefaultRotation.Top);
         void ResetBottomView() => ResetView(SceneViewType.Bottom, DefaultRotation.Bottom);
@@ -109,12 +160,12 @@ namespace MyTools.SceneViewTools
         void ResetBackView() => ResetView(SceneViewType.Back, DefaultRotation.Back);
         void ResetRightView() => ResetView(SceneViewType.Right, DefaultRotation.Right);
         void ResetLeftView() => ResetView(SceneViewType.Left, DefaultRotation.Left);
-        void RedrawPerspectiveView() => RedrawView(SceneViewType.Perspective, DefaultRotation.Perspective);
-        void RedrawTopView() => RedrawView(SceneViewType.Top, DefaultRotation.Top);
-        void RedrawBottomView() => RedrawView(SceneViewType.Bottom, DefaultRotation.Bottom);
-        void RedrawFrontView() => RedrawView(SceneViewType.Front, DefaultRotation.Front);
-        void RedrawBackView() => RedrawView(SceneViewType.Back, DefaultRotation.Back);
-        void RedrawRightView() => RedrawView(SceneViewType.Right, DefaultRotation.Right);
-        void RedrawLeftView() => RedrawView(SceneViewType.Left, DefaultRotation.Left);
+        void RedrawPerspectiveView() => RedrawView(DefaultRotation.Perspective);
+        void RedrawTopView() => RedrawView(DefaultRotation.Top);
+        void RedrawBottomView() => RedrawView(DefaultRotation.Bottom);
+        void RedrawFrontView() => RedrawView(DefaultRotation.Front);
+        void RedrawBackView() => RedrawView(DefaultRotation.Back);
+        void RedrawRightView() => RedrawView(DefaultRotation.Right);
+        void RedrawLeftView() => RedrawView(DefaultRotation.Left);
     }
 }

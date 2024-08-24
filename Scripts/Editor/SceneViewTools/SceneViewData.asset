@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   viewStateList:
   - sceneViewType: 1
-    size: 0.8660254
+    size: 10
     rotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-    pivot: {x: 0, y: 1, z: 0}
+    pivot: {x: 0, y: 0, z: 0}
   - sceneViewType: 0
-    size: 10.112395
-    rotation: {x: -0.058115777, y: 0.91409475, z: -0.14392321, w: -0.37461075}
-    pivot: {x: 0, y: 1, z: 0}
+    size: 10
+    rotation: {x: -0.08717229, y: 0.89959055, z: -0.21045256, w: -0.37262255}
+    pivot: {x: 0, y: 0, z: 0}
   - sceneViewType: 2
     size: 10
     rotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
@@ -36,5 +36,9 @@ MonoBehaviour:
   - sceneViewType: 4
     size: 10
     rotation: {x: 0, y: 0, z: 0, w: 1}
+    pivot: {x: 0, y: 0, z: 0}
+  - sceneViewType: 5
+    size: 10
+    rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
     pivot: {x: 0, y: 0, z: 0}
   lastActiveSceneViewType: 0

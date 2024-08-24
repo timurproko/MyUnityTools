@@ -21,6 +21,7 @@ namespace MyTools.SceneViewTools
                 sceneViewData = ScriptableObject.CreateInstance<SceneViewData>();
                 AssetDatabase.CreateAsset(sceneViewData, sceneViewDataPath);
                 AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
             }
         }
 
@@ -34,29 +35,32 @@ namespace MyTools.SceneViewTools
             {
                 sceneView.size = DefaultsValue.size;
                 sceneView.pivot = DefaultsValue.pivot;
-                switch (sceneViewType)
+                if (!sceneView.in2DMode)
                 {
-                    case SceneViewType.Perspective:
-                        sceneView.rotation = DefaultRotation.Perspective;
-                        break;
-                    case SceneViewType.Top:
-                        sceneView.rotation = DefaultRotation.Top;
-                        break;
-                    case SceneViewType.Bottom:
-                        sceneView.rotation = DefaultRotation.Bottom;
-                        break;
-                    case SceneViewType.Front:
-                        sceneView.rotation = DefaultRotation.Front;
-                        break;
-                    case SceneViewType.Back:
-                        sceneView.rotation = DefaultRotation.Back;
-                        break;
-                    case SceneViewType.Left:
-                        sceneView.rotation = DefaultRotation.Left;
-                        break;
-                    case SceneViewType.Right:
-                        sceneView.rotation = DefaultRotation.Right;
-                        break;
+                    switch (sceneViewType)
+                    {
+                        case SceneViewType.Perspective:
+                            sceneView.rotation = DefaultRotation.Perspective;
+                            break;
+                        case SceneViewType.Top:
+                            sceneView.rotation = DefaultRotation.Top;
+                            break;
+                        case SceneViewType.Bottom:
+                            sceneView.rotation = DefaultRotation.Bottom;
+                            break;
+                        case SceneViewType.Front:
+                            sceneView.rotation = DefaultRotation.Front;
+                            break;
+                        case SceneViewType.Back:
+                            sceneView.rotation = DefaultRotation.Back;
+                            break;
+                        case SceneViewType.Left:
+                            sceneView.rotation = DefaultRotation.Left;
+                            break;
+                        case SceneViewType.Right:
+                            sceneView.rotation = DefaultRotation.Right;
+                            break;
+                    }
                 }
 
                 sceneView.Repaint();
@@ -69,7 +73,6 @@ namespace MyTools.SceneViewTools
             Tools.ActivateWindowUnderCursor();
             SaveActiveSceneViewData(SceneViewType.Perspective);
             sceneViewType = SceneViewType.Perspective;
-            SceneViewShortcuts.EnableSkybox();
             SetPerspectiveView();
             SetPerspectiveView();
         }
@@ -78,7 +81,6 @@ namespace MyTools.SceneViewTools
         static void ToggleTopBottomView()
         {
             Tools.ActivateWindowUnderCursor();
-            SceneViewShortcuts.DisableSkybox();
 
             if (sceneViewType == SceneViewType.Top)
             {
@@ -96,7 +98,6 @@ namespace MyTools.SceneViewTools
         static void ToggleFrontBackView()
         {
             Tools.ActivateWindowUnderCursor();
-            SceneViewShortcuts.DisableSkybox();
 
             if (sceneViewType == SceneViewType.Front)
             {
@@ -114,7 +115,6 @@ namespace MyTools.SceneViewTools
         static void ToggleRightLeftView()
         {
             Tools.ActivateWindowUnderCursor();
-            SceneViewShortcuts.DisableSkybox();
 
             if (sceneViewType == SceneViewType.Right)
             {
@@ -133,7 +133,6 @@ namespace MyTools.SceneViewTools
         {
             SaveActiveSceneViewData(SceneViewType.Top);
             sceneViewType = SceneViewType.Top;
-            SceneViewShortcuts.DisableSkybox();
             SetTopView();
             SetTopView();
         }
@@ -143,7 +142,6 @@ namespace MyTools.SceneViewTools
         {
             SaveActiveSceneViewData(SceneViewType.Bottom);
             sceneViewType = SceneViewType.Bottom;
-            SceneViewShortcuts.DisableSkybox();
             SetBottomView();
             SetBottomView();
         }
@@ -153,7 +151,6 @@ namespace MyTools.SceneViewTools
         {
             SaveActiveSceneViewData(SceneViewType.Front);
             sceneViewType = SceneViewType.Front;
-            SceneViewShortcuts.DisableSkybox();
             SetFrontView();
             SetFrontView();
         }
@@ -163,7 +160,6 @@ namespace MyTools.SceneViewTools
         {
             SaveActiveSceneViewData(SceneViewType.Back);
             sceneViewType = SceneViewType.Back;
-            SceneViewShortcuts.DisableSkybox();
             SetBackView();
             SetBackView();
         }
@@ -173,7 +169,6 @@ namespace MyTools.SceneViewTools
         {
             SaveActiveSceneViewData(SceneViewType.Left);
             sceneViewType = SceneViewType.Left;
-            SceneViewShortcuts.DisableSkybox();
             SetLeftView();
             SetLeftView();
         }
@@ -183,26 +178,41 @@ namespace MyTools.SceneViewTools
         {
             SaveActiveSceneViewData(SceneViewType.Right);
             sceneViewType = SceneViewType.Right;
-            SceneViewShortcuts.DisableSkybox();
             SetRightView();
             SetRightView();
         }
-        
+
         static void SetPerspectiveView() => SetView(SceneViewType.Perspective, DefaultRotation.Perspective, false);
-        static void SetTopView() => SetView(SceneViewType.Top, DefaultRotation.Top);
-        static void SetBottomView() => SetView(SceneViewType.Bottom, DefaultRotation.Bottom);
-        static void SetFrontView() => SetView(SceneViewType.Front, DefaultRotation.Front);
-        static void SetBackView() => SetView(SceneViewType.Back, DefaultRotation.Back);
-        static void SetRightView() => SetView(SceneViewType.Right, DefaultRotation.Right);
-        static void SetLeftView() => SetView(SceneViewType.Left, DefaultRotation.Left);
-        
-        static void SetView(SceneViewType viewType, Quaternion defaultRotation, bool isOrthographic = true)
+        static void SetTopView() => SetView(SceneViewType.Top, DefaultRotation.Top, true);
+        static void SetBottomView() => SetView(SceneViewType.Bottom, DefaultRotation.Bottom, true);
+        static void SetFrontView() => SetView(SceneViewType.Front, DefaultRotation.Front, true);
+        static void SetBackView() => SetView(SceneViewType.Back, DefaultRotation.Back, true);
+        static void SetRightView() => SetView(SceneViewType.Right, DefaultRotation.Right, true);
+        static void SetLeftView() => SetView(SceneViewType.Left, DefaultRotation.Left, true);
+
+        private static void SetView(SceneViewType viewType, Quaternion defaultRotation, bool isOrthographic)
         {
             sceneView = GetLastActiveSceneView();
 
-            if (sceneView != null)
+            if (sceneView == null)
+                return;
+
+            if (sceneView.in2DMode)
+            {
+                sceneView.orthographic = !sceneView.orthographic;
+            }
+            else
             {
                 sceneView.orthographic = isOrthographic;
+                if (sceneView.orthographic)
+                {
+                    SceneViewShortcuts.DisableSkybox();
+                }
+                else
+                {
+                    SceneViewShortcuts.EnableSkybox();
+                }
+
                 if (sceneViewData.TryGetViewState(viewType, out var savedState))
                 {
                     ApplyNewValues(savedState);
@@ -212,10 +222,20 @@ namespace MyTools.SceneViewTools
                     ApplyDefaultValues(defaultRotation);
                 }
 
-                sceneView.Repaint();
+                if (SceneViewShortcuts.wasIn2DMode)
+                {
+                    if (sceneView != null)
+                    {
+                        ResetSceneViewCamera();
+                        // sceneView.Repaint();
+                    }
+                }
             }
+
+
+            sceneView.Repaint();
         }
-        
+
         public static void ApplyDefaultValues(Quaternion rotation)
         {
             sceneView.size = DefaultsValue.size;
@@ -232,7 +252,7 @@ namespace MyTools.SceneViewTools
                 sceneView.rotation = savedState.rotation;
             }
         }
-        
+
         public static SceneView GetLastActiveSceneView()
         {
             return SceneView.lastActiveSceneView;

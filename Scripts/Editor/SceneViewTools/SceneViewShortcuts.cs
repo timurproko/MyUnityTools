@@ -1,11 +1,13 @@
+using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
 
 namespace MyTools.SceneViewTools
 {
-    static class SceneViewShortcuts
+    class SceneViewShortcuts
     {
         private static SceneView sceneView;
+        public static bool wasIn2DMode;
 
         [MenuItem("My Tools/Scene View Toolset/Log Camera Data &l", priority = 100)] //  Alt+L
         static void LogSceneViewCameraData()
@@ -80,17 +82,42 @@ namespace MyTools.SceneViewTools
         [MenuItem("My Tools/Scene View Toolset/Toggle Projection _o", priority = 104)] // O
         public static void ToggleProjection()
         {
-            SceneView sceneView = SceneView.lastActiveSceneView;
+            sceneView = SceneView.lastActiveSceneView;
             if (sceneView == null)
             {
                 return;
             }
+
             sceneView.orthographic = !sceneView.orthographic;
             sceneView.Repaint();
 
             if (SceneViewNavigation.sceneViewType != SceneViewType.Perspective)
             {
                 SceneViewNavigation.sceneViewType = SceneViewType.Perspective;
+            }
+        }
+
+        [MenuItem("My Tools/Scene View Toolset/Toggle 2D View &o", priority = 105)] // Alt+O
+        public static void Toggle2DView()
+        {
+            sceneView = SceneView.lastActiveSceneView;
+            if (sceneView != null)
+            {
+                sceneView.in2DMode = !sceneView.in2DMode;
+                if (sceneView.in2DMode && SceneViewNavigation.sceneViewType == SceneViewType.Perspective)
+                {
+                    DisableSkybox();
+                }
+                else if (!sceneView.in2DMode && SceneViewNavigation.sceneViewType == SceneViewType.Perspective)
+                {
+                    EnableSkybox();
+                }
+                else if (!sceneView.in2DMode)
+                {
+                    wasIn2DMode = true;
+                }
+
+                sceneView.Repaint();
             }
         }
     }

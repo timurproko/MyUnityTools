@@ -1,7 +1,5 @@
 using System;
 using UnityEditor;
-using System.Reflection;
-using UnityEngine;
 
 namespace MyTools
 {
@@ -15,6 +13,12 @@ namespace MyTools
             {
                 windowUnderCursor.Focus();
             }
+        }
+
+        public static EditorWindow GetView(string name)
+        {
+            Type viewType = typeof(Editor).Assembly.GetType(name);
+            return EditorWindow.GetWindow(viewType);
         }
     }
 }

@@ -74,7 +74,7 @@ namespace MyTools.MaximizeOnPlay
                         MaximizeGameView(false);
                         if (_isOtherView)
                         {
-                            GetView("UnityEditor.SceneView");
+                            Tools.GetView("UnityEditor.SceneView");
                         }
                     }
                 };
@@ -100,17 +100,11 @@ namespace MyTools.MaximizeOnPlay
         private static void MaximizeGameView(bool maximize)
         {
             // Focus the Game view and set maximized state
-            EditorWindow gameView = GetView("UnityEditor.GameView");
+            EditorWindow gameView = Tools.GetView("UnityEditor.GameView");
             if (gameView != null)
             {
                 gameView.maximized = maximize;
             }
-        }
-
-        private static EditorWindow GetView(string name)
-        {
-            System.Type viewType = typeof(Editor).Assembly.GetType(name);
-            return EditorWindow.GetWindow(viewType);
         }
     }
 }
