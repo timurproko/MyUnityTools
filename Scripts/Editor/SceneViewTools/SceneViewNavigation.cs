@@ -222,12 +222,12 @@ namespace MyTools.SceneViewTools
                     ApplyDefaultValues(defaultRotation);
                 }
 
-                if (SceneViewShortcuts.wasIn2DMode)
+                if (SceneViewShortcuts.justExited2DMode)
                 {
                     if (sceneView != null)
                     {
                         ResetSceneViewCamera();
-                        // sceneView.Repaint();
+                        SceneViewShortcuts.justExited2DMode = false;
                     }
                 }
             }

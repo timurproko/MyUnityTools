@@ -15,19 +15,19 @@ MonoBehaviour:
   viewStateList:
   - sceneViewType: 1
     size: 10
-    rotation: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
-    pivot: {x: 0, y: 0, z: 0}
+    rotation: {x: 0.6983897, y: 0, z: 0, w: 0.7157176}
+    pivot: {x: -6.9367337, y: -0.15253334, z: -6.357773}
   - sceneViewType: 0
     size: 10
-    rotation: {x: -0.08717229, y: 0.89959055, z: -0.21045256, w: -0.37262255}
-    pivot: {x: 0, y: 0, z: 0}
+    rotation: {x: 0.087167226, y: -0.8995383, z: 0.21044032, w: 0.37275696}
+    pivot: {x: -5.8036346, y: 6.3286576, z: 1.3735758}
   - sceneViewType: 2
     size: 10
     rotation: {x: -0.70710677, y: 0, z: 0, w: 0.70710677}
     pivot: {x: 0, y: 0, z: 0}
   - sceneViewType: 3
     size: 10
-    rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+    rotation: {x: 0, y: -0.9997168, z: 0, w: 0.023797061}
     pivot: {x: 0, y: 0, z: 0}
   - sceneViewType: 6
     size: 10
@@ -41,4 +41,4 @@ MonoBehaviour:
     size: 10
     rotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
     pivot: {x: 0, y: 0, z: 0}
-  lastActiveSceneViewType: 0
+  lastActiveSceneViewType: 3

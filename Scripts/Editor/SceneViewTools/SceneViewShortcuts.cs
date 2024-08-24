@@ -7,8 +7,9 @@ namespace MyTools.SceneViewTools
     class SceneViewShortcuts
     {
         private static SceneView sceneView;
-        public static bool wasIn2DMode;
-
+        public static bool justExited2DMode;
+        private static bool wasIn2DModePreviously;
+        
         [MenuItem("My Tools/Scene View Toolset/Log Camera Data &l", priority = 100)] //  Alt+L
         static void LogSceneViewCameraData()
         {
@@ -96,7 +97,7 @@ namespace MyTools.SceneViewTools
                 SceneViewNavigation.sceneViewType = SceneViewType.Perspective;
             }
         }
-
+        
         [MenuItem("My Tools/Scene View Toolset/Toggle 2D View &o", priority = 105)] // Alt+O
         public static void Toggle2DView()
         {
@@ -104,6 +105,7 @@ namespace MyTools.SceneViewTools
             if (sceneView != null)
             {
                 sceneView.in2DMode = !sceneView.in2DMode;
+
                 if (sceneView.in2DMode && SceneViewNavigation.sceneViewType == SceneViewType.Perspective)
                 {
                     DisableSkybox();
@@ -112,11 +114,11 @@ namespace MyTools.SceneViewTools
                 {
                     EnableSkybox();
                 }
-                else if (!sceneView.in2DMode)
-                {
-                    wasIn2DMode = true;
-                }
+                // Determine if just exited 2D mode
+                justExited2DMode = wasIn2DModePreviously && !sceneView.in2DMode;
 
+                // Update the state for the next toggle
+                wasIn2DModePreviously = sceneView.in2DMode;
                 sceneView.Repaint();
             }
         }
