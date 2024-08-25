@@ -1,15 +1,22 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 
 namespace MyTools.SceneViewTools
 
 {
-    public static class DefaultsValue
+    public static class DefaultValues
     {
         public static float size = 10f;
         public static Vector3 pivot = Vector3.zero;
     }
+    
+    public static class SceneViewRef
+    {
+        public static SceneView sceneView;
+        public static SceneViewTypes SceneViewTypes;
+    }
 
-    public enum SceneViewType
+    public enum SceneViewTypes
     {
         Perspective = 0,
         Top = 1,

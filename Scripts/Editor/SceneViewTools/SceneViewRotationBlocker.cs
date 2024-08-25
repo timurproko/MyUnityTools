@@ -18,7 +18,7 @@ namespace MyTools.SceneViewTools
         {
             Event e = Event.current;
 
-            if (SceneViewNavigation.sceneViewType != SceneViewType.Perspective && !sceneView.in2DMode && sceneView.orthographic)
+            if (SceneViewRef.SceneViewTypes != SceneViewTypes.Perspective && !sceneView.in2DMode && sceneView.orthographic)
             {
                 if (e.alt && e.button == 0)
                 {
