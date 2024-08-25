@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 
 namespace MyTools.SceneViewTools
 {
@@ -143,12 +142,10 @@ namespace MyTools.SceneViewTools
             {
                 if (viewType == SceneViewType.Perspective)
                 {
-                    SceneViewRef.sceneView.orthographic = false;
                     SceneViewShortcuts.EnableSkybox();
                 }
                 else
                 {
-                    SceneViewRef.sceneView.orthographic = true;
                     SceneViewShortcuts.DisableSkybox();
                 }
 
@@ -169,13 +166,15 @@ namespace MyTools.SceneViewTools
         {
             SceneViewRef.sceneView.size = DefaultValues.size;
             SceneViewRef.sceneView.pivot = DefaultValues.pivot;
-            SceneViewRef.sceneView.rotation = GetDefaultRotation(viewType);
+            SceneViewRef.sceneView.rotation = SceneViewResetAll.GetDefaultRotation(viewType);
+            SceneViewRef.sceneView.orthographic = SceneViewResetAll.GetDefaultOrthographic(viewType);
         }
 
         public static void ApplyNewValues(SceneViewSaveData.ViewState savedState)
         {
             SceneViewRef.sceneView.size = savedState.size;
             SceneViewRef.sceneView.pivot = savedState.pivot;
+            SceneViewRef.sceneView.orthographic = savedState.orthographic;
             if (!SceneViewRef.sceneView.in2DMode)
             {
                 SceneViewRef.sceneView.rotation = savedState.rotation;
@@ -190,24 +189,11 @@ namespace MyTools.SceneViewTools
                     SceneViewRef.SceneViewType,
                     SceneViewRef.sceneView.size,
                     SceneViewRef.sceneView.rotation,
-                    SceneViewRef.sceneView.pivot);
+                    SceneViewRef.sceneView.pivot,
+                    SceneViewRef.sceneView.orthographic
+                );
                 SceneViewSaveData.SaveLastActiveSceneViewType(viewType);
             }
-        }
-
-        private static Quaternion GetDefaultRotation(SceneViewType viewType)
-        {
-            return viewType switch
-            {
-                SceneViewType.Perspective => DefaultRotation.Perspective,
-                SceneViewType.Top => DefaultRotation.Top,
-                SceneViewType.Bottom => DefaultRotation.Bottom,
-                SceneViewType.Front => DefaultRotation.Front,
-                SceneViewType.Back => DefaultRotation.Back,
-                SceneViewType.Left => DefaultRotation.Left,
-                SceneViewType.Right => DefaultRotation.Right,
-                _ => DefaultRotation.Perspective
-            };
         }
     }
 }

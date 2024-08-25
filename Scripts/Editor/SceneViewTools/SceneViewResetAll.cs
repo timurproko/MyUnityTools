@@ -23,23 +23,26 @@ namespace MyTools.SceneViewTools
             var size = DefaultValues.size;
             var pivot = DefaultValues.pivot;
             var rotation = GetDefaultRotation(viewType);
+            var orthographic = GetDefaultOrthographic(viewType);
 
-            SceneViewSaveData.SaveViewState(viewType, size, rotation, pivot);
+            SceneViewSaveData.SaveViewState(viewType, size, rotation, pivot, orthographic);
         }
 
         public static void RedrawLastSavedSceneView()
         {
             var lastSavedViewType = SceneViewSaveData.GetLastSavedSceneViewType();
             var rotation = GetDefaultRotation(lastSavedViewType);
+            var orthographic = GetDefaultOrthographic(lastSavedViewType);
 
             SceneViewRef.sceneView = SceneView.lastActiveSceneView;
             SceneViewRef.sceneView.size = DefaultValues.size;
             SceneViewRef.sceneView.pivot = DefaultValues.pivot;
             SceneViewRef.sceneView.rotation = rotation;
+            SceneViewRef.sceneView.orthographic = orthographic;
             SceneViewRef.sceneView.Repaint();
         }
 
-        private static Quaternion GetDefaultRotation(SceneViewType viewType)
+        public static Quaternion GetDefaultRotation(SceneViewType viewType)
         {
             return viewType switch
             {
@@ -50,6 +53,21 @@ namespace MyTools.SceneViewTools
                 SceneViewType.Back => DefaultRotation.Back,
                 SceneViewType.Left => DefaultRotation.Left,
                 SceneViewType.Right => DefaultRotation.Right,
+                _ => throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null)
+            };
+        }
+        
+        public static bool GetDefaultOrthographic(SceneViewType viewType)
+        {
+            return viewType switch
+            {
+                SceneViewType.Perspective => DefaultOrthographic.Perspective,
+                SceneViewType.Top => DefaultOrthographic.Top,
+                SceneViewType.Bottom => DefaultOrthographic.Bottom,
+                SceneViewType.Front => DefaultOrthographic.Front,
+                SceneViewType.Back => DefaultOrthographic.Back,
+                SceneViewType.Left => DefaultOrthographic.Left,
+                SceneViewType.Right => DefaultOrthographic.Right,
                 _ => throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null)
             };
         }

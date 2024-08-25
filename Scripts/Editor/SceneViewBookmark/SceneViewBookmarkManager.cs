@@ -29,6 +29,7 @@ namespace SceneViewBookmarks
             var bookmark = ReadFromEditorPrefs(slot);
             var sceneView = SceneView.lastActiveSceneView;
             sceneView.pivot = bookmark.pivot;
+            sceneView.orthographic = bookmark.orthographic;
             if (!sceneView.in2DMode) sceneView.rotation = bookmark.rotation;
             sceneView.size = bookmark.size;
         }

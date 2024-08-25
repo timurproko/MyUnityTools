@@ -23,24 +23,14 @@ namespace MyTools.SceneViewTools
             SceneViewResetAll.ResetAllSceneViews();
         }
 
-        [MenuItem("My Tools/Scene View Toolset/Log Camera Data &l", priority = 102)] //  Alt+L
-        static void LogSceneViewCameraData()
-        {
-            SceneViewRef.sceneView = SceneView.lastActiveSceneView;
-            Debug.Log(
-                $"X:{SceneViewRef.sceneView.rotation.eulerAngles.x}," +
-                $"Y:{SceneViewRef.sceneView.rotation.eulerAngles.y}," +
-                $"Z:{SceneViewRef.sceneView.rotation.eulerAngles.z}");
-        }
-
-        [MenuItem("My Tools/Scene View Toolset/Frame Selected &f", priority = 103)] //  Alt+F
+        [MenuItem("My Tools/Scene View Toolset/Frame Selected &f", priority = 102)] //  Alt+F
         static void FrameSelected()
         {
             Tools.ActivateWindowUnderCursor();
             SceneView.FrameLastActiveSceneView();
         }
 
-        [MenuItem("My Tools/Scene View Toolset/Toggle Skybox &s", priority = 104)] //  Alt+S
+        [MenuItem("My Tools/Scene View Toolset/Toggle Skybox &s", priority = 103)] //  Alt+S
         static void ToggleSkybox()
         {
             Tools.ActivateWindowUnderCursor();
@@ -55,7 +45,7 @@ namespace MyTools.SceneViewTools
             }
         }
 
-        [MenuItem("My Tools/Scene View Toolset/Toggle All Gizmos &g", priority = 105)] // Alt+G
+        [MenuItem("My Tools/Scene View Toolset/Toggle All Gizmos &g", priority = 104)] // Alt+G
         public static void ToggleSceneViewGizmos()
         {
             Tools.ActivateWindowUnderCursor();
@@ -93,7 +83,7 @@ namespace MyTools.SceneViewTools
             SceneViewRef.sceneView.sceneViewState.showSkybox = true;
         }
 
-        [MenuItem("My Tools/Scene View Toolset/Toggle Projection _o", priority = 106)] // O
+        [MenuItem("My Tools/Scene View Toolset/Toggle Projection _o", priority = 105)] // O
         public static void ToggleProjection()
         {
             SceneViewRef.sceneView = SceneView.lastActiveSceneView;
@@ -106,7 +96,7 @@ namespace MyTools.SceneViewTools
             SceneViewRef.sceneView.Repaint();
         }
 
-        [MenuItem("My Tools/Scene View Toolset/Toggle 2D View &o", priority = 107)] // Alt+O
+        [MenuItem("My Tools/Scene View Toolset/Toggle 2D View &o", priority = 106)] // Alt+O
         public static void Toggle2DView()
         {
             SceneViewRef.sceneView = SceneView.lastActiveSceneView;
@@ -126,6 +116,13 @@ namespace MyTools.SceneViewTools
 
                 SceneViewRef.sceneView.Repaint();
             }
+        }
+        
+        [MenuItem("My Tools/Scene View Toolset/Log Camera Data &l", priority = 400)] //  Alt+L
+        static void LogSceneViewCameraData()
+        {
+            SceneViewRef.sceneView = SceneView.lastActiveSceneView;
+            Debug.Log("");
         }
     }
 }

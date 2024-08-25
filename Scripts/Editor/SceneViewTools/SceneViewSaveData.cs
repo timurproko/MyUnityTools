@@ -18,6 +18,7 @@ namespace MyTools.SceneViewTools
             public float size;
             public Quaternion rotation;
             public Vector3 pivot;
+            public bool orthographic;
         }
 
         private static Dictionary<SceneViewType, ViewState> _viewStateDictionary;
@@ -54,14 +55,15 @@ namespace MyTools.SceneViewTools
             }
         }
 
-        public static void SaveViewState(SceneViewType viewType, float size, Quaternion rotation, Vector3 pivot)
+        public static void SaveViewState(SceneViewType viewType, float size, Quaternion rotation, Vector3 pivot, bool orthographic)
         {
             var viewState = new ViewState
             {
                 sceneViewType = viewType,
                 size = size,
                 rotation = rotation,
-                pivot = pivot
+                pivot = pivot,
+                orthographic = orthographic
             };
 
             ViewStateDictionary[viewType] = viewState;
