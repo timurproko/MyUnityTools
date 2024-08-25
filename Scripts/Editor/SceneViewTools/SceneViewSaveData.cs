@@ -14,16 +14,16 @@ namespace MyTools.SceneViewTools
         [Serializable]
         public struct ViewState
         {
-            [FormerlySerializedAs("sceneViewType")] public SceneViewTypes sceneViewTypes;
+            [FormerlySerializedAs("sceneViewTypes")] public SceneViewType sceneViewType;
             public float size;
             public Quaternion rotation;
             public Vector3 pivot;
         }
 
-        private static Dictionary<SceneViewTypes, ViewState> _viewStateDictionary;
+        private static Dictionary<SceneViewType, ViewState> _viewStateDictionary;
 
         // Lazy-loaded property for view state dictionary
-        private static Dictionary<SceneViewTypes, ViewState> ViewStateDictionary
+        private static Dictionary<SceneViewType, ViewState> ViewStateDictionary
         {
             get
             {
@@ -36,13 +36,13 @@ namespace MyTools.SceneViewTools
         }
 
         // Generate a consistent key for storing view state
-        private static string GetViewStateKey(SceneViewTypes viewTypes) => $"{EditorPrefsKeyPrefix}{viewTypes}";
+        private static string GetViewStateKey(SceneViewType viewType) => $"{EditorPrefsKeyPrefix}{viewType}";
 
         private static void LoadViewStates()
         {
-            _viewStateDictionary = new Dictionary<SceneViewTypes, ViewState>();
+            _viewStateDictionary = new Dictionary<SceneViewType, ViewState>();
 
-            foreach (SceneViewTypes viewType in Enum.GetValues(typeof(SceneViewTypes)))
+            foreach (SceneViewType viewType in Enum.GetValues(typeof(SceneViewType)))
             {
                 string key = GetViewStateKey(viewType);
                 if (EditorPrefs.HasKey(key))
@@ -54,35 +54,35 @@ namespace MyTools.SceneViewTools
             }
         }
 
-        public static void SaveViewState(SceneViewTypes viewTypes, float size, Quaternion rotation, Vector3 pivot)
+        public static void SaveViewState(SceneViewType viewType, float size, Quaternion rotation, Vector3 pivot)
         {
             var viewState = new ViewState
             {
-                sceneViewTypes = viewTypes,
+                sceneViewType = viewType,
                 size = size,
                 rotation = rotation,
                 pivot = pivot
             };
 
-            ViewStateDictionary[viewTypes] = viewState;
+            ViewStateDictionary[viewType] = viewState;
 
             string json = JsonUtility.ToJson(viewState);
-            EditorPrefs.SetString(GetViewStateKey(viewTypes), json);
+            EditorPrefs.SetString(GetViewStateKey(viewType), json);
         }
 
-        public static bool TryGetViewState(SceneViewTypes viewTypes, out ViewState viewState)
+        public static bool TryGetViewState(SceneViewType viewType, out ViewState viewState)
         {
-            return ViewStateDictionary.TryGetValue(viewTypes, out viewState);
+            return ViewStateDictionary.TryGetValue(viewType, out viewState);
         }
 
-        public static void SaveLastActiveSceneViewType(SceneViewTypes viewTypes)
+        public static void SaveLastActiveSceneViewType(SceneViewType viewType)
         {
-            EditorPrefs.SetInt(LastActiveViewTypeKey, (int)viewTypes);
+            EditorPrefs.SetInt(LastActiveViewTypeKey, (int)viewType);
         }
 
-        public static SceneViewTypes GetLastSavedSceneViewType()
+        public static SceneViewType GetLastSavedSceneViewType()
         {
-            return (SceneViewTypes)EditorPrefs.GetInt(LastActiveViewTypeKey, (int)SceneViewTypes.Perspective);
+            return (SceneViewType)EditorPrefs.GetInt(LastActiveViewTypeKey, (int)SceneViewType.Perspective);
         }
     }
 }

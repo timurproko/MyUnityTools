@@ -13,10 +13,10 @@ namespace MyTools.SceneViewTools
     public static class SceneViewRef
     {
         public static SceneView sceneView;
-        public static SceneViewTypes SceneViewTypes;
+        public static SceneViewType SceneViewType;
     }
 
-    public enum SceneViewTypes
+    public enum SceneViewType
     {
         Perspective = 0,
         Top = 1,
@@ -36,5 +36,16 @@ namespace MyTools.SceneViewTools
         public static readonly Quaternion Back = Quaternion.Euler(0f, 0f, 0f);
         public static readonly Quaternion Left = Quaternion.Euler(0f, 90f, 0f);
         public static readonly Quaternion Right = Quaternion.Euler(0f, 270f, 0f);
+    }
+    
+    public struct IsOrthographic
+    {
+        public static readonly bool Perspective = true;
+        public static readonly bool Top = false;
+        public static readonly bool Bottom = false;
+        public static readonly bool Front = false;
+        public static readonly bool Back = false;
+        public static readonly bool Left = false;
+        public static readonly bool Right = false;
     }
 }

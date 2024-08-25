@@ -9,41 +9,11 @@ namespace MyTools.SceneViewTools
         public static void ResetSceneViewCamera()
         {
             Tools.ActivateWindowUnderCursor();
-            SceneViewRef.sceneView = SceneView.lastActiveSceneView;
-
             if (SceneViewRef.sceneView != null)
             {
-                SceneViewRef.sceneView.size = DefaultValues.size;
-                SceneViewRef.sceneView.pivot = DefaultValues.pivot;
-                if (!SceneViewRef.sceneView.in2DMode)
-                {
-                    switch (SceneViewRef.SceneViewTypes)
-                    {
-                        case SceneViewTypes.Perspective:
-                            SceneViewRef.sceneView.rotation = DefaultRotation.Perspective;
-                            break;
-                        case SceneViewTypes.Top:
-                            SceneViewRef.sceneView.rotation = DefaultRotation.Top;
-                            break;
-                        case SceneViewTypes.Bottom:
-                            SceneViewRef.sceneView.rotation = DefaultRotation.Bottom;
-                            break;
-                        case SceneViewTypes.Front:
-                            SceneViewRef.sceneView.rotation = DefaultRotation.Front;
-                            break;
-                        case SceneViewTypes.Back:
-                            SceneViewRef.sceneView.rotation = DefaultRotation.Back;
-                            break;
-                        case SceneViewTypes.Left:
-                            SceneViewRef.sceneView.rotation = DefaultRotation.Left;
-                            break;
-                        case SceneViewTypes.Right:
-                            SceneViewRef.sceneView.rotation = DefaultRotation.Right;
-                            break;
-                    }
-                }
+                SceneViewResetAll.ResetView(SceneViewSaveData.GetLastSavedSceneViewType());
 
-                SceneViewRef.sceneView.Repaint();
+                SceneViewResetAll.RedrawLastSavedSceneView();
             }
         }
 
@@ -134,11 +104,6 @@ namespace MyTools.SceneViewTools
 
             SceneViewRef.sceneView.orthographic = !SceneViewRef.sceneView.orthographic;
             SceneViewRef.sceneView.Repaint();
-
-            if (SceneViewRef.SceneViewTypes != SceneViewTypes.Perspective)
-            {
-                SceneViewRef.SceneViewTypes = SceneViewTypes.Perspective;
-            }
         }
 
         [MenuItem("My Tools/Scene View Toolset/Toggle 2D View &o", priority = 107)] // Alt+O
@@ -149,12 +114,12 @@ namespace MyTools.SceneViewTools
             {
                 SceneViewRef.sceneView.in2DMode = !SceneViewRef.sceneView.in2DMode;
 
-                if (SceneViewRef.sceneView.in2DMode && SceneViewRef.SceneViewTypes == SceneViewTypes.Perspective)
+                if (SceneViewRef.sceneView.in2DMode && SceneViewRef.SceneViewType == SceneViewType.Perspective)
                 {
                     DisableSkybox();
                 }
                 else if (!SceneViewRef.sceneView.in2DMode &&
-                         SceneViewRef.SceneViewTypes == SceneViewTypes.Perspective)
+                         SceneViewRef.SceneViewType == SceneViewType.Perspective)
                 {
                     EnableSkybox();
                 }

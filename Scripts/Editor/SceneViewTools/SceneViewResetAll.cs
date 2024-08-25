@@ -8,7 +8,7 @@ namespace MyTools.SceneViewTools
     {
         public static void ResetAllSceneViews()
         {
-            var sceneViewTypes = Enum.GetValues(typeof(SceneViewTypes)) as SceneViewTypes[];
+            var sceneViewTypes = Enum.GetValues(typeof(SceneViewType)) as SceneViewType[];
 
             foreach (var viewType in sceneViewTypes)
             {
@@ -18,16 +18,16 @@ namespace MyTools.SceneViewTools
             RedrawLastSavedSceneView();
         }
 
-        private static void ResetView(SceneViewTypes viewTypes)
+        public static void ResetView(SceneViewType viewType)
         {
             var size = DefaultValues.size;
             var pivot = DefaultValues.pivot;
-            var rotation = GetDefaultRotation(viewTypes);
+            var rotation = GetDefaultRotation(viewType);
 
-            SceneViewSaveData.SaveViewState(viewTypes, size, rotation, pivot);
+            SceneViewSaveData.SaveViewState(viewType, size, rotation, pivot);
         }
 
-        private static void RedrawLastSavedSceneView()
+        public static void RedrawLastSavedSceneView()
         {
             var lastSavedViewType = SceneViewSaveData.GetLastSavedSceneViewType();
             var rotation = GetDefaultRotation(lastSavedViewType);
@@ -39,18 +39,18 @@ namespace MyTools.SceneViewTools
             SceneViewRef.sceneView.Repaint();
         }
 
-        private static Quaternion GetDefaultRotation(SceneViewTypes viewTypes)
+        private static Quaternion GetDefaultRotation(SceneViewType viewType)
         {
-            return viewTypes switch
+            return viewType switch
             {
-                SceneViewTypes.Perspective => DefaultRotation.Perspective,
-                SceneViewTypes.Top => DefaultRotation.Top,
-                SceneViewTypes.Bottom => DefaultRotation.Bottom,
-                SceneViewTypes.Front => DefaultRotation.Front,
-                SceneViewTypes.Back => DefaultRotation.Back,
-                SceneViewTypes.Left => DefaultRotation.Left,
-                SceneViewTypes.Right => DefaultRotation.Right,
-                _ => throw new ArgumentOutOfRangeException(nameof(viewTypes), viewTypes, null)
+                SceneViewType.Perspective => DefaultRotation.Perspective,
+                SceneViewType.Top => DefaultRotation.Top,
+                SceneViewType.Bottom => DefaultRotation.Bottom,
+                SceneViewType.Front => DefaultRotation.Front,
+                SceneViewType.Back => DefaultRotation.Back,
+                SceneViewType.Left => DefaultRotation.Left,
+                SceneViewType.Right => DefaultRotation.Right,
+                _ => throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null)
             };
         }
     }
