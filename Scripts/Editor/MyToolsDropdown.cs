@@ -5,7 +5,7 @@ using System.Reflection;
 namespace MyTools
 {
     [CustomEditor(typeof(MonoBehaviour), true)]
-    public class Dropdown : Editor
+    public class MyToolsDropdown : Editor
     {
         public override void OnInspectorGUI()
         {
