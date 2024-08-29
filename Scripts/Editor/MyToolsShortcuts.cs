@@ -1,11 +1,10 @@
 using System;
 using UnityEditor;
 using System.Reflection;
-using UnityEngine;
 
-namespace MyTools.Shortcuts
+namespace MyTools
 {
-    static class Shortcuts
+    static class MyToolsShortcuts
     {
         // Grid
         [MenuItem("My Tools/Toggle Grid %&#g", priority = 11)] // Ctrl+Alt+Shift+G
@@ -25,10 +24,9 @@ namespace MyTools.Shortcuts
         [MenuItem("My Tools/Toggle Grid Snapping &j", priority = 11)] // Alt+J
         public static void ToggleGridSnapping()
         {
-            
             EditorSnapSettings.snapEnabled = !EditorSnapSettings.snapEnabled;
         }
-        
+
         // Panels
         [MenuItem("My Tools/Toggle Lock %&l", priority = 12)] // Ctrl+Alt+L
         static void ToggleWindowLock()
@@ -69,7 +67,7 @@ namespace MyTools.Shortcuts
                 windowToBeLocked.Repaint();
             }
         }
-        
+
         // Console
         [MenuItem("My Tools/Clear Console &c", priority = 13)] // Alt+C
         static void ClearConsole()
@@ -78,12 +76,12 @@ namespace MyTools.Shortcuts
             var clearMethod = logEntries.GetMethod("Clear", BindingFlags.Static | BindingFlags.Public);
             clearMethod.Invoke(null, null);
         }
-        
+
         // View
         [MenuItem("My Tools/Maximize %b", priority = 14)] // Ctrl+B
         static void Maximize()
         {
-            Tools.ActivateWindowUnderCursor();
+            MyTools.ActivateWindowUnderCursor();
             EditorWindow window = EditorWindow.focusedWindow;
             // Assume the game view is focused.
             if (window)
@@ -96,33 +94,12 @@ namespace MyTools.Shortcuts
         [MenuItem("My Tools/Close Tab &w", priority = 15)] // Alt+W
         static void CloseTab()
         {
-            Tools.ActivateWindowUnderCursor();
+            MyTools.ActivateWindowUnderCursor();
             EditorWindow window = EditorWindow.focusedWindow;
             // Assume the game view is focused.
             if (window)
             {
                 window.Close();
-            }
-        }
-    }
-}
-
-[InitializeOnLoad]
-public class HandToolActivator
-{
-    static HandToolActivator()
-    {
-        SceneView.duringSceneGui += OnSceneGUI;
-    }
-
-    private static void OnSceneGUI(SceneView sceneView)
-    {
-        if (Event.current.type == EventType.KeyDown && Event.current.keyCode == KeyCode.Escape)
-        {
-            if (EditorWindow.focusedWindow == SceneView.lastActiveSceneView)
-            {
-                Tools.current = Tool.View;
-                Event.current.Use();
             }
         }
     }

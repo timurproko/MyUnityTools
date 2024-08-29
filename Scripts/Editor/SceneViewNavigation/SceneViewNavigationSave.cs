@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.Serialization;
 
-namespace MyTools.SceneViewTools
+namespace SceneViewNavigation
 {
-    public static class SceneViewSaveData
+    public static class SceneViewNavigationSave
     {
-        private const string EditorPrefsKeyPrefix = "MyTools.SceneViewTools.";
-        private const string LastActiveViewTypeKey = EditorPrefsKeyPrefix + "LastActiveSceneViewType";
+        private const string key = "MyTools.SceneViewTools.";
 
         [Serializable]
         public struct ViewState
         {
-            [FormerlySerializedAs("sceneViewTypes")] public SceneViewType sceneViewType;
+            public SceneViewType sceneViewType;
             public float size;
             public Quaternion rotation;
             public Vector3 pivot;
@@ -32,12 +30,13 @@ namespace MyTools.SceneViewTools
                 {
                     LoadViewStates();
                 }
+
                 return _viewStateDictionary;
             }
         }
 
         // Generate a consistent key for storing view state
-        private static string GetViewStateKey(SceneViewType viewType) => $"{EditorPrefsKeyPrefix}{viewType}";
+        private static string GetViewStateKey(SceneViewType viewType) => $"{key}{viewType}";
 
         private static void LoadViewStates()
         {
@@ -55,7 +54,8 @@ namespace MyTools.SceneViewTools
             }
         }
 
-        public static void SaveViewState(SceneViewType viewType, float size, Quaternion rotation, Vector3 pivot, bool orthographic)
+        public static void SaveViewState(SceneViewType viewType, float size, Quaternion rotation, Vector3 pivot,
+            bool orthographic)
         {
             var viewState = new ViewState
             {
@@ -77,14 +77,16 @@ namespace MyTools.SceneViewTools
             return ViewStateDictionary.TryGetValue(viewType, out viewState);
         }
 
-        public static void SaveLastActiveSceneViewType(SceneViewType viewType)
+        public static void WriteToEditorPrefs(SceneViewType viewType)
         {
-            EditorPrefs.SetInt(LastActiveViewTypeKey, (int)viewType);
+            var json = JsonUtility.ToJson(viewType);
+            EditorPrefs.SetString(key, json);
         }
 
-        public static SceneViewType GetLastSavedSceneViewType()
+        public static SceneViewType ReadFromEditorPrefs()
         {
-            return (SceneViewType)EditorPrefs.GetInt(LastActiveViewTypeKey, (int)SceneViewType.Perspective);
+            var json = EditorPrefs.GetString(key);
+            return JsonUtility.FromJson<SceneViewType>(json);
         }
     }
 }

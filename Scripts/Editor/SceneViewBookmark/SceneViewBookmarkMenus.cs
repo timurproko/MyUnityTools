@@ -5,34 +5,94 @@ namespace SceneViewBookmarks
     static class SceneViewBookmarkMenus
     {
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 1 %1", false, 100)]
-        static void MoveToBookmark1() => SceneViewBookmarkManager.MoveToBookmark(1);
+        static void MoveToBookmark1()
+        {
+            _MoveToBookmark1();
+            _MoveToBookmark1();
+        }
+
+        static void _MoveToBookmark1() => SceneViewBookmarkManager.MoveToBookmark(1);
 
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 2 %2", false, 100)]
-        static void MoveToBookmark2() => SceneViewBookmarkManager.MoveToBookmark(2);
+        static void MoveToBookmark2()
+        {
+            _MoveToBookmark2();
+            _MoveToBookmark2();
+        }
+
+        static void _MoveToBookmark2() => SceneViewBookmarkManager.MoveToBookmark(2);
 
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 3 %3", false, 100)]
-        static void MoveToBookmark3() => SceneViewBookmarkManager.MoveToBookmark(3);
+        static void MoveToBookmark3()
+        {
+            _MoveToBookmark3();
+            _MoveToBookmark3();
+        }
+
+        static void _MoveToBookmark3() => SceneViewBookmarkManager.MoveToBookmark(3);
 
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 4 %4", false, 100)]
-        static void MoveToBookmark4() => SceneViewBookmarkManager.MoveToBookmark(4);
+        static void MoveToBookmark4()
+        {
+            _MoveToBookmark4();
+            _MoveToBookmark4();
+        }
+
+        static void _MoveToBookmark4() => SceneViewBookmarkManager.MoveToBookmark(4);
 
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 5 %5", false, 100)]
-        static void MoveToBookmark5() => SceneViewBookmarkManager.MoveToBookmark(5);
+        static void MoveToBookmark5()
+        {
+            _MoveToBookmark5();
+            _MoveToBookmark5();
+        }
+
+        static void _MoveToBookmark5() => SceneViewBookmarkManager.MoveToBookmark(5);
 
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 6 %6", false, 100)]
-        static void MoveToBookmark6() => SceneViewBookmarkManager.MoveToBookmark(6);
+        static void MoveToBookmark6()
+        {
+            _MoveToBookmark6();
+            _MoveToBookmark6();
+        }
+
+        static void _MoveToBookmark6() => SceneViewBookmarkManager.MoveToBookmark(6);
 
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 7 %7", false, 100)]
-        static void MoveToBookmark7() => SceneViewBookmarkManager.MoveToBookmark(7);
+        static void MoveToBookmark7()
+        {
+            _MoveToBookmark7();
+            _MoveToBookmark7();
+        }
+
+        static void _MoveToBookmark7() => SceneViewBookmarkManager.MoveToBookmark(7);
 
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 8 %8", false, 100)]
-        static void MoveToBookmark8() => SceneViewBookmarkManager.MoveToBookmark(8);
+        static void MoveToBookmark8()
+        {
+            _MoveToBookmark8();
+            _MoveToBookmark8();
+        }
+
+        static void _MoveToBookmark8() => SceneViewBookmarkManager.MoveToBookmark(8);
 
         [MenuItem("My Tools/Scene View Bookmarks/Move to Bookmark 9 %9", false, 100)]
-        static void MoveToBookmark9() => SceneViewBookmarkManager.MoveToBookmark(9);
+        static void MoveToBookmark9()
+        {
+            _MoveToBookmark9();
+            _MoveToBookmark9();
+        }
+
+        static void _MoveToBookmark9() => SceneViewBookmarkManager.MoveToBookmark(9);
 
         [MenuItem("My Tools/Scene View Bookmarks/Return to Previous View %0", false, 200)]
-        static void ReturnToPreviousView() => SceneViewBookmarkManager.ReturnToPreviousView();
+        static void ReturnToPreviousView()
+        {
+            _ReturnToPreviousView();
+            _ReturnToPreviousView();
+        }
+
+        static void _ReturnToPreviousView() => SceneViewBookmarkManager.ReturnToPreviousView();
 
         [MenuItem("My Tools/Scene View Bookmarks/Set Bookmark 1 %&1", false, 300)]
         static void SetBookmark1() => SceneViewBookmarkManager.SetBookmark(1);

@@ -1,18 +1,17 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace MyTools.MaximizeOnPlay
+namespace MyTools
 {
     [InitializeOnLoad]
-    static class ToggleMaximizeOnPlay
+    static class MyToolsFocusOnPlay
     {
-        private const string MENU_NAME = "My Tools/Maximize Game View on Play &f11";
-
+        private const string MENU_NAME = "My Tools/Focus Game View on Play";
         private static bool _enabled;
         private static bool _isOtherView;
 
         // Called on load thanks to the InitializeOnLoad attribute
-        static ToggleMaximizeOnPlay()
+        static MyToolsFocusOnPlay()
         {
             _enabled = EditorPrefs.GetBool(MENU_NAME, true);
 
@@ -32,7 +31,7 @@ namespace MyTools.MaximizeOnPlay
         {
             // Toggling action
             PerformAction(!_enabled);
-            Debug.Log($"MyTools: Maximize Game View on Play is {(_enabled ? "Enabled" : "Disabled")}");
+            Debug.Log($"MyTools: Focus GameView on Play is {(_enabled ? "Enabled" : "Disabled")}");
         }
 
         private static void PerformAction(bool enabled)
@@ -49,20 +48,33 @@ namespace MyTools.MaximizeOnPlay
         {
             if (_enabled && state == PlayModeStateChange.EnteredPlayMode)
             {
-                if (SceneView.lastActiveSceneView.hasFocus)
+                if (SceneView.lastActiveSceneView != null)
                 {
-                    _isOtherView = true;
-                }
-                else
-                {
-                    _isOtherView = false;
+                    if (SceneView.lastActiveSceneView.hasFocus)
+                    {
+                        _isOtherView = true;
+                    }
+                    else
+                    {
+                        _isOtherView = false;
+                    }
                 }
 
                 // Delay the action to ensure the Game view is properly initialized
                 EditorApplication.delayCall += () =>
                 {
                     {
-                        MaximizeGameView(true);
+                        if (SceneView.lastActiveSceneView != null)
+                        {
+                            if (!SceneView.lastActiveSceneView.maximized)
+                            {
+                                FocusView("GameView");
+                            }
+                        }
+                        else if (SceneView.lastActiveSceneView == null)
+                        {
+                            FocusView("GameView");
+                        }
                     }
                 };
             }
@@ -71,14 +83,18 @@ namespace MyTools.MaximizeOnPlay
                 EditorApplication.delayCall += () =>
                 {
                     {
-                        MaximizeGameView(false);
-                        if (_isOtherView)
+                        if (SceneView.lastActiveSceneView != null)
                         {
-                            Tools.GetView("UnityEditor.SceneView");
+                            if (!SceneView.lastActiveSceneView.maximized)
+                            {
+                                if (_isOtherView && !MyTools.GetView("UnityEditor.GameView").maximized)
+                                {
+                                    FocusView("SceneView");
+                                }
+                            }
                         }
                     }
                 };
-                
             }
         }
 
@@ -86,25 +102,29 @@ namespace MyTools.MaximizeOnPlay
         {
             if (_enabled)
             {
-                if (state == PauseState.Paused)
+                if (SceneView.lastActiveSceneView != null)
                 {
-                    MaximizeGameView(false);
+                    if (!SceneView.lastActiveSceneView.maximized)
+                    {
+                        if (state == PauseState.Unpaused)
+                        {
+                            FocusView("GameView");
+                        }
+                    }
                 }
-                else if (state == PauseState.Unpaused)
+                else if (SceneView.lastActiveSceneView == null)
                 {
-                    MaximizeGameView(true);
+                    if (state == PauseState.Unpaused)
+                    {
+                        FocusView("GameView");
+                    }
                 }
             }
         }
 
-        private static void MaximizeGameView(bool maximize)
+        private static void FocusView(string name)
         {
-            // Focus the Game view and set maximized state
-            EditorWindow gameView = Tools.GetView("UnityEditor.GameView");
-            if (gameView != null)
-            {
-                gameView.maximized = maximize;
-            }
+            EditorApplication.delayCall += () => { MyTools.GetView("UnityEditor." + name).Focus(); };
         }
     }
 }

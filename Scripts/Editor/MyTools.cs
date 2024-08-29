@@ -1,10 +1,16 @@
-using System;
+﻿using System;
 using UnityEditor;
 
 namespace MyTools
 {
-    static class Tools
+    static class MyTools
     {
+        public static EditorWindow GetView(string name)
+        {
+            Type viewType = typeof(Editor).Assembly.GetType(name);
+            return EditorWindow.GetWindow(viewType);
+        }
+        
         public static void ActivateWindowUnderCursor()
         {
             EditorWindow windowUnderCursor = EditorWindow.mouseOverWindow;
@@ -13,12 +19,6 @@ namespace MyTools
             {
                 windowUnderCursor.Focus();
             }
-        }
-
-        public static EditorWindow GetView(string name)
-        {
-            Type viewType = typeof(Editor).Assembly.GetType(name);
-            return EditorWindow.GetWindow(viewType);
         }
     }
 }

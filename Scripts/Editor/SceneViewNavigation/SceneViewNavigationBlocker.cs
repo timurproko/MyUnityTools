@@ -1,15 +1,15 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace MyTools.SceneViewTools
+namespace SceneViewNavigation
 {
     [InitializeOnLoad]
-    public class SceneViewRotationBlocker
+    public class SceneViewNavigationBlocker
     {
         private static bool isPanning;
         private static Vector2 lastMousePosition;
 
-        static SceneViewRotationBlocker()
+        static SceneViewNavigationBlocker()
         {
             SceneView.duringSceneGui += OnSceneGUI;
         }
@@ -18,7 +18,7 @@ namespace MyTools.SceneViewTools
         {
             Event e = Event.current;
 
-            if (SceneViewRef.SceneViewType != SceneViewType.Perspective && !sceneView.in2DMode && sceneView.orthographic)
+            if (ActiveSceneView.SceneViewType != SceneViewType.Perspective && !sceneView.in2DMode && sceneView.orthographic)
             {
                 if (e.alt && e.button == 0)
                 {

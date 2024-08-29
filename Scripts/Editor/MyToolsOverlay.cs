@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 using System.Reflection;
 using UnityEditor.Toolbars;
 
-namespace MyTools.SceneViewTools
+namespace MyTools
 {
     [Overlay(typeof(SceneView), "Toggle Gizmos")]
     public class ToggleGizmosOverlay : Overlay

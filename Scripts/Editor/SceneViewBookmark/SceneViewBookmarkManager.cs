@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using SceneViewNavigation;
 
 namespace SceneViewBookmarks
 {
@@ -9,9 +10,9 @@ namespace SceneViewBookmarks
         public const int maxBookmarkCount = 9;
 
         const int previousViewSlot = 0;
-        
+
         public static bool hasPreviousView => HasBookmark(previousViewSlot);
-        
+
         public static bool HasBookmark(int slot)
         {
             var key = GetEditorPrefsKey(slot);
@@ -32,6 +33,19 @@ namespace SceneViewBookmarks
             sceneView.orthographic = bookmark.orthographic;
             if (!sceneView.in2DMode) sceneView.rotation = bookmark.rotation;
             sceneView.size = bookmark.size;
+
+            // My Addition to Sync with SceneViewTools
+            var type = bookmark.type;
+            ActiveSceneView.SceneViewType = type;
+            SceneViewNavigationSave.WriteToEditorPrefs(type);
+            if (type == SceneViewType.Perspective)
+            {
+                SceneViewNavigationManager.EnableSkybox();
+            }
+            else
+            {
+                SceneViewNavigationManager.DisableSkybox();
+            }
         }
 
         public static void ReturnToPreviousView()
@@ -44,12 +58,15 @@ namespace SceneViewBookmarks
             var bookmark = new SceneViewBookmark(SceneView.lastActiveSceneView);
             WriteToEditorPrefs(slot, bookmark);
 
+            // My Addition to Sync with SceneViewTools
+            bookmark.type = SceneViewNavigationSave.ReadFromEditorPrefs();
+            
             if (slot != previousViewSlot)
             {
                 Debug.Log("MyTools: Bookmarked Scene View in Slot " + slot);
             }
         }
-        
+
         static string GetEditorPrefsKey(int slot)
         {
             return "sceneViewBookmark" + slot;
@@ -61,7 +78,7 @@ namespace SceneViewBookmarks
             var json = EditorPrefs.GetString(key);
             return JsonUtility.FromJson<SceneViewBookmark>(json);
         }
-        
+
         static void WriteToEditorPrefs(int slot, SceneViewBookmark bookmark)
         {
             var key = GetEditorPrefsKey(slot);

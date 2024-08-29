@@ -1,5 +1,6 @@
 using UnityEditor;
 using UnityEngine;
+using SceneViewNavigation;
 
 namespace SceneViewBookmarks
 {
@@ -9,6 +10,8 @@ namespace SceneViewBookmarks
         public Quaternion rotation;
         public float size;
         public bool orthographic;
+        public SceneViewType type;
+
 
         public SceneViewBookmark(SceneView sceneView)
         {
@@ -16,6 +19,7 @@ namespace SceneViewBookmarks
             rotation = sceneView.rotation;
             size = sceneView.size;
             orthographic = sceneView.orthographic;
+            type = SceneViewNavigationSave.ReadFromEditorPrefs();
         }
     }
 }

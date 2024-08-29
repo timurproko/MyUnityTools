@@ -1,0 +1,16 @@
+{
+    "name": "SceneViewBookmarks",
+    "rootNamespace": "",
+    "references": ["GUID:738251b684b8409d9d2477bda939a8aa","GUID:ab12aa51fe607b24b896a78ebe73fd56"],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 
-namespace MyTools.UI
+namespace MyTools
 {
     [CustomEditor(typeof(MonoBehaviour), true)]
     public class Dropdown : Editor
