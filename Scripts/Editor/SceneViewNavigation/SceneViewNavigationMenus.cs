@@ -89,17 +89,13 @@ namespace SceneViewNavigation
         [MenuItem("My Tools/Scene View Toolset/Reset Current View &h", priority = 100)] //  Alt+H
         public static void ResetSceneViewCamera()
         {
-            if (ActiveSceneView.sceneView != null)
-            {
-                SceneViewNavigationReset.ResetView(SceneViewNavigationSave.ReadFromEditorPrefs());
-                SceneViewNavigationReset.RedrawLastSavedSceneView();
-            }
+            SceneViewNavigationManager.RedrawLastSavedSceneView();
         }
 
         [MenuItem("My Tools/Scene View Toolset/Reset All Views %&h", priority = 101)] // Ctrl+Alt+H
         public static void ResetAllViews()
         {
-            SceneViewNavigationReset.ResetAllSceneViews();
+            SceneViewNavigationManager.ResetAllSceneViews();
         }
 
         [MenuItem("My Tools/Scene View Toolset/Frame Selected &f", priority = 102)] //  Alt+F

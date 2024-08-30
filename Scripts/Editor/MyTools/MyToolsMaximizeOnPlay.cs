@@ -4,13 +4,13 @@ using UnityEngine;
 namespace MyTools
 {
     [InitializeOnLoad]
-    static class MyToolsMaximizeOnPlay
+    static class MaximizeOnPlay
     {
         private const string MENU_NAME = "My Tools/Maximize Game View on Play &f11";
         private static bool _enabled;
 
         // Called on load thanks to the InitializeOnLoad attribute
-        static MyToolsMaximizeOnPlay()
+        static MaximizeOnPlay()
         {
             _enabled = EditorPrefs.GetBool(MENU_NAME, true);
 

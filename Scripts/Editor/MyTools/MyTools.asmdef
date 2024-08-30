@@ -1,9 +1,7 @@
 {
-    "name": "SceneViewBookmark",
+    "name": "MyTools",
     "rootNamespace": "",
-    "references": [
-      "SceneViewNavigation"
-    ],
+    "references": [],
     "includePlatforms": [
         "Editor"
     ],

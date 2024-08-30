@@ -19,7 +19,7 @@ namespace SceneViewBookmarks
             rotation = sceneView.rotation;
             size = sceneView.size;
             orthographic = sceneView.orthographic;
-            type = SceneViewNavigationSave.ReadFromEditorPrefs();
+            type = SceneViewNavigationIO.ReadFromEditorPrefs();
         }
     }
 }

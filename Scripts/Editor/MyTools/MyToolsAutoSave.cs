@@ -5,14 +5,14 @@ using UnityEngine;
 namespace MyTools
 {
     [InitializeOnLoad]
-    static class MyToolsAutoSave
+    static class AutoSave
     {
         private const string MENU_NAME = "My Tools/Auto Save on Play";
 
         internal static bool _enabled;
 
         /// Called on load thanks to the InitializeOnLoad attribute
-        static MyToolsAutoSave()
+        static AutoSave()
         {
             _enabled = EditorPrefs.GetBool(MENU_NAME, true);
 
@@ -70,7 +70,7 @@ namespace MyTools
         private static void AutoSaveWhenPlaymodeStarts(PlayModeStateChange playModeStateChange)
         {
             // If we're exiting edit mode (entering play mode)
-            if (playModeStateChange == PlayModeStateChange.ExitingEditMode && MyToolsAutoSave._enabled)
+            if (playModeStateChange == PlayModeStateChange.ExitingEditMode && AutoSave._enabled)
             {
                 // Save the open scenes and any assets.
                 EditorSceneManager.SaveOpenScenes();

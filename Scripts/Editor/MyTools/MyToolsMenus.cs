@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace MyTools
 {
-    static class MyToolsShortcuts
+    static class Shortcuts
     {
         // Grid
         [MenuItem("My Tools/Toggle Grid %&#g", priority = 11)] // Ctrl+Alt+Shift+G

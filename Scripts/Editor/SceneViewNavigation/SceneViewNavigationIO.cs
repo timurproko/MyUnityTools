@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace SceneViewNavigation
 {
-    public static class SceneViewNavigationSave
+    public static class SceneViewNavigationIO
     {
         private const string key = "MyTools.SceneViewTools.";
 
@@ -77,16 +77,16 @@ namespace SceneViewNavigation
             return ViewStateDictionary.TryGetValue(viewType, out viewState);
         }
 
-        public static void WriteToEditorPrefs(SceneViewType viewType)
-        {
-            var json = JsonUtility.ToJson(viewType);
-            EditorPrefs.SetString(key, json);
-        }
-
         public static SceneViewType ReadFromEditorPrefs()
         {
             var json = EditorPrefs.GetString(key);
             return JsonUtility.FromJson<SceneViewType>(json);
+        }
+
+        public static void WriteToEditorPrefs(SceneViewType viewType)
+        {
+            var json = JsonUtility.ToJson(viewType);
+            EditorPrefs.SetString(key, json);
         }
     }
 }

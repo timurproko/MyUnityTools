@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace MyTools
 {
-    static class MyTools
+    public static class MyTools
     {
         public static EditorWindow GetView(string name)
         {

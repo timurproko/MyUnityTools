@@ -1,4 +1,6 @@
+using System;
 using UnityEditor;
+using UnityEngine;
 
 namespace SceneViewNavigation
 {
@@ -11,7 +13,7 @@ namespace SceneViewNavigation
             if (ActiveSceneView.sceneView == null)
                 return;
 
-            if (ActiveSceneView.sceneView.in2DMode)
+            if (Is2DMode())
             {
                 ActiveSceneView.sceneView.orthographic = !ActiveSceneView.sceneView.orthographic;
             }
@@ -26,7 +28,7 @@ namespace SceneViewNavigation
                     DisableSkybox();
                 }
 
-                if (SceneViewNavigationSave.TryGetViewState(viewType, out var savedState))
+                if (SceneViewNavigationIO.TryGetViewState(viewType, out var savedState))
                 {
                     ApplyNewValues(savedState);
                 }
@@ -39,20 +41,20 @@ namespace SceneViewNavigation
             ActiveSceneView.sceneView.Repaint();
         }
 
-        public static void ApplyDefaultValues(SceneViewType viewType)
+        private static void ApplyDefaultValues(SceneViewType viewType)
         {
             ActiveSceneView.sceneView.size = DefaultValues.size;
             ActiveSceneView.sceneView.pivot = DefaultValues.pivot;
-            ActiveSceneView.sceneView.rotation = SceneViewNavigationReset.GetDefaultRotation(viewType);
-            ActiveSceneView.sceneView.orthographic = SceneViewNavigationReset.GetDefaultOrthographic(viewType);
+            ActiveSceneView.sceneView.rotation = GetDefaultRotation(viewType);
+            ActiveSceneView.sceneView.orthographic = IsOrthographic(viewType);
         }
 
-        public static void ApplyNewValues(SceneViewNavigationSave.ViewState savedState)
+        private static void ApplyNewValues(SceneViewNavigationIO.ViewState savedState)
         {
             ActiveSceneView.sceneView.size = savedState.size;
             ActiveSceneView.sceneView.pivot = savedState.pivot;
             ActiveSceneView.sceneView.orthographic = savedState.orthographic;
-            if (!ActiveSceneView.sceneView.in2DMode)
+            if (!Is2DMode())
             {
                 ActiveSceneView.sceneView.rotation = savedState.rotation;
             }
@@ -62,17 +64,17 @@ namespace SceneViewNavigation
         {
             if (ActiveSceneView.sceneView != null)
             {
-                SceneViewNavigationSave.SaveViewState(
+                SceneViewNavigationIO.SaveViewState(
                     ActiveSceneView.SceneViewType,
                     ActiveSceneView.sceneView.size,
                     ActiveSceneView.sceneView.rotation,
                     ActiveSceneView.sceneView.pivot,
                     ActiveSceneView.sceneView.orthographic
                 );
-                SceneViewNavigationSave.WriteToEditorPrefs(viewType);
+                SceneViewNavigationIO.WriteToEditorPrefs(viewType);
             }
         }
-        
+
         public static void SetSceneViewGizmos(bool gizmosOn)
         {
 #if UNITY_EDITOR
@@ -96,11 +98,90 @@ namespace SceneViewNavigation
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             ActiveSceneView.sceneView.sceneViewState.showSkybox = false;
         }
-        
+
         public static void EnableSkybox()
         {
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             ActiveSceneView.sceneView.sceneViewState.showSkybox = true;
+        }
+
+        public static void ResetAllSceneViews()
+        {
+            var sceneViewTypes = Enum.GetValues(typeof(SceneViewType)) as SceneViewType[];
+
+            foreach (var viewType in sceneViewTypes)
+            {
+                ResetView(viewType);
+            }
+
+            RedrawLastSavedSceneView();
+        }
+
+        public static void ResetView(SceneViewType viewType)
+        {
+            float size = DefaultValues.size;
+            Vector3 pivot = DefaultValues.pivot;
+            Quaternion rotation = GetDefaultRotation(viewType);
+            bool orthographic = IsOrthographic(viewType);
+
+            SceneViewNavigationIO.SaveViewState(viewType, size, rotation, pivot, orthographic);
+        }
+
+        public static void RedrawLastSavedSceneView()
+        {
+            var lastSavedViewType = SceneViewNavigationIO.ReadFromEditorPrefs();
+            Quaternion rotation = GetDefaultRotation(lastSavedViewType);
+            bool orthographic = IsOrthographic(lastSavedViewType);
+
+            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView.size = DefaultValues.size;
+            ActiveSceneView.sceneView.pivot = DefaultValues.pivot;
+            if (Is2DMode())
+            {
+                ActiveSceneView.sceneView.orthographic = true;
+            }
+            else
+            {
+                ActiveSceneView.sceneView.rotation = rotation;
+                ActiveSceneView.sceneView.orthographic = orthographic;
+            }
+
+            ActiveSceneView.sceneView.Repaint();
+        }
+
+        private static Quaternion GetDefaultRotation(SceneViewType viewType)
+        {
+            return viewType switch
+            {
+                SceneViewType.Perspective => DefaultRotation.Perspective,
+                SceneViewType.Top => DefaultRotation.Top,
+                SceneViewType.Bottom => DefaultRotation.Bottom,
+                SceneViewType.Front => DefaultRotation.Front,
+                SceneViewType.Back => DefaultRotation.Back,
+                SceneViewType.Left => DefaultRotation.Left,
+                SceneViewType.Right => DefaultRotation.Right,
+                _ => throw new ArgumentOutOfRangeException(nameof(viewType), viewType, null)
+            };
+        }
+
+        private static bool IsOrthographic(SceneViewType viewType)
+        {
+            if (viewType != SceneViewType.Perspective)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool Is2DMode()
+        {
+            if (SceneView.lastActiveSceneView.in2DMode)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

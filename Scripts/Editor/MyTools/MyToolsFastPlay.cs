@@ -4,14 +4,14 @@ using UnityEngine;
 namespace MyTools
 {
     [InitializeOnLoad]
-    static class MyToolsFastPlay
+    static class FastPlay
     {
         private const string MENU_NAME = "My Tools/Fast Play Mode &f8";
 
         internal static bool _enabled;
 
         /// Called on load thanks to the InitializeOnLoad attribute
-        static MyToolsFastPlay()
+        static FastPlay()
         {
             _enabled = EditorPrefs.GetBool(MENU_NAME, true);
 

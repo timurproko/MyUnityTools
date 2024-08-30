@@ -37,7 +37,7 @@ namespace SceneViewBookmarks
             // My Addition to Sync with SceneViewTools
             var type = bookmark.type;
             ActiveSceneView.SceneViewType = type;
-            SceneViewNavigationSave.WriteToEditorPrefs(type);
+            SceneViewNavigationIO.WriteToEditorPrefs(type);
             if (type == SceneViewType.Perspective)
             {
                 SceneViewNavigationManager.EnableSkybox();
@@ -59,7 +59,7 @@ namespace SceneViewBookmarks
             WriteToEditorPrefs(slot, bookmark);
 
             // My Addition to Sync with SceneViewTools
-            bookmark.type = SceneViewNavigationSave.ReadFromEditorPrefs();
+            bookmark.type = SceneViewNavigationIO.ReadFromEditorPrefs();
             
             if (slot != previousViewSlot)
             {

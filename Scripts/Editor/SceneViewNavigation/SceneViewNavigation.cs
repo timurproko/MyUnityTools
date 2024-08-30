@@ -3,12 +3,6 @@ using UnityEngine;
 
 namespace SceneViewNavigation
 {
-    public static class ActiveSceneView
-    {
-        public static SceneView sceneView;
-        public static SceneViewType SceneViewType;
-    }
-
     public enum SceneViewType
     {
         Perspective = 0,
@@ -18,6 +12,12 @@ namespace SceneViewNavigation
         Back = 4,
         Left = 5,
         Right = 6,
+    }
+    
+    public static class ActiveSceneView
+    {
+        public static SceneView sceneView;
+        public static SceneViewType SceneViewType;
     }
     
     public static class DefaultValues

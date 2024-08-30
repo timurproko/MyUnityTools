@@ -4,14 +4,14 @@ using UnityEngine;
 namespace MyTools
 {
     [InitializeOnLoad]
-    static class MyToolsFocusOnPlay
+    static class FocusOnPlay
     {
         private const string MENU_NAME = "My Tools/Focus Game View on Play";
         private static bool _enabled;
         private static bool _isOtherView;
 
         // Called on load thanks to the InitializeOnLoad attribute
-        static MyToolsFocusOnPlay()
+        static FocusOnPlay()
         {
             _enabled = EditorPrefs.GetBool(MENU_NAME, true);
 
