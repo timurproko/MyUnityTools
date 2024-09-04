@@ -1,6 +1,7 @@
 using System;
 using UnityEditor;
 using System.Reflection;
+using UnityEngine;
 
 namespace MyTools
 {
@@ -20,7 +21,7 @@ namespace MyTools
                 }
             }
         }
-        
+
         [MenuItem("My Tools/Toggle Grid Snapping &j", priority = 11)] // Alt+J
         public static void ToggleGridSnapping()
         {
@@ -100,6 +101,36 @@ namespace MyTools
             if (window)
             {
                 window.Close();
+            }
+        }
+
+        // Assets
+        [MenuItem("My Tools/Force Refresh Assets &#r", priority = 16)] // Alt+Shift+R
+        private static void ForceRefreshSelectedAsset()
+        {
+            // Get the selected assets in the Project Window
+            var selectedObjects = Selection.objects;
+
+            if (selectedObjects == null || selectedObjects.Length == 0)
+            {
+                // If no assets are selected, refresh all assets
+                AssetDatabase.Refresh();
+                Debug.Log("MyTools: All assets have been refreshed.");
+            }
+            else
+            {
+                foreach (var obj in selectedObjects)
+                {
+                    // Get the path of the selected asset
+                    string assetPath = AssetDatabase.GetAssetPath(obj);
+
+                    if (!string.IsNullOrEmpty(assetPath))
+                    {
+                        // Force refresh the specific asset
+                        AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+                        Debug.Log($"MyTools: {assetPath} has been refreshed.");
+                    }
+                }
             }
         }
     }

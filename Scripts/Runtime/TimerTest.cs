@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace MyTools
+namespace MyTools.Components
 {
-[AddComponentMenu("My Tools/Utility/" + nameof(TimerTest))]
+[AddComponentMenu("My Tools/Time/" + nameof(TimerTest))]
     public class TimerTest : MonoBehaviour
     {
         private Timer _timer;

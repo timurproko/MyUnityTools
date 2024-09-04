@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MyTools
-    {
+namespace MyTools.Components
+{
+    [AddComponentMenu("My Tools/Utility/" + nameof(DeviceSimulatorCanvasScaler))]
     public class DeviceSimulatorCanvasScaler : MonoBehaviour
     {
         GameObject _xrDeviceSimulator;
         Canvas _canvas;
         CanvasScaler _canvasScaler;
-        
+
         [SerializeField] bool helpUI = true;
         [SerializeField, Range(0.4f, 1.0f)] float scaleFactor = 0.5f;
 

@@ -1,28 +1,26 @@
 using UnityEngine;
 
-namespace MyTools
+namespace MyTools.Components
 {
+    [AddComponentMenu("My Tools/Animation/" + nameof(AnimateTransforms))]
     public class AnimateTransforms : MonoBehaviour
     {
         private Transform MyTransform = null;
-        // Customize these values to control the animation
-        [Header("Axis")]
-        [SerializeField] bool x = false; 
-        [SerializeField] bool y = false; 
-        [SerializeField] bool z = false; 
-        [Header("Animation")]
-        [SerializeField] float speed = 1f;  // How fast the object moves
-        [SerializeField] float amplitude = 0.1f;  // How far the object moves horizontally
-        [SerializeField] float frequency = 20f;  // How quickly the object oscillates
-        [Header("Options")]
-        [SerializeField] bool easings = false; 
 
-        [HideInInspector]
-        public int DropdownIndex = 0;
-        [HideInInspector]
-        public string DropdownLabel = "Easing Functions";
-        [HideInInspector]
-        public string[] DropdownItems = new string[] {
+        // Customize these values to control the animation
+        [Header("Axis")] [SerializeField] bool x = false;
+        [SerializeField] bool y = false;
+        [SerializeField] bool z = false;
+        [Header("Animation")] [SerializeField] float speed = 1f; // How fast the object moves
+        [SerializeField] float amplitude = 0.1f; // How far the object moves horizontally
+        [SerializeField] float frequency = 20f; // How quickly the object oscillates
+        [Header("Options")] [SerializeField] bool easings = false;
+
+        [HideInInspector] public int DropdownIndex = 0;
+        [HideInInspector] public string DropdownLabel = "Easing Functions";
+
+        [HideInInspector] public string[] DropdownItems = new string[]
+        {
             "EaseInSine",
             "EaseOutSine",
             "EaseInOutSine",
@@ -103,65 +101,65 @@ namespace MyTools
             switch (easingFunction)
             {
                 case "EaseInSine":
-                    return FunctionsEasing.EaseInSine(value);
+                    return EasingFunctions.EaseInSine(value);
                 case "EaseOutSine":
-                    return FunctionsEasing.EaseOutSine(value);
+                    return EasingFunctions.EaseOutSine(value);
                 case "EaseInOutSine":
-                    return FunctionsEasing.EaseInOutSine(value);
+                    return EasingFunctions.EaseInOutSine(value);
                 case "EaseInQuad":
-                    return FunctionsEasing.EaseInQuad(value);
+                    return EasingFunctions.EaseInQuad(value);
                 case "EaseOutQuad":
-                    return FunctionsEasing.EaseOutQuad(value);
+                    return EasingFunctions.EaseOutQuad(value);
                 case "EaseInOutQuad":
-                    return FunctionsEasing.EaseInOutQuad(value);
+                    return EasingFunctions.EaseInOutQuad(value);
                 case "EaseInCubic":
-                    return FunctionsEasing.EaseInCubic(value);
+                    return EasingFunctions.EaseInCubic(value);
                 case "EaseOutCubic":
-                    return FunctionsEasing.EaseOutCubic(value);
+                    return EasingFunctions.EaseOutCubic(value);
                 case "EaseInOutCubic":
-                    return FunctionsEasing.EaseInOutCubic(value);
+                    return EasingFunctions.EaseInOutCubic(value);
                 case "EaseInQuart":
-                    return FunctionsEasing.EaseInQuart(value);
+                    return EasingFunctions.EaseInQuart(value);
                 case "EaseOutQuart":
-                    return FunctionsEasing.EaseOutQuart(value);
+                    return EasingFunctions.EaseOutQuart(value);
                 case "EaseInOutQuart":
-                    return FunctionsEasing.EaseInOutQuart(value);
+                    return EasingFunctions.EaseInOutQuart(value);
                 case "EaseInQuint":
-                    return FunctionsEasing.EaseInQuint(value);
+                    return EasingFunctions.EaseInQuint(value);
                 case "EaseOutQuint":
-                    return FunctionsEasing.EaseOutQuint(value);
+                    return EasingFunctions.EaseOutQuint(value);
                 case "EaseInOutQuint":
-                    return FunctionsEasing.EaseInOutQuint(value);
+                    return EasingFunctions.EaseInOutQuint(value);
                 case "EaseInExpo":
-                    return FunctionsEasing.EaseInExpo(value);
+                    return EasingFunctions.EaseInExpo(value);
                 case "EaseOutExpo":
-                    return FunctionsEasing.EaseOutExpo(value);
+                    return EasingFunctions.EaseOutExpo(value);
                 case "EaseInOutExpo":
-                    return FunctionsEasing.EaseInOutExpo(value);
+                    return EasingFunctions.EaseInOutExpo(value);
                 case "EaseInCirc":
-                    return FunctionsEasing.EaseInCirc(value);
+                    return EasingFunctions.EaseInCirc(value);
                 case "EaseOutCirc":
-                    return FunctionsEasing.EaseOutCirc(value);
+                    return EasingFunctions.EaseOutCirc(value);
                 case "EaseInOutCirc":
-                    return FunctionsEasing.EaseInOutCirc(value);
+                    return EasingFunctions.EaseInOutCirc(value);
                 case "EaseInBack":
-                    return FunctionsEasing.EaseInBack(value);
+                    return EasingFunctions.EaseInBack(value);
                 case "EaseOutBack":
-                    return FunctionsEasing.EaseOutBack(value);
+                    return EasingFunctions.EaseOutBack(value);
                 case "EaseInOutBack":
-                    return FunctionsEasing.EaseInOutBack(value);
+                    return EasingFunctions.EaseInOutBack(value);
                 case "EaseInElastic":
-                    return FunctionsEasing.EaseInElastic(value);
+                    return EasingFunctions.EaseInElastic(value);
                 case "EaseOutElastic":
-                    return FunctionsEasing.EaseOutElastic(value);
+                    return EasingFunctions.EaseOutElastic(value);
                 case "EaseInOutElastic":
-                    return FunctionsEasing.EaseInOutElastic(value);
+                    return EasingFunctions.EaseInOutElastic(value);
                 case "EaseInBounce":
-                    return FunctionsEasing.EaseInBounce(value);
+                    return EasingFunctions.EaseInBounce(value);
                 case "EaseOutBounce":
-                    return FunctionsEasing.EaseOutBounce(value);
+                    return EasingFunctions.EaseOutBounce(value);
                 case "EaseInOutBounce":
-                    return FunctionsEasing.EaseInOutBounce(value);
+                    return EasingFunctions.EaseInOutBounce(value);
                 default:
                     return value;
             }
