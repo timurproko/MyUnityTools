@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace MyTools.Components
+namespace MyTools.Runtime
 {
 [AddComponentMenu("My Tools/Examples/" + nameof(Event))]
 	public class Event: MonoBehaviour

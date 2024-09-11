@@ -1,73 +1,76 @@
+using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
-namespace MyTools.Components
+namespace MyTools.Runtime
 {
     [AddComponentMenu("My Tools/Animation/" + nameof(AnimateTransforms))]
     public class AnimateTransforms : MonoBehaviour
     {
-        private Transform MyTransform = null;
+        private Transform MyTransform;
 
-        // Customize these values to control the animation
-        [Header("Axis")] [SerializeField] bool x = false;
-        [SerializeField] bool y = false;
-        [SerializeField] bool z = false;
-        [Header("Animation")] [SerializeField] float speed = 1f; // How fast the object moves
-        [SerializeField] float amplitude = 0.1f; // How far the object moves horizontally
-        [SerializeField] float frequency = 20f; // How quickly the object oscillates
-        [Header("Options")] [SerializeField] bool easings = false;
+        [Header("Axis")] [SerializeField] bool x;
+        [SerializeField] bool y;
+        [SerializeField] bool z;
 
-        [HideInInspector] public int DropdownIndex = 0;
-        [HideInInspector] public string DropdownLabel = "Easing Functions";
+        [Header("Animation")] [SerializeField] float speed = 1f;
+        [SerializeField] float amplitude = 0.1f;
+        [SerializeField] float frequency = 20f;
 
-        [HideInInspector] public string[] DropdownItems = new string[]
+        [Header("Options")] [SerializeField] bool easings;
+
+        [ValueDropdown("GetDropdownItems")] [SerializeField]
+        private string selectedEasing = "EaseInSine";
+
+        // Use this method to populate the dropdown options
+        private static IEnumerable<string> GetDropdownItems()
         {
-            "EaseInSine",
-            "EaseOutSine",
-            "EaseInOutSine",
-            "EaseInQuad",
-            "EaseOutQuad",
-            "EaseInOutQuad",
-            "EaseInCubic",
-            "EaseOutCubic",
-            "EaseInOutCubic",
-            "EaseInQuart",
-            "EaseOutQuart",
-            "EaseInOutQuart",
-            "EaseInQuint",
-            "EaseOutQuint",
-            "EaseInOutQuint",
-            "EaseInExpo",
-            "EaseOutExpo",
-            "EaseInOutExpo",
-            "EaseInCirc",
-            "EaseOutCirc",
-            "EaseInOutCirc",
-            "EaseInBack",
-            "EaseOutBack",
-            "EaseInOutBack",
-            "EaseInElastic",
-            "EaseOutElastic",
-            "EaseInOutElastic",
-            "EaseInBounce",
-            "EaseOutBounce",
-            "EaseInOutBounce"
-        };
+            return new[]
+            {
+                "EaseInSine",
+                "EaseOutSine",
+                "EaseInOutSine",
+                "EaseInQuad",
+                "EaseOutQuad",
+                "EaseInOutQuad",
+                "EaseInCubic",
+                "EaseOutCubic",
+                "EaseInOutCubic",
+                "EaseInQuart",
+                "EaseOutQuart",
+                "EaseInOutQuart",
+                "EaseInQuint",
+                "EaseOutQuint",
+                "EaseInOutQuint",
+                "EaseInExpo",
+                "EaseOutExpo",
+                "EaseInOutExpo",
+                "EaseInCirc",
+                "EaseOutCirc",
+                "EaseInOutCirc",
+                "EaseInBack",
+                "EaseOutBack",
+                "EaseInOutBack",
+                "EaseInElastic",
+                "EaseOutElastic",
+                "EaseInOutElastic",
+                "EaseInBounce",
+                "EaseOutBounce",
+                "EaseInOutBounce"
+            };
+        }
 
-        // Start is called before the first frame update
         void Start()
         {
             MyTransform = GetComponent<Transform>();
         }
 
-        // Update is called once per frame
         void Update()
         {
             float time = Time.time * speed;
             Vector3 newPosition = MyTransform.position;
 
-            // Get the selected easing function from DropdownItems
-            string selectedEasing = DropdownItems[DropdownIndex];
-
+            // Use the selected easing function from the dropdown
             if (x)
             {
                 newPosition.x = amplitude * Mathf.Sin(time * frequency);
@@ -95,7 +98,6 @@ namespace MyTools.Components
             MyTransform.position = newPosition;
         }
 
-        // Helper method to apply easing function
         float ApplyEasingFunction(float value, string easingFunction)
         {
             switch (easingFunction)

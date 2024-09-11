@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MyTools.Components
+namespace MyTools.Runtime
 {
 [AddComponentMenu("My Tools/Time/" + nameof(Timer))]
     public class Timer : MonoBehaviour

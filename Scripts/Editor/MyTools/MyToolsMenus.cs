@@ -37,7 +37,7 @@ namespace MyTools
 
             if (windowToBeLocked != null && windowToBeLocked.GetType().Name == "InspectorWindow")
             {
-                Type type = Assembly.GetAssembly(typeof(UnityEditor.Editor)).GetType("UnityEditor.InspectorWindow");
+                Type type = Assembly.GetAssembly(typeof(Editor)).GetType("UnityEditor.InspectorWindow");
                 PropertyInfo propertyInfo = type.GetProperty("isLocked");
                 bool value = (bool)propertyInfo.GetValue(windowToBeLocked, null);
                 propertyInfo.SetValue(windowToBeLocked, !value, null);
@@ -45,7 +45,7 @@ namespace MyTools
             }
             else if (windowToBeLocked != null && windowToBeLocked.GetType().Name == "ProjectBrowser")
             {
-                Type type = Assembly.GetAssembly(typeof(UnityEditor.Editor)).GetType("UnityEditor.ProjectBrowser");
+                Type type = Assembly.GetAssembly(typeof(Editor)).GetType("UnityEditor.ProjectBrowser");
                 PropertyInfo propertyInfo = type.GetProperty("isLocked",
                     BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
@@ -55,7 +55,7 @@ namespace MyTools
             }
             else if (windowToBeLocked != null && windowToBeLocked.GetType().Name == "SceneHierarchyWindow")
             {
-                Type type = Assembly.GetAssembly(typeof(UnityEditor.Editor))
+                Type type = Assembly.GetAssembly(typeof(Editor))
                     .GetType("UnityEditor.SceneHierarchyWindow");
 
                 FieldInfo fieldInfo = type.GetField("m_SceneHierarchy",
@@ -73,9 +73,7 @@ namespace MyTools
         [MenuItem("My Tools/Clear Console &c", priority = 13)] // Alt+C
         static void ClearConsole()
         {
-            var logEntries = Type.GetType("UnityEditor.LogEntries,UnityEditor.dll");
-            var clearMethod = logEntries.GetMethod("Clear", BindingFlags.Static | BindingFlags.Public);
-            clearMethod.Invoke(null, null);
+            MyTools.ClearConsole();
         }
 
         // View
@@ -105,7 +103,7 @@ namespace MyTools
         }
 
         // Assets
-        [MenuItem("My Tools/Force Refresh Assets &#r", priority = 16)] // Alt+Shift+R
+        [MenuItem("My Tools/Force Refresh Assets #r", priority = 16)] // Shift+R
         private static void ForceRefreshSelectedAsset()
         {
             // Get the selected assets in the Project Window

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace MyTools.Components
+namespace MyTools.Runtime
 {
 [AddComponentMenu("My Tools/Examples/" + nameof(EventListener))]
 	public class EventListener: MonoBehaviour

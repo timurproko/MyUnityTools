@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-namespace MyTools.Components
+namespace MyTools.Runtime
 {
 
     public static class EasingFunctions

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using UnityEditor;
 
 namespace MyTools
@@ -19,6 +20,13 @@ namespace MyTools
             {
                 windowUnderCursor.Focus();
             }
+        }
+        
+        public static void ClearConsole()
+        {
+            var logEntries = Type.GetType("UnityEditor.LogEntries,UnityEditor.dll");
+            var clearMethod = logEntries.GetMethod("Clear", BindingFlags.Static | BindingFlags.Public);
+            clearMethod.Invoke(null, null);
         }
     }
 }

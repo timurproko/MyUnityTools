@@ -1,9 +1,10 @@
 using System;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.Overlays;
+using UnityEngine;
 using UnityEngine.UIElements;
 using System.Reflection;
-using UnityEditor.Toolbars;
 
 namespace MyTools
 {
@@ -14,101 +15,153 @@ namespace MyTools
         {
             var root = new VisualElement();
 
-            var iconsButton = new EditorToolbarButton() { text = "3D Icons" };
-            iconsButton.clicked += ToggleGizmos.ToggleIcons;
-            root.Add(iconsButton);
+            // Icons Toggle (new option)
+            var allIconsToggle = new Toggle("Icons") { value = ToggleAllIcons.IconsEnabled };
+            allIconsToggle.RegisterValueChangedCallback(evt => ToggleAllIcons.ToggleIcons());
+            root.Add(allIconsToggle);
 
-            var outlineButton = new EditorToolbarButton() { text = "Selection Outline" };
-            outlineButton.clicked += ToggleGizmos.ToggleSelectionOutline;
-            root.Add(outlineButton);
+            // 3D Icons Toggle
+            var iconsToggle = new Toggle("3D Icons") { value = GizmoUtility.use3dIcons };
+            iconsToggle.RegisterValueChangedCallback(evt => ToggleGizmos.ToggleIcons(evt.newValue));
+            root.Add(iconsToggle);
 
-            var wireButton = new EditorToolbarButton() { text = "Selection Wire" };
-            wireButton.clicked += ToggleGizmos.ToggleSelectionWire;
-            root.Add(wireButton);
+            // Camera Gizmos Toggle
+            var cameraGizmosToggle = new Toggle("Camera") { value = ToggleGizmos.GetCameraGizmoState() };
+            cameraGizmosToggle.RegisterValueChangedCallback(evt => ToggleGizmos.ToggleCameraGizmos(evt.newValue));
+            root.Add(cameraGizmosToggle);
+
+            // Canvas Gizmos Toggle
+            var canvasGizmosToggle = new Toggle("Canvas") { value = ToggleGizmos.GetCanvasGizmoState() };
+            canvasGizmosToggle.RegisterValueChangedCallback(evt => ToggleGizmos.ToggleCanvasGizmos(evt.newValue));
+            root.Add(canvasGizmosToggle);
+
+            // Selection Outline Toggle
+            var outlineToggle = new Toggle("Selection Outline") { value = ToggleGizmos.GetSelectionOutlineState() };
+            outlineToggle.RegisterValueChangedCallback(evt => ToggleGizmos.ToggleSelectionOutline(evt.newValue));
+            root.Add(outlineToggle);
+
+            // Selection Wire Toggle
+            var wireToggle = new Toggle("Selection Wire") { value = ToggleGizmos.GetSelectionWireState() };
+            wireToggle.RegisterValueChangedCallback(evt => ToggleGizmos.ToggleSelectionWire(evt.newValue));
+            root.Add(wireToggle);
 
             return root;
         }
     }
 
-
-    public class ToggleGizmos
+    public static class ToggleGizmos
     {
-#if !UNITY_5
-        static float iconSize;
-        static bool use3dGizmos;
-#endif
+        // Toggle 3D Icons
+        public static void ToggleIcons(bool state)
+        {
+            GizmoUtility.use3dIcons = state;
+        }
+
+        // Toggle Selection Outline
+        public static void ToggleSelectionOutline(bool state)
+        {
+            Assembly asm = Assembly.GetAssembly(typeof(Editor));
+            Type type = asm.GetType("UnityEditor.AnnotationUtility");
+            if (type != null)
+            {
+                PropertyInfo property =
+                    type.GetProperty("showSelectionOutline", BindingFlags.Static | BindingFlags.NonPublic);
+                property.SetValue(asm, state, null);
+            }
+        }
+
+        // Get Selection Outline State
+        public static bool GetSelectionOutlineState()
+        {
+            Assembly asm = Assembly.GetAssembly(typeof(Editor));
+            Type type = asm.GetType("UnityEditor.AnnotationUtility");
+            if (type != null)
+            {
+                PropertyInfo property =
+                    type.GetProperty("showSelectionOutline", BindingFlags.Static | BindingFlags.NonPublic);
+                return (bool)property.GetValue(asm, null);
+            }
+
+            return false;
+        }
+
+        // Toggle Selection Wire
+        public static void ToggleSelectionWire(bool state)
+        {
+            Assembly asm = Assembly.GetAssembly(typeof(Editor));
+            Type type = asm.GetType("UnityEditor.AnnotationUtility");
+            if (type != null)
+            {
+                PropertyInfo property =
+                    type.GetProperty("showSelectionWire", BindingFlags.Static | BindingFlags.NonPublic);
+                property.SetValue(asm, state, null);
+            }
+        }
+
+        // Get Selection Wire State
+        public static bool GetSelectionWireState()
+        {
+            Assembly asm = Assembly.GetAssembly(typeof(Editor));
+            Type type = asm.GetType("UnityEditor.AnnotationUtility");
+            if (type != null)
+            {
+                PropertyInfo property =
+                    type.GetProperty("showSelectionWire", BindingFlags.Static | BindingFlags.NonPublic);
+                return (bool)property.GetValue(asm, null);
+            }
+
+            return false;
+        }
+
+        // Toggle Camera Gizmos
+        public static void ToggleCameraGizmos(bool state)
+        {
+            GizmoUtility.SetGizmoEnabled(typeof(Camera), state, true);
+        }
+
+        // Get Camera Gizmo State
+        public static bool GetCameraGizmoState()
+        {
+            return true;
+        }
+
+        // Toggle Canvas Gizmos
+        public static void ToggleCanvasGizmos(bool state)
+        {
+            GizmoUtility.SetGizmoEnabled(typeof(Canvas), state, true);
+        }
+
+        // Get Canvas Gizmo State
+        public static bool GetCanvasGizmoState()
+        {
+            return true;
+        }
+    }
+
+    // Toggle Icons State
+    public static class ToggleAllIcons
+    {
+        private static bool iconsEnabled = true;
+
+        public static bool IconsEnabled
+        {
+            get { return iconsEnabled; }
+        }
 
         public static void ToggleIcons()
         {
-            Assembly asm = Assembly.GetAssembly(typeof(Editor));
-            Type type = asm.GetType("UnityEditor.AnnotationUtility");
-            if (type != null)
+            iconsEnabled = !iconsEnabled;
+
+            var componentTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(assembly => assembly.GetTypes())
+                .Where(type => typeof(Component).IsAssignableFrom(type) && !type.IsAbstract);
+
+            foreach (var type in componentTypes)
             {
-                PropertyInfo use3dGizmosProperty =
-                    type.GetProperty("use3dGizmos", BindingFlags.Static | BindingFlags.NonPublic);
-                PropertyInfo iconSizeProperty =
-                    type.GetProperty("iconSize", BindingFlags.Static | BindingFlags.NonPublic);
-
-                float nowIconSize = (float)iconSizeProperty.GetValue(asm, null);
-                if (nowIconSize > 0) // to hide
-                {
-#if UNITY_5
-					EditorPrefs.SetFloat(Strings.prefs_use3dGizmos, nowIconSize);
-#endif
-                    iconSize = nowIconSize;
-                    iconSizeProperty.SetValue(asm, 0, null);
-
-#if UNITY_5
-					bool use3dGizmos = (bool) use3dGizmosProperty.GetValue( asm, null );
-					EditorPrefs.SetBool(Strings.prefs_use3dGizmos, use3dGizmos);
-#else
-                    use3dGizmos = (bool)use3dGizmosProperty.GetValue(asm, null);
-#endif
-                    use3dGizmosProperty.SetValue(asm, true, null);
-                }
-                else // to show
-                {
-#if UNITY_5
-					float iconSize = EditorPrefs.GetFloat(Strings.prefs_iconSize);
-#endif
-                    if (iconSize <= 0)
-                        iconSize = 0.03162277f; // Mathf.Pow(10f, -3f + 3f * 0.5f), see to Convert01ToTexelWorldSize()
-                    iconSizeProperty.SetValue(asm, iconSize, null);
-
-#if UNITY_5
-					bool use3dGizmos = EditorPrefs.GetBool(Strings.prefs_use3dGizmos);
-#endif
-                    use3dGizmosProperty.SetValue(asm, use3dGizmos, null);
-                }
+                GizmoUtility.SetIconEnabled(type, iconsEnabled);
             }
-        }
 
-
-        public static void ToggleSelectionOutline()
-        {
-            Assembly asm = Assembly.GetAssembly(typeof(Editor));
-            Type type = asm.GetType("UnityEditor.AnnotationUtility");
-            if (type != null)
-            {
-                PropertyInfo property = type.GetProperty("showSelectionOutline",
-                    BindingFlags.Static | BindingFlags.NonPublic);
-                bool flag = (bool)property.GetValue(asm, null);
-                property.SetValue(asm, !flag, null);
-            }
-        }
-
-
-        public static void ToggleSelectionWire()
-        {
-            Assembly asm = Assembly.GetAssembly(typeof(Editor));
-            Type type = asm.GetType("UnityEditor.AnnotationUtility");
-            if (type != null)
-            {
-                PropertyInfo property = type.GetProperty("showSelectionWire",
-                    BindingFlags.Static | BindingFlags.NonPublic);
-                bool flag = (bool)property.GetValue(asm, null);
-                property.SetValue(asm, !flag, null);
-            }
+            MyTools.ClearConsole();
         }
     }
 }
