@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace MyTools
 {
-    [Overlay(typeof(SceneView), "Toggle Gizmos")]
+    [Overlay(typeof(SceneView), "Gizmos")]
     public class ToggleGizmosOverlay : Overlay
     {
         public override VisualElement CreatePanelContent()
