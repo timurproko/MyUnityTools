@@ -2,17 +2,18 @@ using System;
 using System.Reflection;
 using UnityEngine;
 using System.Text.RegularExpressions;
+using Sirenix.OdinInspector;
 
 namespace MyTools.Runtime
 {
-    public class AssignColliders : MonoBehaviour
+    public class AddColliders : MonoBehaviour
     {
         private void OnValidate()
         {
             Assign();
         }
-
-        [ContextMenu("Update Colliders")]
+        [Button("Force Update Colliders")]
+        [ContextMenu("Force Update Colliders")]
         public void UpdateColliders()
         {
             Remove();
@@ -59,34 +60,81 @@ namespace MyTools.Runtime
             }
         }
 
-        private void AssignCollidersRecursively(Transform parent)
+private void AssignCollidersRecursively(Transform parent)
+{
+    foreach (Transform child in parent)
+    {
+        string childName = child.gameObject.name;
+
+        if (Regex.IsMatch(childName, @"MeshCollider.*$"))
         {
-            foreach (Transform child in parent)
-            {
-                string childName = child.gameObject.name;
+            Add<MeshCollider>(child);
+        }
+        else if (Regex.IsMatch(childName, @"BoxCollider.*$"))
+        {
+            Add<BoxCollider>(child);
+            BoxCollider collider = child.GetComponent<BoxCollider>();
+        }
+        else if (Regex.IsMatch(childName, @"SphereCollider.*$"))
+        {
+            Add<SphereCollider>(child);
+            SphereCollider collider = child.GetComponent<SphereCollider>();
+        }
+        else if (Regex.IsMatch(childName, @"CapsuleColliderX.*$"))
+        {
+            Add<CapsuleCollider>(child);
+            CapsuleCollider collider = child.GetComponent<CapsuleCollider>();
+            collider.direction = 0;
 
-                if (Regex.IsMatch(childName, @"MeshCollider.*$"))
-                {
-                    Add<MeshCollider>(child);
-                }
-                else if (Regex.IsMatch(childName, @"BoxCollider.*$"))
-                {
-                    Add<BoxCollider>(child);
-                }
-                else if (Regex.IsMatch(childName, @"SphereCollider.*$"))
-                {
-                    Add<SphereCollider>(child);
-                }
-                else if (Regex.IsMatch(childName, @"CapsuleCollider.*$"))
-                {
-                    Add<CapsuleCollider>(child);
-                }
+            float radius = ExtractFloatFromPattern(childName, @"R([0-9]*\.?[0-9]+)");
+            float height = ExtractFloatFromPattern(childName, @"H([0-9]*\.?[0-9]+)");
 
-                // Recursively process the child
-                AssignCollidersRecursively(child);
-            }
+            collider.radius = radius;
+            collider.height = height;
+        }
+        else if (Regex.IsMatch(childName, @"CapsuleColliderY.*$"))
+        {
+            Add<CapsuleCollider>(child);
+            CapsuleCollider collider = child.GetComponent<CapsuleCollider>();
+            collider.direction = 1;
+
+            float radius = ExtractFloatFromPattern(childName, @"R([0-9]*\.?[0-9]+)");
+            float height = ExtractFloatFromPattern(childName, @"H([0-9]*\.?[0-9]+)");
+
+            collider.radius = radius;
+            collider.height = height;
+        }
+        else if (Regex.IsMatch(childName, @"CapsuleColliderZ.*$"))
+        {
+            Add<CapsuleCollider>(child);
+            CapsuleCollider collider = child.GetComponent<CapsuleCollider>();
+            collider.direction = 2;
+
+            float radius = ExtractFloatFromPattern(childName, @"R([0-9]*\.?[0-9]+)");
+            float height = ExtractFloatFromPattern(childName, @"H([0-9]*\.?[0-9]+)");
+
+            collider.radius = radius;
+            collider.height = height;
         }
 
+        // Recursively process the child
+        AssignCollidersRecursively(child);
+    }
+}
+
+// Helper method to extract float values using regex
+private float ExtractFloatFromPattern(string input, string pattern)
+{
+    Match match = Regex.Match(input, pattern);
+    if (match.Success)
+    {
+        // Convert the captured group (i.e., the number) to a float
+        return float.Parse(match.Groups[1].Value);
+    }
+    return 0f; // Return a default value if no match is found
+}
+
+        
         private void Delete<T>(Transform child) where T : Collider
         {
             T[] colliders = child.gameObject.GetComponents<T>();

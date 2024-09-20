@@ -8,9 +8,6 @@ namespace MyTools.Runtime
     [AddComponentMenu("My Tools/Utility/" + nameof(DebugPhysics))]
     public class DebugPhysics : MonoBehaviour
     {
-        [FormerlySerializedAs("_drawCollisionGeometry")]
-        [FormerlySerializedAs("_DrawCollisionGeometry")]
-        [FormerlySerializedAs("_enableDrawCollisionGeometry")]
         [Header("Collision")]
         [SerializeField]
         private bool _drawGeometry = true;
