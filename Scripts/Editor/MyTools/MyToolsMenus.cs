@@ -131,5 +131,82 @@ namespace MyTools
                 }
             }
         }
+
+
+        // Prefab Overrides
+        [MenuItem("My Tools/Apply Prefab Overrides #a", priority = 17)] // Shift+A
+        // private static void ApplyOverrides()
+        // {
+        //     // Get the currently selected GameObject in the hierarchy
+        //     GameObject selectedObject = Selection.activeGameObject;
+        //
+        //     // Check if the selected object is a valid prefab instance
+        //     if (selectedObject == null)
+        //     {
+        //         return;
+        //     }
+        //
+        //     PrefabInstanceStatus prefabStatus = PrefabUtility.GetPrefabInstanceStatus(selectedObject);
+        //
+        //     if (prefabStatus != PrefabInstanceStatus.Connected)
+        //     {
+        //         return;
+        //     }
+        //
+        //     // Apply all overrides to the prefab asset
+        //     GameObject prefabRoot = PrefabUtility.GetOutermostPrefabInstanceRoot(selectedObject);
+        //     if (prefabRoot != null)
+        //     {
+        //         PrefabUtility.ApplyPrefabInstance(prefabRoot, InteractionMode.UserAction);
+        //         Debug.Log("My Tools: Prefab overrides applied successfully to " + prefabRoot.name);
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError("My Tools: Could not find the prefab root.");
+        //     }
+        // }
+        public static void ApplySelectedPrefabOverrides()
+        {
+            GameObject[] selectedObjects = Selection.gameObjects;
+
+            if (selectedObjects.Length == 0)
+            {
+                Debug.LogWarning("My Tools: No GameObjects selected.");
+                return;
+            }
+
+            foreach (var obj in selectedObjects)
+            {
+                // Get the corresponding prefab root object
+                GameObject prefabRoot = PrefabUtility.GetCorrespondingObjectFromSource(obj);
+
+                if (prefabRoot != null)
+                {
+                    // Apply all overrides to the prefab
+                    PrefabUtility.ApplyPrefabInstance(obj, InteractionMode.UserAction);
+                    Debug.Log($"My Tools: Applied overrides to {prefabRoot.name}");
+                }
+                else
+                {
+                    Debug.LogWarning($"My Tools: No prefab found for {obj.name}");
+                }
+            }
+
+            // Deselect and reselect the GameObjects to refresh the Inspector
+            DeselectAndReselect(selectedObjects);
+        }
+
+        // Deselect and then reselect the given GameObjects to refresh the Inspector
+        private static void DeselectAndReselect(GameObject[] selectedObjects)
+        {
+            // Save current selection
+            var currentSelection = selectedObjects;
+
+            // Clear the selection
+            Selection.activeGameObject = null;
+
+            // Reselect the objects after a small delay to ensure the inspector refreshes
+            EditorApplication.delayCall += () => Selection.objects = currentSelection;
+        }
     }
 }
