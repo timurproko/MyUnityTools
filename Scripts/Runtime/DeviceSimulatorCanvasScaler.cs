@@ -31,7 +31,7 @@ namespace MyTools.Runtime
             }
             else
             {
-                Debug.LogError("XR Device Simulator UI(Clone) not found.");
+                Debug.LogError("MyTools: XR Device Simulator UI(Clone) not found.");
             }
         }
     }
