@@ -10,23 +10,18 @@ namespace MyTools.Runtime
 {
     public class AddInstances : MonoBehaviour
     {
-        [InlineButton("GetPath")] [SerializeField]
-        private string instanceFilePath;
+        [InlineButton("FindInstances", "Locate")] [SerializeField]
+        private GameObject instanceFile;
 
         [SerializeField] private string instanceFileSuffix = "Instances";
         [SerializeField] private bool instantiateAtRuntime = true;
         [SerializeField] private bool logMessagesToConsole = true;
 
         private GameObject geoAsset;
-        private bool isStarted;
+        private static bool preferFbx = true; // Track preference for FBX or prefab
 
         private void OnValidate()
         {
-            if (string.IsNullOrEmpty(instanceFilePath))
-            {
-                GetPath();
-            }
-
             LoadGeoAsset();
         }
 
@@ -41,29 +36,126 @@ namespace MyTools.Runtime
             CheckInstanceFile();
         }
 
-        [ContextMenu("Get Instance Path")]
-        [InlineButton("GetPath", "Get Path")]
-        private void GetPath()
+        [ContextMenu("Find Instances")]
+        [InlineButton("FindInstances")]
+        private void FindInstances()
         {
-            instanceFilePath = GetInstancePath();
-            Log($"Instance file path set to: {instanceFilePath}");
+            string foundAssetPath = FindInstanceAssetPath();
+            if (!string.IsNullOrEmpty(foundAssetPath))
+            {
+                instanceFile = AssetDatabase.LoadAssetAtPath<GameObject>(foundAssetPath);
+                if (instanceFile != null)
+                {
+                    Log($"Instance file found at {foundAssetPath}");
+                }
+                else
+                {
+                    LogWarning("Failed to load GameObject from the found asset path.");
+                }
+            }
+        }
+
+        private string FindInstanceAssetPath()
+        {
+            GameObject selectedObject = Selection.activeGameObject;
+            if (selectedObject != null)
+            {
+                string path = FindPrefabPath(selectedObject);
+                if (!string.IsNullOrEmpty(path))
+                {
+                    string assetName = System.IO.Path.GetFileName(path);
+                    string fileNameWithoutExtension = System.IO.Path.GetFileNameWithoutExtension(assetName);
+                    string[] nameParts = fileNameWithoutExtension.Split('_');
+
+                    if (nameParts.Length > 1)
+                    {
+                        string dynamicSuffix = nameParts[^1];
+                        string modifiedAssetName = fileNameWithoutExtension.Replace(dynamicSuffix, instanceFileSuffix);
+
+                        // Find both FBX and prefab paths
+                        string fbxPath = FindAssetPathRecursively(modifiedAssetName + ".fbx");
+                        string prefabPath = FindAssetPathRecursively(modifiedAssetName + ".prefab");
+
+                        // Always try to load FBX first if instanceFile is null
+                        if (instanceFile == null) 
+                        {
+                            if (!string.IsNullOrEmpty(fbxPath))
+                            {
+                                instanceFile = AssetDatabase.LoadAssetAtPath<GameObject>(fbxPath);
+                                Log($"FBX instance file found at {fbxPath}");
+                                preferFbx = false; // Next toggle will look for prefab
+                            }
+                            else if (!string.IsNullOrEmpty(prefabPath))
+                            {
+                                instanceFile = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                                Log($"Prefab instance file found at {prefabPath}");
+                            }
+                        }
+                        else // If instanceFile is not null, continue toggling
+                        {
+                            if (preferFbx)
+                            {
+                                if (!string.IsNullOrEmpty(fbxPath))
+                                {
+                                    instanceFile = AssetDatabase.LoadAssetAtPath<GameObject>(fbxPath);
+                                    Log($"FBX instance file found at {fbxPath}");
+                                }
+                                else
+                                {
+                                    // Fallback to prefab if FBX not found
+                                    if (!string.IsNullOrEmpty(prefabPath))
+                                    {
+                                        instanceFile = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                                        Log($"Prefab instance file found at {prefabPath}");
+                                        preferFbx = true; // Next toggle will look for FBX again
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                if (!string.IsNullOrEmpty(prefabPath))
+                                {
+                                    instanceFile = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+                                    Log($"Prefab instance file found at {prefabPath}");
+                                }
+                                else
+                                {
+                                    // Fallback to FBX if prefab not found
+                                    if (!string.IsNullOrEmpty(fbxPath))
+                                    {
+                                        instanceFile = AssetDatabase.LoadAssetAtPath<GameObject>(fbxPath);
+                                        Log($"FBX instance file found at {fbxPath}");
+                                    }
+                                }
+                            }
+
+                            // Reset the preference regardless of what was found
+                            preferFbx = !preferFbx;
+                        }
+                    }
+                    else
+                    {
+                        LogWarning("The asset name does not follow the expected format with a suffix.");
+                    }
+                }
+                else
+                {
+                    LogWarning("The selected GameObject is not part of a prefab or is not a prefab asset.");
+                }
+            }
+
+            return null;
         }
 
         private static string FindPrefabPath(GameObject go)
         {
             if (PrefabUtility.IsPartOfPrefabInstance(go))
             {
-                string path = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go);
-                return path;
+                return PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go);
             }
 
             string assetPath = AssetDatabase.GetAssetPath(go);
-            if (!string.IsNullOrEmpty(assetPath) && assetPath.EndsWith(".prefab"))
-            {
-                return assetPath;
-            }
-
-            return null;
+            return !string.IsNullOrEmpty(assetPath) && assetPath.EndsWith(".prefab") ? assetPath : null;
         }
 
         private static string FindAssetPathRecursively(string assetName)
@@ -85,65 +177,24 @@ namespace MyTools.Runtime
             return matchingAssets.Count > 0 ? matchingAssets[0] : null;
         }
 
-        private string GetInstancePath()
-        {
-            GameObject selectedObject = Selection.activeGameObject;
-            if (selectedObject != null)
-            {
-                string path = FindPrefabPath(selectedObject);
-                if (!string.IsNullOrEmpty(path))
-                {
-                    string assetName = System.IO.Path.GetFileName(path);
-                    string modifiedAssetName = assetName.Replace("Points", instanceFileSuffix);
-                    string foundAssetPath = FindAssetPathRecursively(modifiedAssetName);
-                    if (!string.IsNullOrEmpty(foundAssetPath))
-                    {
-                        string truncatedPath = System.IO.Path.GetDirectoryName(foundAssetPath);
-                        string finalPath = truncatedPath.Replace("\\", "/");
-                        return finalPath;
-                    }
-
-                    LogWarning($"Asset '{modifiedAssetName}' not found in the Assets folder.");
-                }
-                else
-                {
-                    LogWarning("The selected GameObject is not part of a prefab or is not a prefab asset.");
-                }
-            }
-
-            return null;
-        }
-
         private void CheckInstanceFile()
         {
-            if (geoAsset == null)
-            {
-                LogWarning($"No instance file found at path '{instanceFilePath}'.");
-            }
+            LogIfNoInstanceAssigned();
         }
 
         private void LoadGeoAsset()
         {
-            string objectName = gameObject.name;
-            if (!objectName.EndsWith("_Points"))
+            if (instanceFile == null)
             {
-                LogWarning("The GameObject must be named following the pattern {name}_Points.");
+                LogIfNoInstanceAssigned();
                 return;
             }
 
-            string baseName = objectName.Substring(0, objectName.Length - "_Points".Length);
-            string geoAssetPath = $"{instanceFilePath}/{baseName}_{instanceFileSuffix}.fbx";
-
-            Log($"Loading geoAsset from path: {geoAssetPath}");
-            geoAsset = AssetDatabase.LoadAssetAtPath<GameObject>(geoAssetPath);
+            geoAsset = instanceFile;
 
             if (geoAsset == null)
             {
-                LogError($"Failed to load geoAsset at path: {geoAssetPath}. Please verify the path and asset.");
-            }
-            else
-            {
-                Log($"Successfully loaded geoAsset: {geoAsset.name}");
+                LogWarning($"Failed to load instance GameObject.");
             }
         }
 
@@ -222,14 +273,18 @@ namespace MyTools.Runtime
         [ContextMenu("Add Instances")]
         public void AddInstancesAsChildren()
         {
+            if (instanceFile == null)
+            {
+                LogIfNoInstanceAssigned();
+                return;
+            }
+
+            LoadGeoAsset();
+
             if (geoAsset == null)
             {
-                LoadGeoAsset();
-                if (geoAsset == null)
-                {
-                    CheckInstanceFile();
-                    return;
-                }
+                LogWarning("No valid instance GameObject loaded. Cannot add instances.");
+                return;
             }
 
             int totalAdded = 0;
@@ -262,13 +317,13 @@ namespace MyTools.Runtime
                         }
                         else
                         {
-                            LogWarning($"No matching object with suffix '{suffix}' found in '{geoAsset.name}'");
+                            LogWarning($"No matching object with suffix '{suffix}' found in '{geoAsset.name}'.");
                         }
                     }
                 }
             }
 
-            Log($"Added {totalAdded} instances to points as children.");
+            Log($"Added {totalAdded} instances.");
         }
 
         [ButtonGroup("Instances")]
@@ -313,7 +368,22 @@ namespace MyTools.Runtime
                 totalRemoved++;
             }
 
-            Log($"Removed {totalRemoved} instances from points.");
+            if (totalRemoved > 0)
+            {
+                Log($"Removed {totalRemoved} instances from points.");
+            }
+        }
+
+        private void LogIfNoInstanceAssigned()
+        {
+            if (geoAsset == null && instanceFile == null)
+            {
+                LogWarning("No instance GameObject is assigned.");
+            }
+            else if (instanceFile == null)
+            {
+                LogWarning("No instance GameObject is assigned.");
+            }
         }
 
         private void Log(string message)

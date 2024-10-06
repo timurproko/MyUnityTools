@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.IO;
 using UnityEditor;
 using System.Reflection;
 using UnityEngine;
+using Object = System.Object;
 
 namespace MyTools
 {
@@ -207,6 +210,124 @@ namespace MyTools
 
             // Reselect the objects after a small delay to ensure the inspector refreshes
             EditorApplication.delayCall += () => Selection.objects = currentSelection;
+        }
+
+
+        // Create Prefab
+        [MenuItem("My Tools/Create Prefab from Selection", false, 18)]
+        private static void CreatePrefabFromSelectedFBX()
+        {
+            // Get selected objects in the Project window
+            Object[] selectedObjects = Selection.objects;
+
+            foreach (var selectedObject in selectedObjects)
+            {
+                // Check if the selected object is an FBX file
+                string path = AssetDatabase.GetAssetPath((UnityEngine.Object)selectedObject);
+                if (Path.GetExtension(path).ToLower() == ".fbx")
+                {
+                    // Load the FBX model
+                    GameObject fbxModel = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    if (fbxModel == null)
+                    {
+                        Debug.LogError("Could not load FBX model at path: " + path);
+                        return;
+                    }
+
+                    // Create a prefab from the loaded model
+                    string prefabPath = Path.ChangeExtension(path, ".prefab");
+                    PrefabUtility.SaveAsPrefabAsset(fbxModel, prefabPath);
+
+                    Debug.Log("Prefab created at: " + prefabPath);
+                }
+                else
+                {
+                    Debug.LogWarning("Selected object is not an FBX file: " + path);
+                }
+            }
+        }
+
+
+        // Toggle Isolation on Selection
+        private static GameObject lastSelectedObject;
+        private static bool toggleState;
+        private static HashSet<GameObject> hiddenObjects = new();
+
+        [MenuItem("My Tools/Toggle Isolation on Selection #\\", false, 19)]
+        private static void ToggleObjectVisibility()
+        {
+            GameObject selectedObject = Selection.activeGameObject;
+
+            if (selectedObject == null)
+            {
+                RestoreVisibility();
+                toggleState = false;
+                lastSelectedObject = null;
+                return;
+            }
+
+            if (selectedObject != lastSelectedObject && toggleState)
+            {
+                RestoreVisibility();
+                toggleState = false;
+            }
+
+            if (selectedObject == lastSelectedObject && toggleState)
+            {
+                RestoreVisibility();
+            }
+            else
+            {
+                HideAllExceptSelected(selectedObject);
+            }
+
+            toggleState = !toggleState;
+            lastSelectedObject = selectedObject;
+        }
+
+        private static void HideAllExceptSelected(GameObject selectedObject)
+        {
+            GameObject[] rootObjects = selectedObject.scene.GetRootGameObjects();
+
+            foreach (GameObject obj in rootObjects)
+            {
+                if (obj != selectedObject)
+                {
+                    SetSceneVisibility(obj, false); // Hide the object
+                }
+            }
+
+            SetSceneVisibility(selectedObject, true);
+        }
+
+        private static void SetSceneVisibility(GameObject obj, bool visible)
+        {
+            if (visible)
+            {
+                SceneVisibilityManager.instance.Show(obj, true);
+                hiddenObjects.Remove(obj);
+            }
+            else
+            {
+                SceneVisibilityManager.instance.Hide(obj, true);
+                hiddenObjects.Add(obj);
+            }
+
+            foreach (Transform child in obj.transform)
+            {
+                SetSceneVisibility(child.gameObject, visible);
+            }
+        }
+
+        private static void RestoreVisibility()
+        {
+            // Show all previously hidden objects
+            foreach (GameObject obj in hiddenObjects)
+            {
+                SceneVisibilityManager.instance.Show(obj, true);
+            }
+
+            hiddenObjects.Clear();
         }
     }
 }
