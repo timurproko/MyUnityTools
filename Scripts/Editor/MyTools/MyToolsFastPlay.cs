@@ -6,7 +6,7 @@ namespace MyTools
     [InitializeOnLoad]
     static class FastPlay
     {
-        private const string MENU_NAME = "My Tools/Fast Play Mode &f8";
+        private const string MENU_NAME = "My Tools/Fast Play Mode";
 
         internal static bool _enabled;
 

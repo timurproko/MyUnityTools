@@ -27,7 +27,7 @@ struct g2f
     UNITY_VERTEX_OUTPUT_STEREO
 };
 
-v2g vert (appdata v)
+v2g vert (MeshData v)
 {
     v2g o;
     UNITY_SETUP_INSTANCE_ID(v);

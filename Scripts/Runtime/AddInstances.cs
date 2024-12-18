@@ -18,7 +18,7 @@ namespace MyTools.Runtime
         [ShowIf("customizeSuffix")]
         [SerializeField] private string suffix = "Instances";
         [TitleGroup("Instantiation")]
-        [SerializeField] [PropertyOrder(1)] private bool instantiateAtRuntime;
+        [SerializeField] [PropertyOrder(1)] private bool instantiateAtRuntime = true;
         [TitleGroup("Debugging")]
         [SerializeField] [PropertyOrder(2)] private bool logMessagesToConsole;
 
@@ -173,10 +173,10 @@ namespace MyTools.Runtime
             }
         }
 
-        [ContextMenu("Create Instances")]
+        [ContextMenu("Add Instances")]
         [TitleGroup("Instantiation")]
         [HorizontalGroup("Instantiation/Instance Actions")]
-        [Button("Create Instances")]
+        [Button("Add Instances")]
         public void AddPointInstances()
         {
             if (file == null)

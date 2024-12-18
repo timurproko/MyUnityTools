@@ -248,12 +248,28 @@ namespace MyTools
             }
         }
 
+        
+        // Grid Snapping
         [MenuItem("My Tools/Toggle Grid Snapping &j", priority = 11)] // Alt+J
         public static void ToggleGridSnapping()
         {
+#if UNITY_6000
             EditorSnapSettings.snapEnabled = !EditorSnapSettings.snapEnabled;
+#else
+            Debug.Log("MyTools: Snapping shortcut is not supported in this version.");
+#endif
+        }
+        [MenuItem("My Tools/Toggle Grid Snapping &j", true)]
+        public static bool ValidateToggleGridSnapping()
+        {
+#if UNITY_6000
+            return true;
+#else
+            return false;
+#endif
         }
 
+        
         // Panels
         [MenuItem("My Tools/Toggle Lock %&l", priority = 12)] // Ctrl+Alt+L
         static void ToggleWindowLock()
@@ -361,36 +377,6 @@ namespace MyTools
 
         // Prefab Overrides
         [MenuItem("My Tools/Apply Prefab Overrides #a", priority = 17)] // Shift+A
-        // private static void ApplyOverrides()
-        // {
-        //     // Get the currently selected GameObject in the hierarchy
-        //     GameObject selectedObject = Selection.activeGameObject;
-        //
-        //     // Check if the selected object is a valid prefab instance
-        //     if (selectedObject == null)
-        //     {
-        //         return;
-        //     }
-        //
-        //     PrefabInstanceStatus prefabStatus = PrefabUtility.GetPrefabInstanceStatus(selectedObject);
-        //
-        //     if (prefabStatus != PrefabInstanceStatus.Connected)
-        //     {
-        //         return;
-        //     }
-        //
-        //     // Apply all overrides to the prefab asset
-        //     GameObject prefabRoot = PrefabUtility.GetOutermostPrefabInstanceRoot(selectedObject);
-        //     if (prefabRoot != null)
-        //     {
-        //         PrefabUtility.ApplyPrefabInstance(prefabRoot, InteractionMode.UserAction);
-        //         Debug.Log("My Tools: Prefab overrides applied successfully to " + prefabRoot.name);
-        //     }
-        //     else
-        //     {
-        //         Debug.LogError("My Tools: Could not find the prefab root.");
-        //     }
-        // }
         public static void ApplySelectedPrefabOverrides()
         {
             GameObject[] selectedObjects = Selection.gameObjects;

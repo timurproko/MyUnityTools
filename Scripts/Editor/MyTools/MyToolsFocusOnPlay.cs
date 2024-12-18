@@ -6,7 +6,7 @@ namespace MyTools
     [InitializeOnLoad]
     static class FocusOnPlay
     {
-        private const string MENU_NAME = "My Tools/Focus Game View on Play";
+        private const string MENU_NAME = "My Tools/Focus Game View on Play &f8"; // Alt+F8
         private static bool _enabled;
         private static bool _isOtherView;
 

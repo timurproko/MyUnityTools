@@ -57,7 +57,7 @@ Shader "My Tools/Wireframe/Global/Shaded-Unlit"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 			
-			v2g vert (appdata v)
+			v2g vert (MeshData v)
 			{
 				v2g o;
 				UNITY_SETUP_INSTANCE_ID(v);
