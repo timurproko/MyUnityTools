@@ -19,14 +19,14 @@ namespace SceneViewNavigation
             }
             else
             {
-                if (viewType == SceneViewType.Perspective)
-                {
-                    EnableSkybox();
-                }
-                else
-                {
-                    DisableSkybox();
-                }
+                // if (viewType == SceneViewType.Perspective)
+                // {
+                //     EnableSkybox();
+                // }
+                // else
+                // {
+                //     DisableSkybox();
+                // }
 
                 if (SceneViewNavigationIO.TryGetViewState(viewType, out var savedState))
                 {

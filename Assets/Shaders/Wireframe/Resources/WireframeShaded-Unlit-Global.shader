@@ -18,9 +18,9 @@ Shader "My Tools/Wireframe/Global/Shaded-Unlit"
 			// http://developer.download.nvidia.com/SDK/10/direct3d/Source/SolidWireframe/Doc/SolidWireframe.pdf
 
 			CGPROGRAM
-			#pragma vertex vert
+			#pragma vertex Vertex
 			#pragma geometry geom
-			#pragma fragment frag
+			#pragma fragment Fragment
 
 			#include "UnityCG.cginc"
 
@@ -32,7 +32,7 @@ Shader "My Tools/Wireframe/Global/Shaded-Unlit"
 			uniform float4 _BaseColor = float4(0.0, 0.0, 0.0, 0.0);
 			uniform float _MaxTriSize = 25.0;
 
-			struct appdata
+			struct Attributes
 			{
 				float4 vertex : POSITION;
 				float2 texcoord0 : TEXCOORD0;
@@ -57,7 +57,7 @@ Shader "My Tools/Wireframe/Global/Shaded-Unlit"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 			
-			v2g vert (MeshData v)
+			v2g Vertex (Attributes v)
 			{
 				v2g o;
 				UNITY_SETUP_INSTANCE_ID(v);
@@ -122,7 +122,7 @@ Shader "My Tools/Wireframe/Global/Shaded-Unlit"
 				triangleStream.Append(o);
 			}
 
-			fixed4 frag (g2f i) : SV_Target
+			fixed4 Fragment (g2f i) : SV_Target
 			{
 				float minDistanceToEdge = min(i.dist[0], min(i.dist[1], i.dist[2])) * i.dist[3];
 

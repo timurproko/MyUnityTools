@@ -18,9 +18,9 @@ Shader "My Tools/Wireframe/Global/Transparent"
 			// http://developer.download.nvidia.com/SDK/10/direct3d/Source/SolidWireframe/Doc/SolidWireframe.pdf
 
 			CGPROGRAM
-			#pragma vertex vert
+			#pragma vertex Vertex
 			#pragma geometry geom
-			#pragma fragment frag
+			#pragma fragment Fragment
 
 			#include "UnityCG.cginc"
 			#include "../Wireframe.cginc"
