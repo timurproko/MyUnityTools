@@ -38,14 +38,6 @@ namespace SceneViewBookmarks
             var type = bookmark.type;
             ActiveSceneView.SceneViewType = type;
             SceneViewNavigationIO.WriteToEditorPrefs(type);
-            if (type == SceneViewType.Perspective)
-            {
-                SceneViewNavigationManager.EnableSkybox();
-            }
-            else
-            {
-                SceneViewNavigationManager.DisableSkybox();
-            }
         }
 
         public static void ReturnToPreviousView()
