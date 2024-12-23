@@ -2,6 +2,34 @@
 #define PI  3.14159265358979323846
 #define TAU 6.28318530717958647692
 
+/// PROPERTIES
+// [Header(Category name)][Space(10)]
+
+// _Float ("Float", Float) = 0
+// _Integer ("Integer", Integer) = 0
+// _Range ("Range", Range(0, 1)) = 0
+// _Color ("Color", Color) = (1, 1, 1, 1)
+// _Vector ("Vector", Vector) = (0, 0, 0, 0)
+
+// _Texture2D ("Texture 2D", 2D) = "white" {} 
+// _Texture3D ("Texture 3D", 3D) = "white" {}
+// _CubeMap ("CubeMap Texture", 3D) = "black" {}
+
+// [Toggle] _Boolean ("Boolean", Float) = 0
+// [IntRange] _IntRange ("Range", Range(0, 255)) = 0
+// [KeywordEnum(Option1, Option2, Option3)] _Enum ("Enum", Integer) = 0
+// [PowerSlider(0.5)] _Slider("Slider", Range (0, 1)) = 0
+// [MainTexture] _MainTex ("Main Texture", 2D) = "white" {}
+// [NormalMap] _NormalMap ("Normal Map", 2D) = "bump" {}
+
+/// MESH ATTRIBUTES
+// float4 positionOS : POSITION;       // Vertex position in object space
+// float3 normal : NORMAL;             // Vertex normal
+// float4 tangent : TANGENT;           // Vertex tangent
+// float4 color : COLOR;               // Vertex color (if present)
+// float2 uv : TEXCOORD0;              // First set of UV coordinates
+// float2 uv1 : TEXCOORD1;             // Second set of UV coordinates
+
 /// SUB-SHADER TAGS
 // "RenderPipeline" = "UniversalPipeline"
 
