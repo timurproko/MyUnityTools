@@ -38,7 +38,7 @@ namespace MyTools
 		}
 
 		// Define a menu item that can be accessed via the top menu bar
-		[MenuItem("My Tools/Quick Preview _SPACE", priority = 1)]
+		[MenuItem(MyTools.UNITY_EDITOR_MENU + "Quick Preview _SPACE", priority = 200)]
 		private static void PlaySelectedAudioClip()
 		{
 			// Get the selected object

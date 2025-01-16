@@ -4,22 +4,22 @@ using System.IO;
 using UnityEditor;
 using System.Reflection;
 using UnityEngine;
-using Object = System.Object;
 
 namespace MyTools
 {
-    static class Shortcuts
+    static class Menus
     {
-        // Create Prefab
-        [MenuItem("My Tools/Prefab/Create Prefab from Selection", priority = 0)]
+        private static GameObject lastSelectedObject;
+        private static bool toggleState;
+        private static HashSet<GameObject> hiddenObjects = new();
+
+        [MenuItem(MyTools.ASSETS_AND_PREFABS_MENU + "Create Prefab from Selection", priority = 300)]
         private static void CreatePrefabFromSelectedFBX()
         {
-            // Get selected objects in the Project window
-            Object[] selectedObjects = Selection.objects;
+            System.Object[] selectedObjects = Selection.objects;
 
             foreach (var selectedObject in selectedObjects)
             {
-                // Check if the selected object is an FBX file
                 string path = AssetDatabase.GetAssetPath((UnityEngine.Object)selectedObject);
                 if (Path.GetExtension(path).ToLower() == ".fbx")
                 {
@@ -44,9 +44,39 @@ namespace MyTools
             }
         }
 
-        
-        // Create LOD Groups
-        [MenuItem("My Tools/Prefab/Create Children LOD Groups", priority = 1)]
+        [MenuItem(MyTools.ASSETS_AND_PREFABS_MENU + "Apply Prefab Overrides &a", priority = 300)] // Alt+A
+        public static void ApplySelectedPrefabOverrides()
+        {
+            GameObject[] selectedObjects = Selection.gameObjects;
+
+            if (selectedObjects.Length == 0)
+            {
+                Debug.LogWarning("My Tools: No GameObjects selected.");
+                return;
+            }
+
+            foreach (var obj in selectedObjects)
+            {
+                // Get the corresponding prefab root object
+                GameObject prefabRoot = PrefabUtility.GetCorrespondingObjectFromSource(obj);
+
+                if (prefabRoot != null)
+                {
+                    // Apply all overrides to the prefab
+                    PrefabUtility.ApplyPrefabInstance(obj, InteractionMode.UserAction);
+                    Debug.Log($"My Tools: Applied overrides to {prefabRoot.name}");
+                }
+                else
+                {
+                    Debug.LogWarning($"My Tools: No prefab found for {obj.name}");
+                }
+            }
+
+            Selection.activeGameObject = null;
+            EditorApplication.delayCall += () => Selection.objects = selectedObjects;
+        }
+
+        [MenuItem(MyTools.ASSETS_AND_PREFABS_MENU + "Create Children LOD Groups", priority = 300)]
         static void CopyLODGroupToFirstLevelChildren()
         {
             // Get the currently selected GameObject in the Editor
@@ -107,8 +137,6 @@ namespace MyTools
                 "LOD Group successfully copied to first-level children, renderers assigned, transition sizes set, and LOD Group removed from parent.");
         }
 
-
-        // Helper function to copy the LOD settings
         static void CopyLODGroupSettings(LODGroup source, LODGroup destination)
         {
             if (source == null || destination == null)
@@ -123,7 +151,6 @@ namespace MyTools
             destination.animateCrossFading = source.animateCrossFading;
         }
 
-        // Function to remove all renderers from the LODGroup
         static void RemoveAllRenderersFromLODGroup(LODGroup lodGroup)
         {
             // Clear all renderers for each LOD in the LODGroup
@@ -136,7 +163,6 @@ namespace MyTools
             lodGroup.SetLODs(lods); // Update the LODGroup with cleared renderers
         }
 
-        // Function to assign renderers to the LODGroup based on child names
         static void AssignRenderersToLODGroup(LODGroup lodGroup, Transform child)
         {
             // Create lists to hold the renderers
@@ -189,7 +215,6 @@ namespace MyTools
             lodGroup.SetLODs(lods.ToArray()); // Set the newly created LODs to the LODGroup
         }
 
-        // Function to set Transition % Screen Size for the LODGroup based on number of LODs
         static void SetTransitionScreenSize(LODGroup lodGroup)
         {
             // Get the LODs for the new LODGroup
@@ -232,46 +257,37 @@ namespace MyTools
             lodGroup.SetLODs(lods);
         }
 
-
-        // Grid
-        [MenuItem("My Tools/Toggle Grid %&#g", priority = 10)] // Ctrl+Alt+Shift+G
-        private static void ToggleGridVisibility()
+        [MenuItem(MyTools.ASSETS_AND_PREFABS_MENU + "Force Refresh Assets #r", priority = 300)] // Shift+R
+        private static void ForceRefreshSelectedAsset()
         {
-            // Iterate through all open SceneViews
-            foreach (var sceneView in SceneView.sceneViews)
+            // Get the selected assets in the Project Window
+            var selectedObjects = Selection.objects;
+
+            if (selectedObjects == null || selectedObjects.Length == 0)
             {
-                if (sceneView is SceneView view)
+                // If no assets are selected, refresh all assets
+                AssetDatabase.Refresh();
+                Debug.Log("MyTools: All assets have been refreshed.");
+            }
+            else
+            {
+                foreach (var obj in selectedObjects)
                 {
-                    // Toggle the grid visibility based on its current state
-                    view.showGrid = !view.showGrid;
+                    // Get the path of the selected asset
+                    string assetPath = AssetDatabase.GetAssetPath(obj);
+
+                    if (!string.IsNullOrEmpty(assetPath))
+                    {
+                        // Force refresh the specific asset
+                        AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+                        Debug.Log($"MyTools: {assetPath} has been refreshed.");
+                    }
                 }
             }
         }
 
-        
-        // Grid Snapping
-        [MenuItem("My Tools/Toggle Grid Snapping &j", priority = 11)] // Alt+J
-        public static void ToggleGridSnapping()
-        {
-#if UNITY_6000
-            EditorSnapSettings.snapEnabled = !EditorSnapSettings.snapEnabled;
-#else
-            Debug.Log("MyTools: Snapping shortcut is not supported in this version.");
-#endif
-        }
-        [MenuItem("My Tools/Toggle Grid Snapping &j", true)]
-        public static bool ValidateToggleGridSnapping()
-        {
-#if UNITY_6000
-            return true;
-#else
-            return false;
-#endif
-        }
 
-        
-        // Panels
-        [MenuItem("My Tools/Toggle Lock %&l", priority = 12)] // Ctrl+Alt+L
+        [MenuItem(MyTools.UNITY_EDITOR_MENU + "Toggle Lock %&l", priority = 200)] // Ctrl+Alt+L
         static void ToggleWindowLock()
         {
             // "EditorWindow.focusedWindow" can be used instead
@@ -311,15 +327,13 @@ namespace MyTools
             }
         }
 
-        // Console
-        [MenuItem("My Tools/Clear Console &c", priority = 13)] // Alt+C
+        [MenuItem(MyTools.UNITY_EDITOR_MENU + "Clear Console &c", priority = 200)] // Alt+C
         static void ClearConsole()
         {
             MyTools.ClearConsole();
         }
 
-        // View
-        [MenuItem("My Tools/Maximize %b", priority = 14)] // Ctrl+B
+        [MenuItem(MyTools.UNITY_EDITOR_MENU + "Maximize %b", priority = 200)] // Ctrl+B
         static void Maximize()
         {
             MyTools.ActivateWindowUnderCursor();
@@ -331,8 +345,7 @@ namespace MyTools
             }
         }
 
-        // Tabs
-        [MenuItem("My Tools/Close Tab &w", priority = 15)] // Alt+W
+        [MenuItem(MyTools.UNITY_EDITOR_MENU + "Close Tab &w", priority = 200)] // Alt+W
         static void CloseTab()
         {
             MyTools.ActivateWindowUnderCursor();
@@ -344,90 +357,42 @@ namespace MyTools
             }
         }
 
-        // Assets
-        [MenuItem("My Tools/Force Refresh Assets #r", priority = 16)] // Shift+R
-        private static void ForceRefreshSelectedAsset()
+        
+        [MenuItem(MyTools.SCENE_VIEW_MENU + "Toggle Grid %&#g", priority = 100)] // Ctrl+Alt+Shift+G
+        private static void ToggleGridVisibility()
         {
-            // Get the selected assets in the Project Window
-            var selectedObjects = Selection.objects;
-
-            if (selectedObjects == null || selectedObjects.Length == 0)
+            // Iterate through all open SceneViews
+            foreach (var sceneView in SceneView.sceneViews)
             {
-                // If no assets are selected, refresh all assets
-                AssetDatabase.Refresh();
-                Debug.Log("MyTools: All assets have been refreshed.");
-            }
-            else
-            {
-                foreach (var obj in selectedObjects)
+                if (sceneView is SceneView view)
                 {
-                    // Get the path of the selected asset
-                    string assetPath = AssetDatabase.GetAssetPath(obj);
-
-                    if (!string.IsNullOrEmpty(assetPath))
-                    {
-                        // Force refresh the specific asset
-                        AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
-                        Debug.Log($"MyTools: {assetPath} has been refreshed.");
-                    }
+                    // Toggle the grid visibility based on its current state
+                    view.showGrid = !view.showGrid;
                 }
             }
         }
-
-
-        // Prefab Overrides
-        [MenuItem("My Tools/Apply Prefab Overrides #a", priority = 17)] // Shift+A
-        public static void ApplySelectedPrefabOverrides()
+        
+        [MenuItem(MyTools.SCENE_VIEW_MENU + "Toggle Grid Snapping &j", priority = 100)] // Alt+J
+        public static void ToggleGridSnapping()
         {
-            GameObject[] selectedObjects = Selection.gameObjects;
-
-            if (selectedObjects.Length == 0)
-            {
-                Debug.LogWarning("My Tools: No GameObjects selected.");
-                return;
-            }
-
-            foreach (var obj in selectedObjects)
-            {
-                // Get the corresponding prefab root object
-                GameObject prefabRoot = PrefabUtility.GetCorrespondingObjectFromSource(obj);
-
-                if (prefabRoot != null)
-                {
-                    // Apply all overrides to the prefab
-                    PrefabUtility.ApplyPrefabInstance(obj, InteractionMode.UserAction);
-                    Debug.Log($"My Tools: Applied overrides to {prefabRoot.name}");
-                }
-                else
-                {
-                    Debug.LogWarning($"My Tools: No prefab found for {obj.name}");
-                }
-            }
-
-            // Deselect and reselect the GameObjects to refresh the Inspector
-            DeselectAndReselect(selectedObjects);
+#if UNITY_6000
+            EditorSnapSettings.snapEnabled = !EditorSnapSettings.snapEnabled;
+#else
+            Debug.Log("MyTools: Snapping shortcut is not supported in this version.");
+#endif
         }
 
-        // Deselect and then reselect the given GameObjects to refresh the Inspector
-        private static void DeselectAndReselect(GameObject[] selectedObjects)
+        [MenuItem(MyTools.SCENE_VIEW_MENU + "Toggle Grid Snapping &j", true)]
+        public static bool ValidateToggleGridSnapping()
         {
-            // Save current selection
-            var currentSelection = selectedObjects;
-
-            // Clear the selection
-            Selection.activeGameObject = null;
-
-            // Reselect the objects after a small delay to ensure the inspector refreshes
-            EditorApplication.delayCall += () => Selection.objects = currentSelection;
+#if UNITY_6000
+            return true;
+#else
+            return false;
+#endif
         }
 
-
-        // Toggle Isolation on Selection
-        private static GameObject lastSelectedObject;
-        private static bool toggleState;
-        private static HashSet<GameObject> hiddenObjects = new();
-
-        [MenuItem("My Tools/Toggle Isolation on Selection #\\", false, 19)]
+        [MenuItem(MyTools.SCENE_VIEW_MENU + "Toggle Isolation on Selection #\\", false, 100)]
         private static void ToggleObjectVisibility()
         {
             GameObject selectedObject = Selection.activeGameObject;

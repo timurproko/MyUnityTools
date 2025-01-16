@@ -33,7 +33,7 @@ namespace MyTools
         private static void PerformAction(bool enabled)
         {
             // Set checkmark on menu item
-            Menu.SetChecked(MENU_NAME, enabled);
+            UnityEditor.Menu.SetChecked(MENU_NAME, enabled);
             // Saving editor state
             EditorPrefs.SetBool(MENU_NAME, enabled);
 
