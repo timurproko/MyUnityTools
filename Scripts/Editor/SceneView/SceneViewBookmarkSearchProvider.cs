@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditor.Search;
 using UnityEngine;
 
-namespace SceneViewBookmarks
+namespace SceneViewTools
 {
     /// <summary>
     /// Adds an alternative way to access bookmarks via Unity's Search window.

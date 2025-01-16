@@ -9,10 +9,6 @@ namespace MyTools
 {
     static class Menus
     {
-        private static GameObject lastSelectedObject;
-        private static bool toggleState;
-        private static HashSet<GameObject> hiddenObjects = new();
-
         [MenuItem(MyTools.ASSETS_AND_PREFABS_MENU + "Create Prefab from Selection", priority = 300)]
         private static void CreatePrefabFromSelectedFBX()
         {
@@ -355,118 +351,6 @@ namespace MyTools
             {
                 window.Close();
             }
-        }
-
-        
-        [MenuItem(MyTools.SCENE_VIEW_MENU + "Toggle Grid %&#g", priority = 100)] // Ctrl+Alt+Shift+G
-        private static void ToggleGridVisibility()
-        {
-            // Iterate through all open SceneViews
-            foreach (var sceneView in SceneView.sceneViews)
-            {
-                if (sceneView is SceneView view)
-                {
-                    // Toggle the grid visibility based on its current state
-                    view.showGrid = !view.showGrid;
-                }
-            }
-        }
-        
-        [MenuItem(MyTools.SCENE_VIEW_MENU + "Toggle Grid Snapping &j", priority = 100)] // Alt+J
-        public static void ToggleGridSnapping()
-        {
-#if UNITY_6000
-            EditorSnapSettings.snapEnabled = !EditorSnapSettings.snapEnabled;
-#else
-            Debug.Log("MyTools: Snapping shortcut is not supported in this version.");
-#endif
-        }
-
-        [MenuItem(MyTools.SCENE_VIEW_MENU + "Toggle Grid Snapping &j", true)]
-        public static bool ValidateToggleGridSnapping()
-        {
-#if UNITY_6000
-            return true;
-#else
-            return false;
-#endif
-        }
-
-        [MenuItem(MyTools.SCENE_VIEW_MENU + "Toggle Isolation on Selection #\\", false, 100)]
-        private static void ToggleObjectVisibility()
-        {
-            GameObject selectedObject = Selection.activeGameObject;
-
-            if (selectedObject == null)
-            {
-                RestoreVisibility();
-                toggleState = false;
-                lastSelectedObject = null;
-                return;
-            }
-
-            if (selectedObject != lastSelectedObject && toggleState)
-            {
-                RestoreVisibility();
-                toggleState = false;
-            }
-
-            if (selectedObject == lastSelectedObject && toggleState)
-            {
-                RestoreVisibility();
-            }
-            else
-            {
-                HideAllExceptSelected(selectedObject);
-            }
-
-            toggleState = !toggleState;
-            lastSelectedObject = selectedObject;
-        }
-
-        private static void HideAllExceptSelected(GameObject selectedObject)
-        {
-            GameObject[] rootObjects = selectedObject.scene.GetRootGameObjects();
-
-            foreach (GameObject obj in rootObjects)
-            {
-                if (obj != selectedObject)
-                {
-                    SetSceneVisibility(obj, false); // Hide the object
-                }
-            }
-
-            SetSceneVisibility(selectedObject, true);
-        }
-
-        private static void SetSceneVisibility(GameObject obj, bool visible)
-        {
-            if (visible)
-            {
-                SceneVisibilityManager.instance.Show(obj, true);
-                hiddenObjects.Remove(obj);
-            }
-            else
-            {
-                SceneVisibilityManager.instance.Hide(obj, true);
-                hiddenObjects.Add(obj);
-            }
-
-            foreach (Transform child in obj.transform)
-            {
-                SetSceneVisibility(child.gameObject, visible);
-            }
-        }
-
-        private static void RestoreVisibility()
-        {
-            // Show all previously hidden objects
-            foreach (GameObject obj in hiddenObjects)
-            {
-                SceneVisibilityManager.instance.Show(obj, true);
-            }
-
-            hiddenObjects.Clear();
         }
     }
 }

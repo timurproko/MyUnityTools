@@ -1,8 +1,7 @@
 using UnityEditor;
 using UnityEngine;
-using SceneViewNavigation;
 
-namespace SceneViewBookmarks
+namespace SceneViewTools
 {
     static class SceneViewBookmarkManager
     {

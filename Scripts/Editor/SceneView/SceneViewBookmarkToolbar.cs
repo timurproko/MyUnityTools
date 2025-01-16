@@ -1,10 +1,9 @@
-#if UNITY_2021_2_OR_NEWER
 using UnityEditor;
 using UnityEditor.Overlays;
 using UnityEditor.Toolbars;
 using UnityEngine;
 
-namespace SceneViewBookmarks
+namespace SceneViewTools
 {
     [Overlay(typeof(SceneView), "Scene View Bookmarks")]
     [Icon(SceneViewBookmarkManager.iconPath)]
@@ -78,4 +77,3 @@ namespace SceneViewBookmarks
         }
     }
 }
-#endif
