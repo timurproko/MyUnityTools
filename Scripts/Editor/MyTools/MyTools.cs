@@ -6,11 +6,14 @@ namespace MyTools
 {
     public static class MyTools
     {
+        // Menu:
         private const string MY_TOOLS_MENU = "My Tools/";
         public const string ASSETS_AND_PREFABS_MENU = MY_TOOLS_MENU + "Assets && Prefabs/";
         public const string SCENE_VIEW_MENU = MY_TOOLS_MENU + "Scene View Tools/";
         public const string UNITY_EDITOR_MENU = MY_TOOLS_MENU + "Unity Editor/";
+        public const string SELECTION_MENU = MY_TOOLS_MENU + "Selection Groups/";
         
+        // Functions:
         public static EditorWindow GetView(string name)
         {
             Type viewType = typeof(Editor).Assembly.GetType(name);

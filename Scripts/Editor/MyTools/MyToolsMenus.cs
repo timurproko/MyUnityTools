@@ -341,7 +341,7 @@ namespace MyTools
             }
         }
 
-        [MenuItem(MyTools.UNITY_EDITOR_MENU + "Close Tab &w", priority = 200)] // Alt+W
+        [MenuItem(MyTools.UNITY_EDITOR_MENU + "Close Tab %w", priority = 200)] // Ctrl+W
         static void CloseTab()
         {
             MyTools.ActivateWindowUnderCursor();
