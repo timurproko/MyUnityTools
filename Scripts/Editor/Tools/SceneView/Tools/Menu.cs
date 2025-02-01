@@ -10,22 +10,22 @@ namespace SceneViewTools
         private static bool toggleState;
         private static HashSet<GameObject> hiddenObjects = new();
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Reset Current View &h",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 100)] //  Alt+H
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Reset Current View &h",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 100)] //  Alt+H
         public static void ResetSceneViewCamera()
         {
             SceneViewNavigationManager.RedrawLastSavedSceneView();
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Reset All Views %&h",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 101)] // Ctrl+Alt+H
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Reset All Views %&h",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 101)] // Ctrl+Alt+H
         public static void ResetAllViews()
         {
             SceneViewNavigationManager.ResetAllSceneViews();
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle Projection _o",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 200)] // O
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Projection _o",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 200)] // O
         public static void ToggleProjection()
         {
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
@@ -38,8 +38,8 @@ namespace SceneViewTools
             ActiveSceneView.sceneView.Repaint();
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle 2D View &o",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 201)] // Alt+O
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle 2D View &o",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 201)] // Alt+O
         public static void Toggle2DView()
         {
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
@@ -61,8 +61,8 @@ namespace SceneViewTools
             }
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle Skybox &s",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 202)] //  Alt+S
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Skybox &s",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 202)] //  Alt+S
         static void ToggleSkybox()
         {
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
@@ -76,16 +76,16 @@ namespace SceneViewTools
             }
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle All Gizmos &g",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 203)] // Alt+G
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle All Gizmos &g",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 203)] // Alt+G
         public static void ToggleSceneViewGizmos()
         {
             var currentValue = SceneViewNavigationManager.GetSceneViewGizmosEnabled();
             SceneViewNavigationManager.SetSceneViewGizmos(!currentValue);
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle Grid Snapping &j",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 204)] // Alt+J
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Grid Snapping &j",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 204)] // Alt+J
         public static void ToggleGridSnapping()
         {
 #if UNITY_6000
@@ -95,7 +95,7 @@ namespace SceneViewTools
 #endif
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle Grid Snapping &j", true)]
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Grid Snapping &j", true)]
         public static bool ValidateToggleGridSnapping()
         {
 #if UNITY_6000
@@ -105,8 +105,8 @@ namespace SceneViewTools
 #endif
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle Grid %&#g",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 205)] // Ctrl+Alt+Shift+G
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Grid %&#g",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 205)] // Ctrl+Alt+Shift+G
         private static void ToggleGridVisibility()
         {
             foreach (var sceneView in SceneView.sceneViews)
@@ -118,8 +118,8 @@ namespace SceneViewTools
             }
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle Isolation on Selection #\\", false,
-            MyTools.Menu.TOOLS_MENU_INDEX + 206)] // Shift+\
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Isolation on Selection #\\", false,
+            MyTools.Menus.SCENE_VIEW_INDEX + 206)] // Shift+\
         private static void ToggleObjectVisibility()
         {
             GameObject selectedObject = Selection.activeGameObject;
@@ -195,8 +195,8 @@ namespace SceneViewTools
             hiddenObjects.Clear();
         }
 
-        [MenuItem(MyTools.Menu.TOOLS_MENU + "Frame Selected &f",
-            priority = MyTools.Menu.TOOLS_MENU_INDEX + 300)] //  Alt+F
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Frame Selected &f",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 300)] //  Alt+F
         static void FrameSelected()
         {
             SceneView.FrameLastActiveSceneView();

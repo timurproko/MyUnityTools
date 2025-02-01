@@ -31,7 +31,7 @@ namespace MyTools
             }
         }
 
-        [MenuItem(Menu.EDITOR_MENU + "Quick Preview _SPACE", priority = Menu.EDITOR_MENU_INDEX + 100)]
+        [MenuItem(Menus.EDITOR_MENU + "Quick Preview _SPACE", priority = Menus.EDITOR_INDEX + 100)]
         private static void PlaySelectedAudioClip()
         {
             Object selectedObject = Selection.activeObject;

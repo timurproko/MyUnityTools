@@ -14,105 +14,105 @@ namespace MyTools
             return $"{PrefsKeyPrefix}{projectName}_{slot}";
         }
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 1 #1", priority = Menu.SELECTION_MENU_INDEX + 100)] // Shift+1
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 1 #1", priority = Menus.SELECTION_INDEX + 100)] // Shift+1
         private static void SaveSelectionSlot1() => SaveSelection(1);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 2 #2", priority = Menu.SELECTION_MENU_INDEX + 101)] // Shift+2
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 2 #2", priority = Menus.SELECTION_INDEX + 101)] // Shift+2
         private static void SaveSelectionSlot2() => SaveSelection(2);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 3 #3", priority = Menu.SELECTION_MENU_INDEX + 102)] // Shift+3
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 3 #3", priority = Menus.SELECTION_INDEX + 102)] // Shift+3
         private static void SaveSelectionSlot3() => SaveSelection(3);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 4 #4", priority = Menu.SELECTION_MENU_INDEX + 103)] // Shift+4
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 4 #4", priority = Menus.SELECTION_INDEX + 103)] // Shift+4
         private static void SaveSelectionSlot4() => SaveSelection(4);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 5 #5", priority = Menu.SELECTION_MENU_INDEX + 104)] // Shift+5
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 5 #5", priority = Menus.SELECTION_INDEX + 104)] // Shift+5
         private static void SaveSelectionSlot5() => SaveSelection(5);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 6 #6", priority = Menu.SELECTION_MENU_INDEX + 105)] // Shift+6
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 6 #6", priority = Menus.SELECTION_INDEX + 105)] // Shift+6
         private static void SaveSelectionSlot6() => SaveSelection(6);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 7 #7", priority = Menu.SELECTION_MENU_INDEX + 106)] // Shift+7
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 7 #7", priority = Menus.SELECTION_INDEX + 106)] // Shift+7
         private static void SaveSelectionSlot7() => SaveSelection(7);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 8 #8", priority = Menu.SELECTION_MENU_INDEX + 107)] // Shift+8
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 8 #8", priority = Menus.SELECTION_INDEX + 107)] // Shift+8
         private static void SaveSelectionSlot8() => SaveSelection(8);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 9 #9", priority = Menu.SELECTION_MENU_INDEX + 108)] // Shift+9
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 9 #9", priority = Menus.SELECTION_INDEX + 108)] // Shift+9
         private static void SaveSelectionSlot9() => SaveSelection(9);
 
-        [MenuItem(Menu.SELECTION_MENU + "Save Selection 0 #0", priority = Menu.SELECTION_MENU_INDEX + 109)] // Shift+0
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 0 #0", priority = Menus.SELECTION_INDEX + 109)] // Shift+0
         private static void SaveSelectionSlot10() => SaveSelection(10);
 
         // Загрузка выделения с проверкой
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 1 _1", priority = Menu.SELECTION_MENU_INDEX + 200,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 1 _1", priority = Menus.SELECTION_INDEX + 200,
             validate = true)] // 1
         private static bool ValidateLoadSelection1() => HasSavedSelection(1);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 1 _1", priority = Menu.SELECTION_MENU_INDEX + 200)] // 1
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 1 _1", priority = Menus.SELECTION_INDEX + 200)] // 1
         private static void LoadSelectionSlot1() => LoadSelection(1);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 2 _2", priority = Menu.SELECTION_MENU_INDEX + 201,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 2 _2", priority = Menus.SELECTION_INDEX + 201,
             validate = true)] // 2
         private static bool ValidateLoadSelection2() => HasSavedSelection(2);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 2 _2", priority = Menu.SELECTION_MENU_INDEX + 201)] // 2
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 2 _2", priority = Menus.SELECTION_INDEX + 201)] // 2
         private static void LoadSelectionSlot2() => LoadSelection(2);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 3 _3", priority = Menu.SELECTION_MENU_INDEX + 202,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 3 _3", priority = Menus.SELECTION_INDEX + 202,
             validate = true)] // 3
         private static bool ValidateLoadSelection3() => HasSavedSelection(3);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 3 _3", priority = Menu.SELECTION_MENU_INDEX + 202)] // 3
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 3 _3", priority = Menus.SELECTION_INDEX + 202)] // 3
         private static void LoadSelectionSlot3() => LoadSelection(3);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 4 _4", priority = Menu.SELECTION_MENU_INDEX + 203,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 4 _4", priority = Menus.SELECTION_INDEX + 203,
             validate = true)] // 4
         private static bool ValidateLoadSelection4() => HasSavedSelection(4);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 4 _4", priority = Menu.SELECTION_MENU_INDEX + 203)] // 4
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 4 _4", priority = Menus.SELECTION_INDEX + 203)] // 4
         private static void LoadSelectionSlot4() => LoadSelection(4);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 5 _5", priority = Menu.SELECTION_MENU_INDEX + 204,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 5 _5", priority = Menus.SELECTION_INDEX + 204,
             validate = true)] // 5
         private static bool ValidateLoadSelection5() => HasSavedSelection(5);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 5 _5", priority = Menu.SELECTION_MENU_INDEX + 204)] // 5
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 5 _5", priority = Menus.SELECTION_INDEX + 204)] // 5
         private static void LoadSelectionSlot5() => LoadSelection(5);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 6 _6", priority = Menu.SELECTION_MENU_INDEX + 205,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 6 _6", priority = Menus.SELECTION_INDEX + 205,
             validate = true)] // 6
         private static bool ValidateLoadSelection6() => HasSavedSelection(6);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 6 _6", priority = Menu.SELECTION_MENU_INDEX + 205)] // 6
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 6 _6", priority = Menus.SELECTION_INDEX + 205)] // 6
         private static void LoadSelectionSlot6() => LoadSelection(6);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 7 _7", priority = Menu.SELECTION_MENU_INDEX + 206,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 7 _7", priority = Menus.SELECTION_INDEX + 206,
             validate = true)] // 7
         private static bool ValidateLoadSelection7() => HasSavedSelection(7);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 7 _7", priority = Menu.SELECTION_MENU_INDEX + 206)] // 7
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 7 _7", priority = Menus.SELECTION_INDEX + 206)] // 7
         private static void LoadSelectionSlot7() => LoadSelection(7);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 8 _8", priority = Menu.SELECTION_MENU_INDEX + 207,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 8 _8", priority = Menus.SELECTION_INDEX + 207,
             validate = true)] // 8
         private static bool ValidateLoadSelection8() => HasSavedSelection(8);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 8 _8", priority = Menu.SELECTION_MENU_INDEX + 207)] // 8
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 8 _8", priority = Menus.SELECTION_INDEX + 207)] // 8
         private static void LoadSelectionSlot8() => LoadSelection(8);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 9 _9", priority = Menu.SELECTION_MENU_INDEX + 208,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 9 _9", priority = Menus.SELECTION_INDEX + 208,
             validate = true)] // 9
         private static bool ValidateLoadSelection9() => HasSavedSelection(9);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 9 _9", priority = Menu.SELECTION_MENU_INDEX + 208)] // 9
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 9 _9", priority = Menus.SELECTION_INDEX + 208)] // 9
         private static void LoadSelectionSlot9() => LoadSelection(9);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 0 _0", priority = Menu.SELECTION_MENU_INDEX + 209,
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 0 _0", priority = Menus.SELECTION_INDEX + 209,
             validate = true)] // 0
         private static bool ValidateLoadSelection10() => HasSavedSelection(10);
 
-        [MenuItem(Menu.SELECTION_MENU + "Load Selection 0 _0", priority = Menu.SELECTION_MENU_INDEX + 209)] // 0
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 0 _0", priority = Menus.SELECTION_INDEX + 209)] // 0
         private static void LoadSelectionSlot10() => LoadSelection(10);
 
         private static void SaveSelection(int slot)

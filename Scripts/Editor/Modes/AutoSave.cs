@@ -7,7 +7,8 @@ namespace MyTools
     [InitializeOnLoad]
     internal static class AutoSave
     {
-        private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Auto Save on Play";
+        private const string MENU_NAME = Menus.MY_TOOLS_MENU + "Auto Save on Play";
+        private const int ITEM_INDEX = Menus.MODES_INDEX + 101;
         internal static bool _enabled;
 
         static AutoSave()
@@ -17,7 +18,7 @@ namespace MyTools
             EditorApplication.delayCall += () => { PerformAction(_enabled); };
         }
 
-        [MenuItem(MENU_NAME)]
+        [MenuItem(MENU_NAME, priority = ITEM_INDEX)]
         private static void ToggleAction()
         {
             PerformAction(!_enabled);

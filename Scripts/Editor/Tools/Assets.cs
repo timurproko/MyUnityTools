@@ -7,7 +7,7 @@ namespace MyTools
 {
     static class Assets
     {
-        [MenuItem(Menu.ASSETS_MENU + "Create Prefab from Selection #c", priority = Menu.ASSETS_MENU_INDEX + 100)] // Shift+C
+        [MenuItem(Menus.ASSETS_MENU + "Create Prefab from Selection #c", priority = Menus.ASSETS_INDEX + 100)] // Shift+C
         private static void CreatePrefabFromSelectedFBX()
         {
             System.Object[] selectedObjects = Selection.objects;
@@ -36,7 +36,7 @@ namespace MyTools
             }
         }
         
-        [MenuItem(Menu.ASSETS_MENU + "Apply Prefab Overrides #a", priority = Menu.ASSETS_MENU_INDEX + 101)] // Shift+A
+        [MenuItem(Menus.ASSETS_MENU + "Apply Prefab Overrides #a", priority = Menus.ASSETS_INDEX + 101)] // Shift+A
         public static void ApplySelectedPrefabOverrides()
         {
             GameObject[] selectedObjects = Selection.gameObjects;
@@ -66,7 +66,7 @@ namespace MyTools
             EditorApplication.delayCall += () => Selection.objects = selectedObjects;
         }
 
-        [MenuItem(Menu.ASSETS_MENU + "Force Refresh Assets #r", priority = Menu.ASSETS_MENU_INDEX + 102)] // Shift+R
+        [MenuItem(Menus.ASSETS_MENU + "Force Refresh Assets #r", priority = Menus.ASSETS_INDEX + 102)] // Shift+R
         private static void ForceRefreshSelectedAsset()
         {
             var selectedObjects = Selection.objects;
@@ -91,7 +91,7 @@ namespace MyTools
             }
         }
         
-        [MenuItem(Menu.ASSETS_MENU + "Create Children LOD Groups", priority = Menu.ASSETS_MENU_INDEX + 103)]
+        [MenuItem(Menus.ASSETS_MENU + "Create Children LOD Groups", priority = Menus.ASSETS_INDEX + 103)]
         static void CopyLODGroupToFirstLevelChildren()
         {
             GameObject selected = Selection.activeGameObject;

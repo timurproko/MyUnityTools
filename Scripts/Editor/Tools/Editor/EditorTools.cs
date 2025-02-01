@@ -6,7 +6,7 @@ namespace MyTools
 {
     internal static class EditorTools
     {
-        [MenuItem(Menu.EDITOR_MENU + "Maximize Tab %b", priority = Menu.EDITOR_MENU_INDEX + 200)] // Ctrl+B
+        [MenuItem(Menus.EDITOR_MENU + "Maximize Tab %b", priority = Menus.EDITOR_INDEX + 200)] // Ctrl+B
         static void Maximize()
         {
             Functions.ActivateWindowUnderCursor();
@@ -17,7 +17,7 @@ namespace MyTools
             }
         }
 
-        [MenuItem(Menu.EDITOR_MENU + "Close Tab %w", priority = Menu.EDITOR_MENU_INDEX + 201)] // Ctrl+W
+        [MenuItem(Menus.EDITOR_MENU + "Close Tab %w", priority = Menus.EDITOR_INDEX + 201)] // Ctrl+W
         static void CloseTab()
         {
             Functions.ActivateWindowUnderCursor();
@@ -28,7 +28,7 @@ namespace MyTools
             }
         }
 
-        [MenuItem(Menu.EDITOR_MENU + "Lock Tab %&l", priority = Menu.EDITOR_MENU_INDEX + 202)] // Ctrl+Alt+L
+        [MenuItem(Menus.EDITOR_MENU + "Lock Tab %&l", priority = Menus.EDITOR_INDEX + 202)] // Ctrl+Alt+L
         static void ToggleWindowLock()
         {
             EditorWindow windowToBeLocked = EditorWindow.mouseOverWindow;
@@ -67,7 +67,7 @@ namespace MyTools
             }
         }
 
-        [MenuItem(Menu.EDITOR_MENU + "Clear Console %l", priority = Menu.EDITOR_MENU_INDEX + 300)] // Ctrl+L
+        [MenuItem(Menus.EDITOR_MENU + "Clear Console %l", priority = Menus.EDITOR_INDEX + 300)] // Ctrl+L
         static void ClearConsole()
         {
             Functions.ClearConsole();

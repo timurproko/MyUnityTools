@@ -6,7 +6,8 @@ namespace MyTools
     [InitializeOnLoad]
     internal static class MaximizeOnPlay
     {
-        private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Maximize Game View on Play &f11";
+        private const string MENU_NAME = Menus.MY_TOOLS_MENU + "Game View Maximize on Play &f11"; // Alt+F11
+        private const int ITEM_INDEX = Menus.MODES_INDEX + 103;
         private static bool _enabled;
 
         static MaximizeOnPlay()
@@ -18,7 +19,7 @@ namespace MyTools
             EditorApplication.pauseStateChanged += OnPauseStateChanged;
         }
 
-        [MenuItem(MENU_NAME)]
+        [MenuItem(MENU_NAME, priority = ITEM_INDEX)]
         private static void ToggleAction()
         {
             PerformAction(!_enabled);

@@ -6,7 +6,8 @@ namespace MyTools
     [InitializeOnLoad]
     internal static class FocusOnPlay
     {
-        private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Focus Game View on Play &f8"; // Alt+F8
+        private const string MENU_NAME = Menus.MY_TOOLS_MENU + "Game View Focus on Play &f8"; // Alt+F8
+        private const int ITEM_INDEX = Menus.MODES_INDEX + 102;
         private static bool _enabled;
         private static bool _isOtherView;
 
@@ -19,7 +20,7 @@ namespace MyTools
             EditorApplication.pauseStateChanged += OnPauseStateChanged;
         }
 
-        [MenuItem(MENU_NAME)]
+        [MenuItem(MENU_NAME, priority = ITEM_INDEX)]
         private static void ToggleAction()
         {
             PerformAction(!_enabled);

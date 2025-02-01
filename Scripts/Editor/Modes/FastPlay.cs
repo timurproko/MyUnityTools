@@ -6,7 +6,8 @@ namespace MyTools
     [InitializeOnLoad]
     internal static class FastPlay
     {
-        private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Fast Play Mode";
+        private const string MENU_NAME = Menus.MY_TOOLS_MENU + "Fast Play Mode";
+        private const int ITEM_INDEX = Menus.MODES_INDEX + 100;
         private static bool _enabled;
 
         static FastPlay()
@@ -16,7 +17,7 @@ namespace MyTools
             EditorApplication.delayCall += () => { PerformAction(_enabled); };
         }
 
-        [MenuItem(MENU_NAME)]
+        [MenuItem(MENU_NAME, priority = ITEM_INDEX)]
         private static void ToggleAction()
         {
             PerformAction(!_enabled);
