@@ -119,7 +119,7 @@ namespace SceneViewTools
         }
 
         [MenuItem(MyTools.Menu.TOOLS_MENU + "Toggle Isolation on Selection #\\", false,
-            MyTools.Menu.TOOLS_MENU_INDEX + 206)]
+            MyTools.Menu.TOOLS_MENU_INDEX + 206)] // Shift+\
         private static void ToggleObjectVisibility()
         {
             GameObject selectedObject = Selection.activeGameObject;
