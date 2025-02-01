@@ -112,7 +112,7 @@ namespace MyTools
 
         private static PropertyInfo GetAnnotationUtilityPropertyInfo(string propertyName)
         {
-            var asm = Assembly.GetAssembly(typeof(Editor));
+            var asm = Assembly.GetAssembly(typeof(UnityEditor.Editor));
             var type = asm?.GetType("UnityEditor.AnnotationUtility");
             return type?.GetProperty(propertyName, BindingFlags.Static | BindingFlags.NonPublic);
         }

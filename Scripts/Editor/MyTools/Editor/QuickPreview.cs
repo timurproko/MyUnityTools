@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MyTools
 {
-    static class QuickPreview
+    internal static class QuickPreview
     {
         private static AudioSource audioSource;
         private static GameObject audioSourceObject;

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MyTools
 {
     [InitializeOnLoad]
-    static class MaximizeOnPlay
+    internal static class MaximizeOnPlay
     {
         private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Maximize Game View on Play &f11";
         private static bool _enabled;
@@ -57,15 +57,16 @@ namespace MyTools
 
         private static void OnPauseStateChanged(PauseState state)
         {
-            if (!_enabled) return;
-            switch (state)
+            if (_enabled)
             {
-                case PauseState.Paused:
+                if (state == PauseState.Paused)
+                {
                     MaximizeGameView(false);
-                    break;
-                case PauseState.Unpaused:
+                }
+                else if (state == PauseState.Unpaused)
+                {
                     MaximizeGameView(true);
-                    break;
+                }
             }
         }
 

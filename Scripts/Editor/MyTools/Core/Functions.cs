@@ -8,7 +8,7 @@ namespace MyTools
     {
         public static EditorWindow GetView(string name)
         {
-            Type viewType = typeof(Editor).Assembly.GetType(name);
+            Type viewType = typeof(UnityEditor.Editor).Assembly.GetType(name);
             return EditorWindow.GetWindow(viewType);
         }
         

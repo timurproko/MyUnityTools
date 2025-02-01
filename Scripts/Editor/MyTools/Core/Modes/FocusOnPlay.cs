@@ -4,9 +4,9 @@ using UnityEngine;
 namespace MyTools
 {
     [InitializeOnLoad]
-    static class FocusOnPlay
+    internal static class FocusOnPlay
     {
-        private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Focus Game View on Play &f8";  // Alt+F8
+        private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Focus Game View on Play &f8"; // Alt+F8
         private static bool _enabled;
         private static bool _isOtherView;
 

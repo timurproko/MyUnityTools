@@ -5,10 +5,9 @@ using UnityEngine;
 namespace MyTools
 {
     [InitializeOnLoad]
-    static class AutoSave
+    internal static class AutoSave
     {
         private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Auto Save on Play";
-
         internal static bool _enabled;
 
         static AutoSave()

@@ -4,7 +4,7 @@ using UnityEngine;
 namespace MyTools
 {
     [InitializeOnLoad]
-    static class FastPlay
+    internal static class FastPlay
     {
         private const string MENU_NAME = Menu.MY_TOOLS_MENU + "Fast Play Mode";
         private static bool _enabled;
@@ -37,7 +37,14 @@ namespace MyTools
             EditorSettings.enterPlayModeOptionsEnabled = enabled;
             AssetDatabase.Refresh();
             bool playModeState = EditorSettings.enterPlayModeOptionsEnabled;
-            Debug.Log(playModeState ? "MyTools: Fast Play Mode is Enabled" : "MyTools: Fast Play Mode is Disabled");
+            if (playModeState)
+            {
+                Debug.Log($"MyTools: Fast Play Mode is Enabled");
+            }
+            else
+            {
+                Debug.Log($"MyTools: Fast Play Mode is Disabled");
+            }
         }
     }
 }
