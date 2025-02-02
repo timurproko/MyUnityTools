@@ -7,13 +7,13 @@ namespace SceneViewTools
 {
     [Overlay(typeof(SceneView), "Scene View Bookmarks")]
     [Icon(SceneViewBookmarkManager.iconPath)]
-    class SceneViewBookmarkToolbarOverlay : ToolbarOverlay
+    internal class SceneViewBookmarkToolbarOverlay : ToolbarOverlay
     {
         SceneViewBookmarkToolbarOverlay() : base(SceneViewBookmarkToolbarDropdown.id) {}
     }
 
     [EditorToolbarElement(id, typeof(SceneView))]
-    class SceneViewBookmarkToolbarDropdown : EditorToolbarDropdown
+    internal class SceneViewBookmarkToolbarDropdown : EditorToolbarDropdown
     {
         public const string id = "SceneViewBookmarkToolbarDropdown";
 
@@ -23,7 +23,7 @@ namespace SceneViewTools
             clicked += ShowDropdown;
         }
 
-        static void HandleMoveToBookmark(object userData)
+        private static void HandleMoveToBookmark(object userData)
         {
             var slot = (int)userData;
             SceneViewBookmarkManager.MoveToBookmark(slot);
@@ -35,7 +35,7 @@ namespace SceneViewTools
             SceneViewBookmarkManager.SetBookmark(slot);
         }
 
-        static void ShowDropdown()
+        private static void ShowDropdown()
         {
             var menu = new GenericMenu();
 

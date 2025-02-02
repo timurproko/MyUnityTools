@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SceneViewTools
 {
-    struct SceneViewBookmark
+    internal struct SceneViewBookmark
     {
         public Vector3 pivot;
         public Quaternion rotation;

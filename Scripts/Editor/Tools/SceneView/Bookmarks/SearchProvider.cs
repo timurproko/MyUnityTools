@@ -7,12 +7,12 @@ namespace SceneViewTools
     /// <summary>
     /// Adds an alternative way to access bookmarks via Unity's Search window.
     /// </summary>
-    static class SceneViewBookmarkSearchProvider
+    internal static class SceneViewBookmarkSearchProvider
     {
         const string id = "scene-view-bookmarks";
         
         [SearchItemProvider]
-        static SearchProvider CreateProvider()
+        private static SearchProvider CreateProvider()
         {
             var icon = AssetDatabase.LoadAssetAtPath<Texture2D>(SceneViewBookmarkManager.iconPath);
             
@@ -37,7 +37,7 @@ namespace SceneViewTools
             };
         }
 
-        static void HandleMoveToBookmark(SearchItem item)
+        private static void HandleMoveToBookmark(SearchItem item)
         {
             var slot = int.Parse(item.id);
             SceneViewBookmarkManager.MoveToBookmark(slot);

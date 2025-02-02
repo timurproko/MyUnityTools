@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SceneViewTools
 {
-    static class SceneViewBookmarkManager
+    internal static class SceneViewBookmarkManager
     {
         public const string iconPath = "Packages/com.matthewminer.sceneviewbookmarks/Icons/SceneViewBookmarksIcon.png";
         public const int maxBookmarkCount = 9;
@@ -20,7 +20,6 @@ namespace SceneViewTools
 
         public static void MoveToBookmark(int slot)
         {
-            // Bookmark the current scene view so that we can easily return to it later.
             if (slot != previousViewSlot)
             {
                 SetBookmark(previousViewSlot);
@@ -33,7 +32,6 @@ namespace SceneViewTools
             if (!sceneView.in2DMode) sceneView.rotation = bookmark.rotation;
             sceneView.size = bookmark.size;
 
-            // My Addition to Sync with SceneViewTools
             var type = bookmark.type;
             ActiveSceneView.SceneViewType = type;
             SceneViewNavigationIO.WriteToEditorPrefs(type);
@@ -49,7 +47,6 @@ namespace SceneViewTools
             var bookmark = new SceneViewBookmark(SceneView.lastActiveSceneView);
             WriteToEditorPrefs(slot, bookmark);
 
-            // My Addition to Sync with SceneViewTools
             bookmark.type = SceneViewNavigationIO.ReadFromEditorPrefs();
             
             if (slot != previousViewSlot)
@@ -58,19 +55,20 @@ namespace SceneViewTools
             }
         }
 
-        static string GetEditorPrefsKey(int slot)
+        private static string GetEditorPrefsKey(int slot)
         {
-            return "sceneViewBookmark" + slot;
+            string projectKey = Application.dataPath.GetHashCode().ToString();
+            return $"sceneViewBookmark_{projectKey}_{slot}";
         }
 
-        static SceneViewBookmark ReadFromEditorPrefs(int slot)
+        private static SceneViewBookmark ReadFromEditorPrefs(int slot)
         {
             var key = GetEditorPrefsKey(slot);
             var json = EditorPrefs.GetString(key);
             return JsonUtility.FromJson<SceneViewBookmark>(json);
         }
 
-        static void WriteToEditorPrefs(int slot, SceneViewBookmark bookmark)
+        private static void WriteToEditorPrefs(int slot, SceneViewBookmark bookmark)
         {
             var key = GetEditorPrefsKey(slot);
             var json = JsonUtility.ToJson(bookmark);
