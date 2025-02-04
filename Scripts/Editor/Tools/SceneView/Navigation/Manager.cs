@@ -17,25 +17,13 @@ namespace SceneViewTools
             {
                 ActiveSceneView.sceneView.orthographic = !ActiveSceneView.sceneView.orthographic;
             }
+            else if (SceneViewNavigationIO.TryGetViewState(viewType, out var savedState))
+            {
+                ApplyNewValues(savedState);
+            }
             else
             {
-                // if (viewType == SceneViewType.Perspective)
-                // {
-                //     EnableSkybox();
-                // }
-                // else
-                // {
-                //     DisableSkybox();
-                // }
-
-                if (SceneViewNavigationIO.TryGetViewState(viewType, out var savedState))
-                {
-                    ApplyNewValues(savedState);
-                }
-                else
-                {
-                    ApplyDefaultValues(viewType);
-                }
+                ApplyDefaultValues(viewType);
             }
 
             ActiveSceneView.sceneView.Repaint();

@@ -29,7 +29,7 @@ namespace SceneViewTools
         public static void ToggleProjection()
         {
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
-            if (ActiveSceneView.sceneView == null)
+            if (ActiveSceneView.sceneView == null || ActiveSceneView.sceneView.in2DMode)
             {
                 return;
             }
@@ -46,17 +46,6 @@ namespace SceneViewTools
             if (ActiveSceneView.sceneView != null)
             {
                 ActiveSceneView.sceneView.in2DMode = !ActiveSceneView.sceneView.in2DMode;
-
-                if (ActiveSceneView.sceneView.in2DMode && ActiveSceneView.SceneViewType == SceneViewType.Perspective)
-                {
-                    SceneViewNavigationManager.DisableSkybox();
-                }
-                else if (!ActiveSceneView.sceneView.in2DMode &&
-                         ActiveSceneView.SceneViewType == SceneViewType.Perspective)
-                {
-                    SceneViewNavigationManager.EnableSkybox();
-                }
-
                 ActiveSceneView.sceneView.Repaint();
             }
         }

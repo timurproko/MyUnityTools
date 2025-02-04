@@ -57,8 +57,8 @@ namespace SceneViewTools
 
         private static string GetEditorPrefsKey(int slot)
         {
-            string projectKey = Application.dataPath.GetHashCode().ToString();
-            return $"sceneViewBookmark_{projectKey}_{slot}";
+            var projectName = Application.productName;
+            return $"sceneViewBookmark_{projectName}_{slot}";
         }
 
         private static SceneViewBookmark ReadFromEditorPrefs(int slot)
