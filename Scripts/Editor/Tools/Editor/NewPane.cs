@@ -4,21 +4,35 @@ using UnityEngine;
 
 public class NewPane : EditorWindow
 {
-    [MenuItem(Menus.NEW_PANE_MENU + "Hierarchy View %#w", priority = Menus.EDITOR_INDEX + 100)] // Ctrl+Shift+W
-    public static void ShowWindow()
+    [MenuItem(Menus.NEW_PANE_MENU + "Project View %#q", priority = Menus.EDITOR_INDEX + 100)] // Ctrl+Shift+Q
+    public static void ShowProjectWindow()
     {
-        OpenHierarchyPane();
+        OpenWindow("UnityEditor.ProjectBrowser", "Project", "UnityEditor.ProjectBrowser");
     }
 
-    private static void OpenHierarchyPane()
+    [MenuItem(Menus.NEW_PANE_MENU + "Hierarchy View %#w", priority = Menus.EDITOR_INDEX + 101)] // Ctrl+Shift+W
+    public static void ShowHierarchyWindow()
     {
-        var hierarchyWindowType = typeof(EditorWindow).Assembly.GetType("UnityEditor.SceneHierarchyWindow");
-        var hierarchyWindow = CreateInstance(hierarchyWindowType) as EditorWindow;
+        OpenWindow("UnityEditor.SceneHierarchyWindow", "Hierarchy", "UnityEditor.SceneHierarchyWindow");
+    }
 
-        hierarchyWindow.titleContent = new GUIContent("Hierarchy",
-            EditorGUIUtility.IconContent("UnityEditor.SceneHierarchyWindow").image);
+    private static void OpenWindow(string windowTypeName, string title, string iconName)
+    {
+        var windowType = typeof(EditorWindow).Assembly.GetType(windowTypeName);
 
-        hierarchyWindow.Show();
-        hierarchyWindow.Focus();
+        if (Resources.FindObjectsOfTypeAll(windowType) is EditorWindow[] { Length: > 0 } existingWindow)
+        {
+            existingWindow[0].Focus();
+            return;
+        }
+
+        var newWindow = CreateInstance(windowType) as EditorWindow;
+
+        if (newWindow != null)
+        {
+            newWindow.titleContent = new GUIContent(title, EditorGUIUtility.IconContent(iconName).image);
+            newWindow.Show();
+            newWindow.Focus();
+        }
     }
 }
