@@ -9,6 +9,7 @@
         
         public const int EDITOR_INDEX = 11000;
         public const string EDITOR_MENU = MY_TOOLS_MENU + "Editor/";
+        public const string NEW_PANE_MENU = MY_TOOLS_MENU + "Open Floating Pane/";
         
         public const int SCENE_VIEW_INDEX = 12000;
         public const string NAVIGATION_MENU = MY_TOOLS_MENU + "Scene View Navigation/";
