@@ -15,6 +15,7 @@ namespace MyTools
         private static bool _focusEnabled;
         private static bool _isMaximized;
         private static bool _wasSceneViewActive;
+        private static bool _wasGameViewActive;
 
         static ChangeViewOnPlay()
         {
@@ -57,15 +58,18 @@ namespace MyTools
         {
             if (state == PlayModeStateChange.EnteredPlayMode)
             {
+                // Track which view was active before entering Play mode
                 _wasSceneViewActive = SceneView.lastActiveSceneView != null && SceneView.lastActiveSceneView.hasFocus;
+                _wasGameViewActive = GetActiveView()?.GetType().Name == "GameView";
 
                 if (_focusEnabled)
                 {
                     EditorApplication.update += ExecuteFocusAndMaximize;
                 }
-                else if (_maximizeEnabled)
+                else
                 {
-                    EditorApplication.update += ExecuteMaximize;
+                    // If focus is disabled, focus on the last active view (Scene View or Game View)
+                    EditorApplication.update += ExecuteFocusLastActiveView;
                 }
             }
             else if (state == PlayModeStateChange.ExitingPlayMode)
@@ -77,7 +81,30 @@ namespace MyTools
         private static void ExecuteFocusAndMaximize()
         {
             EditorApplication.update -= ExecuteFocusAndMaximize;
+
+            // Focus on the Game View
             FocusView("GameView");
+
+            EditorApplication.delayCall += () => EditorApplication.update += ExecuteMaximize;
+        }
+
+        private static void ExecuteFocusLastActiveView()
+        {
+            EditorApplication.update -= ExecuteFocusLastActiveView;
+
+            // Focus on the last active view (Scene View or Game View)
+            if (_wasSceneViewActive)
+            {
+                FocusView("SceneView");
+            }
+            else if (_wasGameViewActive)
+            {
+                FocusView("GameView");
+            }
+            else
+            {
+                Debug.LogWarning("MyTools: No active SceneView or GameView found to focus.");
+            }
 
             EditorApplication.delayCall += () => EditorApplication.update += ExecuteMaximize;
         }

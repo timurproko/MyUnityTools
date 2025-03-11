@@ -6,7 +6,7 @@ namespace MyTools
 {
     internal static class Other
     {
-        [MenuItem(Menus.EDITOR_MENU + "Clear Console %l", priority = Menus.EDITOR_INDEX + 300)] // Ctrl+L
+        [MenuItem(Menus.EDITOR_MENU + "Clear Console %l", priority = Menus.EDITOR_INDEX + 900)] // Ctrl+L
         static void ClearConsole()
         {
             Functions.ClearConsole();
