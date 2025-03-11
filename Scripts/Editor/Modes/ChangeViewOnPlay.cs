@@ -58,7 +58,6 @@ namespace MyTools
         {
             if (state == PlayModeStateChange.EnteredPlayMode)
             {
-                // Track which view was active before entering Play mode
                 _wasSceneViewActive = SceneView.lastActiveSceneView != null && SceneView.lastActiveSceneView.hasFocus;
                 _wasGameViewActive = GetActiveView()?.GetType().Name == "GameView";
 
@@ -68,13 +67,15 @@ namespace MyTools
                 }
                 else
                 {
-                    // If focus is disabled, focus on the last active view (Scene View or Game View)
                     EditorApplication.update += ExecuteFocusLastActiveView;
                 }
             }
             else if (state == PlayModeStateChange.ExitingPlayMode)
             {
-                EditorApplication.delayCall += RestoreSceneView;
+                if (_focusEnabled)
+                {
+                    EditorApplication.delayCall += RestoreSceneView;
+                }
             }
         }
 
@@ -82,7 +83,6 @@ namespace MyTools
         {
             EditorApplication.update -= ExecuteFocusAndMaximize;
 
-            // Focus on the Game View
             FocusView("GameView");
 
             EditorApplication.delayCall += () => EditorApplication.update += ExecuteMaximize;
@@ -92,7 +92,6 @@ namespace MyTools
         {
             EditorApplication.update -= ExecuteFocusLastActiveView;
 
-            // Focus on the last active view (Scene View or Game View)
             if (_wasSceneViewActive)
             {
                 FocusView("SceneView");
