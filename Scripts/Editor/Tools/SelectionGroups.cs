@@ -110,60 +110,36 @@ namespace MyTools
             if (selectedObjects.Length == 0)
                 return;
 
-            var identifiers = new List<string>();
+            var globalIDs = new List<string>();
             foreach (var obj in selectedObjects)
             {
-                var path = AssetDatabase.GetAssetPath(obj);
-                if (string.IsNullOrEmpty(path))
-                {
-                    identifiers.Add($"INSTANCE:{obj.GetInstanceID()}");
-                }
-                else
-                {
-                    var guid = AssetDatabase.AssetPathToGUID(path);
-                    identifiers.Add($"GUID:{guid}");
-                }
+                GlobalObjectId globalId = GlobalObjectId.GetGlobalObjectIdSlow(obj);
+                globalIDs.Add(globalId.ToString());
             }
 
             var key = GetProjectSpecificKey(slot);
-            EditorPrefs.SetString(key, string.Join(";", identifiers));
+            EditorPrefs.SetString(key, string.Join(";", globalIDs));
             Debug.Log($"MyTools: Selection saved to slot {slot}.");
         }
 
         private static void LoadSelection(int slot)
         {
             var key = GetProjectSpecificKey(slot);
-            var savedIdentifiers = EditorPrefs.GetString(key, string.Empty);
-            if (string.IsNullOrEmpty(savedIdentifiers))
+            var savedGlobalIDs = EditorPrefs.GetString(key, string.Empty);
+            if (string.IsNullOrEmpty(savedGlobalIDs))
                 return;
 
-            var identifiers = savedIdentifiers.Split(';');
+            var globalIDs = savedGlobalIDs.Split(';');
             var objectsToSelect = new List<Object>();
 
-            foreach (var identifier in identifiers)
+            foreach (var idString in globalIDs)
             {
-                if (identifier.StartsWith("INSTANCE:"))
+                if (GlobalObjectId.TryParse(idString, out GlobalObjectId id))
                 {
-                    // Scene object: use instance ID
-                    var instanceID = int.Parse(identifier.Substring("INSTANCE:".Length));
-                    var obj = EditorUtility.InstanceIDToObject(instanceID);
+                    var obj = GlobalObjectId.GlobalObjectIdentifierToObjectSlow(id);
                     if (obj != null)
                     {
                         objectsToSelect.Add(obj);
-                    }
-                }
-                else if (identifier.StartsWith("GUID:"))
-                {
-                    // Asset: use GUID
-                    var guid = identifier.Substring("GUID:".Length);
-                    var path = AssetDatabase.GUIDToAssetPath(guid);
-                    if (!string.IsNullOrEmpty(path))
-                    {
-                        var obj = AssetDatabase.LoadAssetAtPath<Object>(path);
-                        if (obj != null)
-                        {
-                            objectsToSelect.Add(obj);
-                        }
                     }
                 }
             }
