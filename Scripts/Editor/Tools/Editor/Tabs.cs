@@ -30,13 +30,13 @@ public static class Tabs
         }
     }
 
-    [MenuItem(Menus.EDITOR_MENU + "Next Tab %RIGHT", priority = Menus.EDITOR_INDEX + 200)] // Ctrl+Right Arrow
+    [MenuItem(Menus.EDITOR_MENU + "Next Tab %RIGHT", priority = Menus.EDITOR_INDEX + 100)] // Ctrl+Right Arrow
     private static void NextTab()
     {
         SwitchTab(1);
     }
 
-    [MenuItem(Menus.EDITOR_MENU + "Previous Tab %LEFT", priority = Menus.EDITOR_INDEX + 201)] // Ctrl+Left Arrow
+    [MenuItem(Menus.EDITOR_MENU + "Previous Tab %LEFT", priority = Menus.EDITOR_INDEX + 101)] // Ctrl+Left Arrow
     private static void PreviousTab()
     {
         SwitchTab(-1);
@@ -78,7 +78,7 @@ public static class Tabs
         return panes ?? new System.Collections.Generic.List<EditorWindow>();
     }
     
-            [MenuItem(Menus.EDITOR_MENU + "Maximize Tab %b", priority = Menus.EDITOR_INDEX + 202)] // Ctrl+B
+            [MenuItem(Menus.EDITOR_MENU + "Maximize Tab %b", priority = Menus.EDITOR_INDEX + 102)] // Ctrl+B
         static void Maximize()
         {
             Functions.ActivateWindowUnderCursor();
@@ -89,7 +89,7 @@ public static class Tabs
             }
         }
 
-        [MenuItem(Menus.EDITOR_MENU + "Close Tab %w", priority = Menus.EDITOR_INDEX + 203)] // Ctrl+W
+        [MenuItem(Menus.EDITOR_MENU + "Close Tab %w", priority = Menus.EDITOR_INDEX + 103)] // Ctrl+W
         static void CloseTab()
         {
             Functions.ActivateWindowUnderCursor();
@@ -100,7 +100,7 @@ public static class Tabs
             }
         }
 
-        [MenuItem(Menus.EDITOR_MENU + "Lock Tab %&l", priority = Menus.EDITOR_INDEX + 204)] // Ctrl+Alt+L
+        [MenuItem(Menus.EDITOR_MENU + "Lock Tab %&l", priority = Menus.EDITOR_INDEX + 104)] // Ctrl+Alt+L
         static void ToggleWindowLock()
         {
             EditorWindow windowToBeLocked = EditorWindow.mouseOverWindow;

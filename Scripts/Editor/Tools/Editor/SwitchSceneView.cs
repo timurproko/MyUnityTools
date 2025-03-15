@@ -1,9 +1,9 @@
 using MyTools;
 using UnityEditor;
 
-public static class SwitchTabsWithTab
+public static class SwitchSceneView
 {
-    [MenuItem(Menus.EDITOR_MENU + "Switch Tabs _TAB", priority = Menus.EDITOR_INDEX + 300)]
+    [MenuItem(Menus.EDITOR_MENU + "Switch SceneView _TAB", priority = Menus.EDITOR_INDEX + 200)]
     private static void SwitchView()
     {
         EditorWindow focusedWindow = EditorWindow.focusedWindow;
