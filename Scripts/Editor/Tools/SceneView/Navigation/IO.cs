@@ -7,12 +7,12 @@ namespace SceneViewTools
 {
     public static class SceneViewNavigationIO
     {
-        private const string key = "MyTools.SceneViewTools.";
+        private const string ViewStateKeyPrefix = "MyTools.SceneViewTools.ViewState";
+        private const string CurrentViewTypeKey = "MyTools.SceneViewTools.CurrentViewType";
 
         [Serializable]
         public struct ViewState
         {
-            public SceneViewType sceneViewType;
             public float size;
             public Quaternion rotation;
             public Vector3 pivot;
@@ -20,29 +20,24 @@ namespace SceneViewTools
         }
 
         private static Dictionary<SceneViewType, ViewState> _viewStateDictionary;
+        private static readonly SceneViewType[] AllSceneViewTypes = (SceneViewType[])Enum.GetValues(typeof(SceneViewType));
 
-        // Lazy-loaded property for view state dictionary
         private static Dictionary<SceneViewType, ViewState> ViewStateDictionary
         {
             get
             {
                 if (_viewStateDictionary == null)
-                {
                     LoadViewStates();
-                }
-
                 return _viewStateDictionary;
             }
         }
 
-        // Generate a consistent key for storing view state
-        private static string GetViewStateKey(SceneViewType viewType) => $"{key}{viewType}";
+        private static string GetViewStateKey(SceneViewType viewType) => $"{ViewStateKeyPrefix}{viewType}";
 
         private static void LoadViewStates()
         {
             _viewStateDictionary = new Dictionary<SceneViewType, ViewState>();
-
-            foreach (SceneViewType viewType in Enum.GetValues(typeof(SceneViewType)))
+            foreach (var viewType in AllSceneViewTypes)
             {
                 string key = GetViewStateKey(viewType);
                 if (EditorPrefs.HasKey(key))
@@ -54,12 +49,10 @@ namespace SceneViewTools
             }
         }
 
-        public static void SaveViewState(SceneViewType viewType, float size, Quaternion rotation, Vector3 pivot,
-            bool orthographic)
+        public static void SaveViewState(SceneViewType viewType, float size, Quaternion rotation, Vector3 pivot, bool orthographic)
         {
             var viewState = new ViewState
             {
-                sceneViewType = viewType,
                 size = size,
                 rotation = rotation,
                 pivot = pivot,
@@ -79,14 +72,12 @@ namespace SceneViewTools
 
         public static SceneViewType ReadFromEditorPrefs()
         {
-            var json = EditorPrefs.GetString(key);
-            return JsonUtility.FromJson<SceneViewType>(json);
+            return (SceneViewType)EditorPrefs.GetInt(CurrentViewTypeKey);
         }
 
         public static void WriteToEditorPrefs(SceneViewType viewType)
         {
-            var json = JsonUtility.ToJson(viewType);
-            EditorPrefs.SetString(key, json);
+            EditorPrefs.SetInt(CurrentViewTypeKey, (int)viewType);
         }
     }
 }

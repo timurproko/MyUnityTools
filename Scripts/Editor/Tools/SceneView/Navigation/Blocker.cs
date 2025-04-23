@@ -53,14 +53,14 @@ namespace SceneViewTools
             isPanning = true;
             lastMousePosition = e.mousePosition;
             e.Use();
-            UnityEditor.SceneView.RepaintAll(); // Repaint to update cursor
+            UnityEditor.SceneView.RepaintAll();
         }
 
         private static void PerformPanning(UnityEditor.SceneView sceneView, Event e)
         {
             Vector2 delta = e.mousePosition - lastMousePosition;
             delta *= sceneView.size / 500f; 
-            Vector3 move = new Vector3(-delta.x, delta.y, 0); // Adjust for both X and Y
+            Vector3 move = new Vector3(-delta.x, delta.y, 0);
             sceneView.pivot += sceneView.rotation * move;
             lastMousePosition = e.mousePosition;
             e.Use();
@@ -70,7 +70,7 @@ namespace SceneViewTools
         {
             isPanning = false;
             e.Use();
-            UnityEditor.SceneView.RepaintAll(); // Repaint to update cursor
+            UnityEditor.SceneView.RepaintAll();
         }
     }
 }
