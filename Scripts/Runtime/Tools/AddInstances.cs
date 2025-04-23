@@ -17,7 +17,7 @@ namespace MyTools.Runtime
         [ShowIf("customizeSuffix")]
         [SerializeField] private string suffix = "Instances";
         [TitleGroup("Instantiation")]
-        [SerializeField] [PropertyOrder(1)] private bool instantiateAtRuntime = true;
+        [SerializeField] [PropertyOrder(1)] private bool instantiateAtRuntime = false;
         [TitleGroup("Debugging")]
         [SerializeField] [PropertyOrder(2)] private bool logMessagesToConsole;
 
@@ -222,8 +222,26 @@ namespace MyTools.Runtime
                         }
                         else
                         {
-                            LogWarning($"No matching object with suffix '{suffix}' found in '{geoAsset.name}'.");
+                            // If no matching child is found, instantiate the entire geoAsset
+                            GameObject instance = Instantiate(geoAsset);
+                            instance.transform.SetParent(point);
+                            instance.transform.localPosition = Vector3.zero;
+                            instance.transform.localRotation = Quaternion.identity;
+                            instance.transform.localScale = Vector3.one;
+                            totalAdded++;
+                            LogWarning($"No matching object with suffix '{suffix}' found in '{geoAsset.name}'. Instantiating the entire asset instead.");
                         }
+                    }
+                    else
+                    {
+                        // If the point name doesn't follow the expected format, instantiate the entire geoAsset
+                        GameObject instance = Instantiate(geoAsset);
+                        instance.transform.SetParent(point);
+                        instance.transform.localPosition = Vector3.zero;
+                        instance.transform.localRotation = Quaternion.identity;
+                        instance.transform.localScale = Vector3.one;
+                        totalAdded++;
+                        LogWarning($"Point name '{point.name}' does not follow the expected format. Instantiating the entire asset instead.");
                     }
                 }
             }

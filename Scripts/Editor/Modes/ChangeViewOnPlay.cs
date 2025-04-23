@@ -58,7 +58,7 @@ namespace MyTools
         {
             if (state == PlayModeStateChange.EnteredPlayMode)
             {
-                _wasSceneViewActive = SceneView.lastActiveSceneView != null && SceneView.lastActiveSceneView.hasFocus;
+                _wasSceneViewActive = UnityEditor.SceneView.lastActiveSceneView != null && UnityEditor.SceneView.lastActiveSceneView.hasFocus;
                 _wasGameViewActive = GetActiveView()?.GetType().Name == "GameView";
 
                 if (_focusEnabled)

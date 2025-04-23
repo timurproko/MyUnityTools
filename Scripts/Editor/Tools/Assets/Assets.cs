@@ -7,7 +7,7 @@ namespace MyTools
 {
     static class Assets
     {
-        [MenuItem(Menus.ASSETS_MENU + "Create Prefab from Selection #c", priority = Menus.ASSETS_INDEX + 100)] // Shift+C
+        [MenuItem(Menus.ASSETS_MENU + "Create Prefab from Selection", priority = Menus.ASSETS_INDEX + 100)]
         private static void CreatePrefabFromSelectedFBX()
         {
             System.Object[] selectedObjects = Selection.objects;
@@ -36,7 +36,7 @@ namespace MyTools
             }
         }
         
-        [MenuItem(Menus.ASSETS_MENU + "Apply Prefab Overrides #a", priority = Menus.ASSETS_INDEX + 101)] // Shift+A
+        [MenuItem(Menus.ASSETS_MENU + "Apply Prefab Overrides %&a", priority = Menus.ASSETS_INDEX + 101)] // Ctl+Alt+A
         public static void ApplySelectedPrefabOverrides()
         {
             GameObject[] selectedObjects = Selection.gameObjects;
@@ -66,7 +66,7 @@ namespace MyTools
             EditorApplication.delayCall += () => Selection.objects = selectedObjects;
         }
 
-        [MenuItem(Menus.ASSETS_MENU + "Force Refresh Assets #r", priority = Menus.ASSETS_INDEX + 102)] // Shift+R
+        [MenuItem(Menus.ASSETS_MENU + "Force Refresh Assets %&r", priority = Menus.ASSETS_INDEX + 102)] // Ctl+Alt+R
         private static void ForceRefreshSelectedAsset()
         {
             var selectedObjects = Selection.objects;

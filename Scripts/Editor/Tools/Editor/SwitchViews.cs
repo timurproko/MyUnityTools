@@ -1,7 +1,7 @@
 using MyTools;
 using UnityEditor;
 
-public static class SwitchSceneView
+public static class SwitchViews
 {
     [MenuItem(Menus.EDITOR_MENU + "Switch SceneView _TAB", priority = Menus.EDITOR_INDEX + 200)]
     private static void SwitchView()

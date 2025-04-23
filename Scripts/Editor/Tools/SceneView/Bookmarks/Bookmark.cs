@@ -12,7 +12,7 @@ namespace SceneViewTools
         public SceneViewType type;
 
 
-        public SceneViewBookmark(SceneView sceneView)
+        public SceneViewBookmark(UnityEditor.SceneView sceneView)
         {
             pivot = sceneView.pivot;
             rotation = sceneView.rotation;

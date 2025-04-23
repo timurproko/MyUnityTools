@@ -26,7 +26,7 @@ namespace SceneViewTools
             }
 
             var bookmark = ReadFromEditorPrefs(slot);
-            var sceneView = SceneView.lastActiveSceneView;
+            var sceneView = UnityEditor.SceneView.lastActiveSceneView;
             sceneView.pivot = bookmark.pivot;
             sceneView.orthographic = bookmark.orthographic;
             if (!sceneView.in2DMode) sceneView.rotation = bookmark.rotation;
@@ -44,7 +44,7 @@ namespace SceneViewTools
 
         public static void SetBookmark(int slot)
         {
-            var bookmark = new SceneViewBookmark(SceneView.lastActiveSceneView);
+            var bookmark = new SceneViewBookmark(UnityEditor.SceneView.lastActiveSceneView);
             WriteToEditorPrefs(slot, bookmark);
 
             bookmark.type = SceneViewNavigationIO.ReadFromEditorPrefs();

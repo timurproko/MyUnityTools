@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace SceneViewTools
 {
-    [Overlay(typeof(SceneView), "My Bookmarks")]
+    [Overlay(typeof(UnityEditor.SceneView), "My Bookmarks")]
     [Icon(SceneViewBookmarkManager.iconPath)]
     internal class BookmarksOverlay : ToolbarOverlay
     {
         BookmarksOverlay() : base(ToolbarDropdown.id) {}
     }
 
-    [EditorToolbarElement(id, typeof(SceneView))]
+    [EditorToolbarElement(id, typeof(UnityEditor.SceneView))]
     internal class ToolbarDropdown : EditorToolbarDropdown
     {
         public const string id = "BookmarksDropdown";

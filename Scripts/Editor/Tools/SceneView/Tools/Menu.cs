@@ -28,7 +28,7 @@ namespace SceneViewTools
             priority = MyTools.Menus.SCENE_VIEW_INDEX + 200)] // O
         public static void ToggleProjection()
         {
-            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
             if (ActiveSceneView.sceneView == null || ActiveSceneView.sceneView.in2DMode)
             {
                 return;
@@ -42,7 +42,7 @@ namespace SceneViewTools
             priority = MyTools.Menus.SCENE_VIEW_INDEX + 201)] // Alt+O
         public static void Toggle2DView()
         {
-            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
             if (ActiveSceneView.sceneView != null)
             {
                 ActiveSceneView.sceneView.in2DMode = !ActiveSceneView.sceneView.in2DMode;
@@ -54,7 +54,7 @@ namespace SceneViewTools
             priority = MyTools.Menus.SCENE_VIEW_INDEX + 202)] //  Alt+S
         static void ToggleSkybox()
         {
-            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
             if (ActiveSceneView.sceneView.sceneViewState.skyboxEnabled)
             {
                 SceneViewNavigationManager.DisableSkybox();
@@ -98,9 +98,9 @@ namespace SceneViewTools
             priority = MyTools.Menus.SCENE_VIEW_INDEX + 205)] // Ctrl+Alt+Shift+G
         private static void ToggleGridVisibility()
         {
-            foreach (var sceneView in SceneView.sceneViews)
+            foreach (var sceneView in UnityEditor.SceneView.sceneViews)
             {
-                if (sceneView is SceneView view)
+                if (sceneView is UnityEditor.SceneView view)
                 {
                     view.showGrid = !view.showGrid;
                 }
@@ -188,7 +188,7 @@ namespace SceneViewTools
             priority = MyTools.Menus.SCENE_VIEW_INDEX + 300)] //  Alt+F
         static void FrameSelected()
         {
-            SceneView.FrameLastActiveSceneView();
+            UnityEditor.SceneView.FrameLastActiveSceneView();
         }
     }
 }

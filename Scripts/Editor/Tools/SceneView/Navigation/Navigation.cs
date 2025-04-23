@@ -16,7 +16,7 @@ namespace SceneViewTools
     
     public static class ActiveSceneView
     {
-        public static SceneView sceneView;
+        public static UnityEditor.SceneView sceneView;
         public static SceneViewType SceneViewType;
     }
     

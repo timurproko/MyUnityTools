@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 
 namespace MyTools
 {
-    [Overlay(typeof(SceneView), "My Gizmos")]
+    [Overlay(typeof(UnityEditor.SceneView), "My Gizmos")]
     internal class GizmosOverlay : ToolbarOverlay
     {
         GizmosOverlay() : base(GizmosDropdown.id)
@@ -17,7 +17,7 @@ namespace MyTools
         }
     }
 
-    [EditorToolbarElement(id, typeof(SceneView))]
+    [EditorToolbarElement(id, typeof(UnityEditor.SceneView))]
     internal class GizmosDropdown : EditorToolbarDropdown
     {
         public const string id = "GizmosDropdown";
@@ -44,18 +44,32 @@ namespace MyTools
                 () => { ToggleGizmos.ToggleSelectionWire(!ToggleGizmos.GetSelectionWireState()); });
 
             menu.AddSeparator("");
-            
-            menu.AddItem(new GUIContent("Camera"), ToggleGizmos.IsCameraGizmoEnabled,
-                () => { ToggleGizmos.ToggleCameraGizmos(!ToggleGizmos.IsCameraGizmoEnabled); });
-            menu.AddItem(new GUIContent("Canvas"), ToggleGizmos.IsCanvasGizmoEnabled,
-                () => { ToggleGizmos.ToggleCanvasGizmos(!ToggleGizmos.IsCanvasGizmoEnabled); });
+
+            menu.AddItem(new GUIContent("Camera On"), false,
+                () => { ToggleGizmos.ToggleCameraGizmos(true); });
+            menu.AddItem(new GUIContent("Camera Off"), false,
+                () => { ToggleGizmos.ToggleCameraGizmos(false); });
 
             menu.AddSeparator("");
-            
-            menu.AddItem(new GUIContent("2D Colliders"), ToggleColliders.Colliders2DEnabled,
-                () => { ToggleColliders.Toggle2DColliders(!ToggleColliders.Colliders2DEnabled); });
-            menu.AddItem(new GUIContent("3D Colliders"), ToggleColliders.Non2DCollidersEnabled,
-                () => { ToggleColliders.ToggleNon2DColliders(!ToggleColliders.Non2DCollidersEnabled); });
+
+            menu.AddItem(new GUIContent("Canvas On"), false,
+                () => { ToggleGizmos.ToggleCanvasGizmos(true); });
+            menu.AddItem(new GUIContent("Canvas Off"), false,
+                () => { ToggleGizmos.ToggleCanvasGizmos(false); });
+
+            menu.AddSeparator("");
+
+            menu.AddItem(new GUIContent("2D Colliders On"), false,
+                () => { ToggleColliders.Toggle2DColliders(true); });
+            menu.AddItem(new GUIContent("2D Colliders Off"), false,
+                () => { ToggleColliders.Toggle2DColliders(false); });
+
+            menu.AddSeparator("");  // Separator between 2D and 3D Colliders
+
+            menu.AddItem(new GUIContent("3D Colliders On"), false,
+                () => { ToggleColliders.ToggleNon2DColliders(true); });
+            menu.AddItem(new GUIContent("3D Colliders Off"), false,
+                () => { ToggleColliders.ToggleNon2DColliders(false); });
 
             menu.ShowAsContext();
         }
@@ -72,7 +86,7 @@ namespace MyTools
         public static void ToggleNon2DColliders(bool state)
         {
             Non2DCollidersEnabled = state;
-            var colliderTypes = new[]
+            var colliderTypes = new[] 
             {
                 typeof(BoxCollider),
                 typeof(CapsuleCollider),
@@ -83,13 +97,13 @@ namespace MyTools
 
             SetGizmosEnabledForTypes(colliderTypes, state);
             Functions.ClearConsole();
-            SceneView.RepaintAll();
+            UnityEditor.SceneView.RepaintAll();
         }
 
         public static void Toggle2DColliders(bool state)
         {
             colliders2DEnabled = state;
-            var collider2DTypes = new[]
+            var collider2DTypes = new[] 
             {
                 typeof(BoxCollider2D),
                 typeof(CapsuleCollider2D),
@@ -103,7 +117,7 @@ namespace MyTools
 
             SetGizmosEnabledForTypes(collider2DTypes, state);
             Functions.ClearConsole();
-            SceneView.RepaintAll();
+            UnityEditor.SceneView.RepaintAll();
         }
 
         private static void SetGizmosEnabledForTypes(Type[] types, bool state)
@@ -126,13 +140,13 @@ namespace MyTools
         public static void ToggleIcons(bool state)
         {
             GizmoUtility.use3dIcons = state;
-            SceneView.RepaintAll();
+            UnityEditor.SceneView.RepaintAll();
         }
 
         public static void ToggleSelectionOutline(bool state)
         {
             SetAnnotationUtilityProperty("showSelectionOutline", state);
-            SceneView.RepaintAll();
+            UnityEditor.SceneView.RepaintAll();
         }
 
         public static bool GetSelectionOutlineState() => GetAnnotationUtilityProperty("showSelectionOutline");
@@ -140,7 +154,7 @@ namespace MyTools
         public static void ToggleSelectionWire(bool state)
         {
             SetAnnotationUtilityProperty("showSelectionWire", state);
-            SceneView.RepaintAll();
+            UnityEditor.SceneView.RepaintAll();
         }
 
         public static bool GetSelectionWireState() => GetAnnotationUtilityProperty("showSelectionWire");
@@ -149,14 +163,14 @@ namespace MyTools
         {
             cameraGizmosEnabled = state;
             GizmoUtility.SetGizmoEnabled(typeof(Camera), state);
-            SceneView.RepaintAll();
+            UnityEditor.SceneView.RepaintAll();
         }
 
         public static void ToggleCanvasGizmos(bool state)
         {
             canvasGizmosEnabled = state;
             GizmoUtility.SetGizmoEnabled(typeof(Canvas), state);
-            SceneView.RepaintAll();
+            UnityEditor.SceneView.RepaintAll();
         }
 
         private static void SetAnnotationUtilityProperty(string propertyName, bool state)
@@ -197,7 +211,7 @@ namespace MyTools
             }
 
             Functions.ClearConsole();
-            SceneView.RepaintAll();
+            UnityEditor.SceneView.RepaintAll();
         }
     }
 }

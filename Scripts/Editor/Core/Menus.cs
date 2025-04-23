@@ -4,12 +4,14 @@
     {
         public const string MY_TOOLS_MENU = "My Tools/";
         
-        public const int ASSETS_INDEX = 10000;
+        public const int CREATE_INDEX = 10000;
+        public const string CREATE_MENU = MY_TOOLS_MENU + "Create/";
+        
+        public const int ASSETS_INDEX = 10001;
         public const string ASSETS_MENU = MY_TOOLS_MENU + "Assets/";
         
         public const int EDITOR_INDEX = 11000;
         public const string EDITOR_MENU = MY_TOOLS_MENU + "Editor/";
-        public const string NEW_PANE_MENU = MY_TOOLS_MENU + "Open Floating Pane/";
         
         public const int SCENE_VIEW_INDEX = 12000;
         public const string NAVIGATION_MENU = MY_TOOLS_MENU + "Scene View Navigation/";
