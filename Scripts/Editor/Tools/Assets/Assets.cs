@@ -66,7 +66,7 @@ namespace MyTools
             EditorApplication.delayCall += () => Selection.objects = selectedObjects;
         }
 
-        [MenuItem(Menus.ASSETS_MENU + "Force Refresh Assets %&r", priority = Menus.ASSETS_INDEX + 102)] // Ctl+Alt+R
+        [MenuItem(Menus.ASSETS_MENU + "Force Refresh Assets", priority = Menus.ASSETS_INDEX + 102)]
         private static void ForceRefreshSelectedAsset()
         {
             var selectedObjects = Selection.objects;
