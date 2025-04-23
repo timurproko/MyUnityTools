@@ -1,3 +1,4 @@
+#if ANIMANCER
 using Animancer;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -43,3 +44,4 @@ public enum PlayModes
 {
     OnEnable
 }
+#endif
