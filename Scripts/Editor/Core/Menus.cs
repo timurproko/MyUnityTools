@@ -4,8 +4,8 @@
     {
         public const string MY_TOOLS_MENU = "My Tools/";
         
-        public const int CREATE_INDEX = 10000;
-        public const string CREATE_MENU = MY_TOOLS_MENU + "Create/";
+        public const int OBJECT_INDEX = 10000;
+        public const string OBJECT_MENU = MY_TOOLS_MENU + "Objects/";
         
         public const int ASSETS_INDEX = 10001;
         public const string ASSETS_MENU = MY_TOOLS_MENU + "Assets/";

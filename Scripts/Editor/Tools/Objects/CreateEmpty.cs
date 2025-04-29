@@ -8,13 +8,27 @@ namespace MyTools
     {
         static string baseName = "GameObject";
 
-        [MenuItem(Menus.CREATE_MENU + "Create Empty %&n", priority = Menus.CREATE_INDEX + 100)] // Ctrl+Alt+N
+        [MenuItem(Menus.OBJECT_MENU + "Create Empty %&n", priority = Menus.OBJECT_INDEX + 100)] // Ctrl+Alt+N
         static void Create()
         {
-            var emptyObject = GetEmptyObject();
-            Undo.RegisterCreatedObjectUndo(emptyObject, "Create Empty");
+            var selectedObjects = Selection.gameObjects;
 
-            SelectAndRename(emptyObject);
+            if (selectedObjects.Length == 0)
+            {
+                var emptyObject = GetEmptyObject();
+                Undo.RegisterCreatedObjectUndo(emptyObject, "Create Empty");
+                SelectAndRename(emptyObject);
+            }
+            else
+            {
+                foreach (var selectedObject in selectedObjects)
+                {
+                    var emptyObject = GetEmptyObject();
+                    emptyObject.transform.SetParent(selectedObject.transform, false);
+                    Undo.RegisterCreatedObjectUndo(emptyObject, "Create Empty Child");
+                    SelectAndRename(emptyObject);
+                }
+            }
         }
 
         private static void SelectAndRename(GameObject emptyObject)
