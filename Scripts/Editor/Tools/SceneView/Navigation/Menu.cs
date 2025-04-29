@@ -86,7 +86,7 @@ namespace SceneViewTools
             SetSceneView(SceneViewType.Right);
         }
 
-        private static void SetSceneView(SceneViewType sceneViewType)
+        internal static void SetSceneView(SceneViewType sceneViewType)
         {
             SceneViewNavigationManager.SaveSceneView(sceneViewType);
             ActiveSceneView.SceneViewType = sceneViewType;
