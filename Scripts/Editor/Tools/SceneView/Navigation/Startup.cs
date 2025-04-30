@@ -1,5 +1,4 @@
 using UnityEditor;
-using UnityEngine;
 
 namespace SceneViewTools
 {
@@ -8,21 +7,24 @@ namespace SceneViewTools
     {
         static Startup()
         {
-            EditorApplication.update += TryRestoreView;
+            EditorApplication.update += WaitForSceneView;
         }
 
-        private static bool applied;
+        private static void WaitForSceneView()
+        {
+            if (SceneView.lastActiveSceneView == null)
+                return;
+
+            EditorApplication.update -= WaitForSceneView;
+            EditorApplication.delayCall += TryRestoreView;
+        }
 
         private static void TryRestoreView()
         {
-            if (applied || SceneView.lastActiveSceneView == null)
-                return;
-
             if (!EditorPrefs.HasKey("MyTools.SceneViewTools.CurrentViewType"))
                 return;
 
             var viewType = SceneViewNavigationIO.ReadFromEditorPrefs();
-            
             SceneViewNavigationMenu.SetSceneView(viewType);
             SceneViewNavigationMenu.SetSceneView(viewType);
         }
