@@ -5,28 +5,29 @@ namespace SceneViewTools
     [InitializeOnLoad]
     public static class Startup
     {
+        private static bool _isRestored;
+
         static Startup()
         {
-            EditorApplication.update += WaitForSceneView;
-        }
-
-        private static void WaitForSceneView()
-        {
-            if (SceneView.lastActiveSceneView == null)
-                return;
-
-            EditorApplication.update -= WaitForSceneView;
-            EditorApplication.delayCall += TryRestoreView;
+            if (_isRestored) return;
+            EditorApplication.update += TryRestoreView;
         }
 
         private static void TryRestoreView()
         {
+            if (SceneView.lastActiveSceneView == null)
+                return;
+
             if (!EditorPrefs.HasKey("MyTools.SceneViewTools.CurrentViewType"))
                 return;
 
             var viewType = SceneViewNavigationIO.ReadFromEditorPrefs();
+
             SceneViewNavigationMenu.SetSceneView(viewType);
             SceneViewNavigationMenu.SetSceneView(viewType);
+
+            EditorApplication.update -= TryRestoreView;
+            _isRestored = true;
         }
     }
 }
