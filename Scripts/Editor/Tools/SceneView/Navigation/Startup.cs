@@ -5,12 +5,9 @@ namespace SceneViewTools
     [InitializeOnLoad]
     public static class Startup
     {
-        private static bool _isRestored;
-
         static Startup()
         {
-            if (_isRestored) return;
-            EditorApplication.update += TryRestoreView;
+            EditorApplication.delayCall += TryRestoreView;
         }
 
         private static void TryRestoreView()
@@ -25,9 +22,6 @@ namespace SceneViewTools
 
             SceneViewNavigationMenu.SetSceneView(viewType);
             SceneViewNavigationMenu.SetSceneView(viewType);
-
-            EditorApplication.update -= TryRestoreView;
-            _isRestored = true;
         }
     }
 }
