@@ -7,59 +7,23 @@ namespace MyTools.Runtime
     [AddComponentMenu("My Tools/Animation/" + nameof(AnimateTransforms))]
     public class AnimateTransforms : MonoBehaviour
     {
-        private Transform MyTransform;
-
-        [Header("Axis")] [SerializeField] bool x;
+        [Header("Axis")] 
+        [SerializeField] bool x;
         [SerializeField] bool y;
         [SerializeField] bool z;
 
-        [Header("Animation")] [SerializeField] float speed = 1f;
+        [Header("Animation")] 
+        [SerializeField] private AnimationSpace space = AnimationSpace.Local;
+        [SerializeField] float speed = 1f;
         [SerializeField] float amplitude = 0.1f;
         [SerializeField] float frequency = 20f;
+        [SerializeField] bool easings;
+        [ValueDropdown("GetDropdownItems")] 
+        [ShowIf("easings")]
+        [SerializeField] private string selectedEasing = "EaseInSine";
 
-        [Header("Options")] [SerializeField] bool easings;
-
-        [ValueDropdown("GetDropdownItems")] [SerializeField]
-        private string selectedEasing = "EaseInSine";
-
-        // Use this method to populate the dropdown options
-        private static IEnumerable<string> GetDropdownItems()
-        {
-            return new[]
-            {
-                "EaseInSine",
-                "EaseOutSine",
-                "EaseInOutSine",
-                "EaseInQuad",
-                "EaseOutQuad",
-                "EaseInOutQuad",
-                "EaseInCubic",
-                "EaseOutCubic",
-                "EaseInOutCubic",
-                "EaseInQuart",
-                "EaseOutQuart",
-                "EaseInOutQuart",
-                "EaseInQuint",
-                "EaseOutQuint",
-                "EaseInOutQuint",
-                "EaseInExpo",
-                "EaseOutExpo",
-                "EaseInOutExpo",
-                "EaseInCirc",
-                "EaseOutCirc",
-                "EaseInOutCirc",
-                "EaseInBack",
-                "EaseOutBack",
-                "EaseInOutBack",
-                "EaseInElastic",
-                "EaseOutElastic",
-                "EaseInOutElastic",
-                "EaseInBounce",
-                "EaseOutBounce",
-                "EaseInOutBounce"
-            };
-        }
-
+        private Transform MyTransform;
+        
         void Start()
         {
             MyTransform = GetComponent<Transform>();
@@ -68,34 +32,37 @@ namespace MyTools.Runtime
         void Update()
         {
             float time = Time.time * speed;
-            Vector3 newPosition = MyTransform.position;
+            Vector3 animatedOffset = Vector3.zero;
 
-            // Use the selected easing function from the dropdown
             if (x)
             {
-                newPosition.x = amplitude * Mathf.Sin(time * frequency);
-
-                if (easings)
-                    newPosition.x = ApplyEasingFunction(newPosition.x, selectedEasing);
+                float value = amplitude * Mathf.Sin(time * frequency);
+                if (easings) value = ApplyEasingFunction(value, selectedEasing);
+                animatedOffset.x = value;
             }
 
             if (y)
             {
-                newPosition.y = amplitude * Mathf.Sin(time * frequency);
-
-                if (easings)
-                    newPosition.y = ApplyEasingFunction(newPosition.y, selectedEasing);
+                float value = amplitude * Mathf.Sin(time * frequency);
+                if (easings) value = ApplyEasingFunction(value, selectedEasing);
+                animatedOffset.y = value;
             }
 
             if (z)
             {
-                newPosition.z = amplitude * Mathf.Sin(time * frequency);
-
-                if (easings)
-                    newPosition.z = ApplyEasingFunction(newPosition.z, selectedEasing);
+                float value = amplitude * Mathf.Sin(time * frequency);
+                if (easings) value = ApplyEasingFunction(value, selectedEasing);
+                animatedOffset.z = value;
             }
 
-            MyTransform.position = newPosition;
+            if (space == AnimationSpace.Local)
+            {
+                MyTransform.localPosition = animatedOffset;
+            }
+            else
+            {
+                MyTransform.position = animatedOffset;
+            }
         }
 
         float ApplyEasingFunction(float value, string easingFunction)
@@ -165,6 +132,49 @@ namespace MyTools.Runtime
                 default:
                     return value;
             }
+        }
+
+        private static IEnumerable<string> GetDropdownItems()
+        {
+            return new[]
+            {
+                "EaseInSine",
+                "EaseOutSine",
+                "EaseInOutSine",
+                "EaseInQuad",
+                "EaseOutQuad",
+                "EaseInOutQuad",
+                "EaseInCubic",
+                "EaseOutCubic",
+                "EaseInOutCubic",
+                "EaseInQuart",
+                "EaseOutQuart",
+                "EaseInOutQuart",
+                "EaseInQuint",
+                "EaseOutQuint",
+                "EaseInOutQuint",
+                "EaseInExpo",
+                "EaseOutExpo",
+                "EaseInOutExpo",
+                "EaseInCirc",
+                "EaseOutCirc",
+                "EaseInOutCirc",
+                "EaseInBack",
+                "EaseOutBack",
+                "EaseInOutBack",
+                "EaseInElastic",
+                "EaseOutElastic",
+                "EaseInOutElastic",
+                "EaseInBounce",
+                "EaseOutBounce",
+                "EaseInOutBounce"
+            };
+        }
+        
+        private enum AnimationSpace
+        {
+            Local,
+            World
         }
     }
 }

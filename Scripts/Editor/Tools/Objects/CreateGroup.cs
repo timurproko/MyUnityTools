@@ -8,22 +8,39 @@ namespace MyTools
     {
         static string baseName = "Group";
 
-        [MenuItem(Menus.OBJECT_MENU + "Group %g", validate = true, priority = Menus.OBJECT_INDEX + 101)] // Ctrl+G
+        [MenuItem(Menus.OBJECT_MENU + "Group %g", validate = true, priority = Menus.OBJECT_INDEX + 101)]
         static bool ValidateGroup()
         {
             return Selection.transforms.Length > 0;
         }
 
-        [MenuItem(Menus.OBJECT_MENU + "Group %g", priority = Menus.OBJECT_INDEX + 101)] // Ctrl+G
+        [MenuItem(Menus.OBJECT_MENU + "Group %g", priority = Menus.OBJECT_INDEX + 101)]
         static void Group()
         {
             var selectedObjects = Selection.transforms;
             if (selectedObjects.Length == 0)
                 return;
 
+            Transform commonParent = selectedObjects[0].parent;
+            bool allSameParent = true;
+
+            for (int i = 1; i < selectedObjects.Length; i++)
+            {
+                if (selectedObjects[i].parent != commonParent)
+                {
+                    allSameParent = false;
+                    break;
+                }
+            }
+
             var groupPosition = GetCenterPosition(selectedObjects);
             var groupObject = GetEmptyObject(groupPosition);
             Undo.RegisterCreatedObjectUndo(groupObject, "Create Group");
+
+            if (allSameParent && commonParent != null)
+            {
+                groupObject.transform.SetParent(commonParent, false);
+            }
 
             foreach (var obj in selectedObjects)
             {
