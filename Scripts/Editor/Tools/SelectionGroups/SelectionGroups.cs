@@ -10,7 +10,7 @@ namespace MyTools
     public static class SelectionGroups
     {
         private const string PrefsKeyPrefix = "SelectionSlot_";
-        private static readonly Regex selectionSuffixRegex = new Regex(@"\s\(Selection\s\d+\)$", RegexOptions.Compiled);
+        private static readonly Regex selectionPrefixRegex = new Regex(@"^\[Selection\s\d+\]\s", RegexOptions.Compiled);
 
         private static string GetProjectSpecificKey(int slot)
         {
@@ -51,11 +51,10 @@ namespace MyTools
         [MenuItem(Menus.SELECTION_MENU + "Load Selection 0 _0", priority = Menus.SELECTION_INDEX + 209, validate = true)] private static bool ValidateLoadSelection10() => HasValidSavedSelection(10);
         [MenuItem(Menus.SELECTION_MENU + "Load Selection 0 _0", priority = Menus.SELECTION_INDEX + 209)] private static void LoadSelectionSlot10() => LoadSelection(10);
 
-        // Remove From Selection command
         [MenuItem(Menus.SELECTION_MENU + "Remove From Selection #BACKSPACE", priority = Menus.SELECTION_INDEX + 300, validate = true)]
         private static bool ValidateRemoveFromSelection()
         {
-            return Selection.gameObjects.Any(go => selectionSuffixRegex.IsMatch(go.name));
+            return Selection.gameObjects.Any(go => selectionPrefixRegex.IsMatch(go.name));
         }
 
         [MenuItem(Menus.SELECTION_MENU + "Remove From Selection #BACKSPACE", priority = Menus.SELECTION_INDEX + 300)]
@@ -68,10 +67,11 @@ namespace MyTools
             var slotsToUpdate = new HashSet<int>();
             foreach (var obj in selectedObjects)
             {
-                if (selectionSuffixRegex.IsMatch(obj.name))
+                if (selectionPrefixRegex.IsMatch(obj.name))
                 {
-                    obj.name = selectionSuffixRegex.Replace(obj.name, "");
-                    
+                    string strippedName = selectionPrefixRegex.Replace(obj.name, "");
+                    obj.name = strippedName;
+
                     for (int slot = 1; slot <= 10; slot++)
                     {
                         var key = GetProjectSpecificKey(slot);
@@ -79,7 +79,7 @@ namespace MyTools
                         if (!string.IsNullOrEmpty(savedNames))
                         {
                             int displaySlot = slot == 10 ? 0 : slot;
-                            if (savedNames.Split(';').Contains(obj.name + $" (Selection {displaySlot})"))
+                            if (savedNames.Split(';').Contains($"[Selection {displaySlot}] {strippedName}"))
                             {
                                 slotsToUpdate.Add(slot);
                             }
@@ -141,26 +141,26 @@ namespace MyTools
                     var obj = GameObject.Find(name);
                     if (obj != null)
                     {
-                        obj.name = selectionSuffixRegex.Replace(obj.name, "");
+                        obj.name = selectionPrefixRegex.Replace(obj.name, "");
                     }
                 }
             }
 
             foreach (var obj in selectedObjects)
             {
-                obj.name = selectionSuffixRegex.Replace(obj.name, "");
+                obj.name = selectionPrefixRegex.Replace(obj.name, "");
             }
 
             var names = new List<string>();
             foreach (var obj in selectedObjects)
             {
-                obj.name = $"{obj.name} (Selection {displaySlot})";
+                obj.name = $"[Selection {displaySlot}] {obj.name}";
                 names.Add(obj.name);
             }
 
             EditorPrefs.SetString(key, string.Join(";", names));
             Debug.Log($"MyTools: Selection saved to slot {displaySlot}.");
-            
+
             EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
         }
 
@@ -186,7 +186,7 @@ namespace MyTools
 
             Selection.objects = objectsToSelect.ToArray();
         }
-        
+
         private static bool HasSavedSelection(int slot)
         {
             var key = GetProjectSpecificKey(slot);
@@ -207,7 +207,7 @@ namespace MyTools
                 if (allObjects.Any(go => go.name == name))
                     return true;
             }
-    
+
             EditorPrefs.DeleteKey(key);
             return false;
         }

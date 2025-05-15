@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MyTools
 {
-    internal static class Audio
+    internal static class Preview
     {
         private static AudioSource audioSource;
         private static GameObject audioSourceObject;
@@ -31,7 +31,7 @@ namespace MyTools
             }
         }
 
-        [MenuItem(Menus.EDITOR_MENU + "Quick Preview _SPACE", priority = Menus.EDITOR_INDEX + 300)]
+        [MenuItem(Menus.EDITOR_MENU + "Audio Preview _SPACE", priority = Menus.EDITOR_INDEX + 300)]
         private static void PlaySelectedAudioClip()
         {
             Object selectedObject = Selection.activeObject;
