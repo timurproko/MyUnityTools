@@ -34,18 +34,8 @@ namespace MyTools
             }
 
             Menu.SetChecked(menuPath, enable);
-            ForceDomainReload();
         }
-
-        private static void ForceDomainReload()
-        {
-            string dummyFile = "Assets/~domain_reload_trigger.cs";
-            System.IO.File.WriteAllText(dummyFile, "// domain reload trigger");
-            AssetDatabase.ImportAsset(dummyFile, ImportAssetOptions.ForceUpdate);
-            System.IO.File.Delete(dummyFile);
-            System.IO.File.Delete(dummyFile + ".meta");
-        }
-
+        
         private static bool IsSymbolDefined(string symbol)
         {
             var symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup);
