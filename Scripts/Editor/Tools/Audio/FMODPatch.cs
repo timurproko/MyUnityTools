@@ -1,3 +1,4 @@
+#if FMOD
 using System.Reflection;
 using FMODUnity;
 using HarmonyLib;
@@ -28,3 +29,4 @@ public static class EventManagerPatcher
         }
     }
 }
+#endif

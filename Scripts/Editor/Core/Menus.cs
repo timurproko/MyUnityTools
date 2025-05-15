@@ -12,6 +12,7 @@
         
         public const int EDITOR_INDEX = 11000;
         public const string EDITOR_MENU = MY_TOOLS_MENU + "Editor/";
+        public const string EXTENSIONS_MENU = MY_TOOLS_MENU + "Extensions/";
         
         public const int SCENE_VIEW_INDEX = 12000;
         public const string NAVIGATION_MENU = MY_TOOLS_MENU + "Scene View Navigation/";

@@ -1,4 +1,4 @@
-
+#if FMOD
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
 using UnityEngine;
@@ -331,3 +331,4 @@ namespace FMODUnity
         }
     }
 }
+#endif
