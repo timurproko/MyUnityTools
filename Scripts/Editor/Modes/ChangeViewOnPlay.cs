@@ -6,8 +6,8 @@ namespace MyTools
     [InitializeOnLoad]
     internal static class ChangeViewOnPlay
     {
-        private const int FOCUS_INDEX = Menus.MODES_INDEX + 100;
-        private const int MAXIMIZE_INDEX = Menus.MODES_INDEX + 101;
+        private const int FOCUS_INDEX = Menus.MODES_INDEX + 102;
+        private const int MAXIMIZE_INDEX = Menus.MODES_INDEX + 103;
         private const string FOCUS_MENU = Menus.MY_TOOLS_MENU + "Focus Game View on Play";
         private const string MAXIMIZE_MENU = Menus.MY_TOOLS_MENU + "Maximize Active View on Play";
 
@@ -32,7 +32,7 @@ namespace MyTools
             EditorApplication.pauseStateChanged += OnPauseStateChanged;
         }
 
-        [MenuItem(MAXIMIZE_MENU, priority = MAXIMIZE_INDEX + 1)]
+        [MenuItem(MAXIMIZE_MENU, priority = MAXIMIZE_INDEX)]
         private static void ToggleMaximize()
         {
             _maximizeEnabled = !_maximizeEnabled;
@@ -40,7 +40,7 @@ namespace MyTools
             Debug.Log($"MyTools: Maximize Active View on Play is {(_maximizeEnabled ? "Enabled" : "Disabled")}");
         }
 
-        [MenuItem(FOCUS_MENU, priority = FOCUS_INDEX + 2)]
+        [MenuItem(FOCUS_MENU, priority = FOCUS_INDEX)]
         private static void ToggleFocus()
         {
             _focusEnabled = !_focusEnabled;
