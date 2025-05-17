@@ -7,7 +7,7 @@ namespace MyTools
     internal static class FastPlay
     {
         private const string MENU_NAME = Menus.MY_TOOLS_MENU + "Fast Play Mode";
-        private const int ITEM_INDEX = Menus.MODES_INDEX + 100;
+        private const int ITEM_INDEX = Menus.MODES_INDEX + 101;
         private static bool _enabled;
 
         static FastPlay()

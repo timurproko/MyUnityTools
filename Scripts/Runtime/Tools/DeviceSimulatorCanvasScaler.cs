@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace MyTools.Runtime
 {
-    [AddComponentMenu("My Tools/Utility/" + nameof(DeviceSimulatorCanvasScaler))]
+    [AddComponentMenu("My Tools/Utility/" + "Device Simulator UI Scaler")]
     public class DeviceSimulatorCanvasScaler : MonoBehaviour
     {
         GameObject _xrDeviceSimulator;

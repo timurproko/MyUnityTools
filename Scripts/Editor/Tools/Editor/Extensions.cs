@@ -48,15 +48,25 @@ namespace MyTools
             Menu.SetChecked(menuPath, defined);
             return true;
         }
+        
+        // ANIMANCER
+        private const string Extension1 = "ANIMANCER";
+        private const string Menu_Extension1 = Menus.EXTENSIONS_MENU + Extension1;
 
-        // FMOD installer
-        private const string FMODSymbol = "FMOD";
-        private const string FMODMenuPath = Menus.EXTENSIONS_MENU + "FMOD";
+        [MenuItem(Menu_Extension1, priority = Menus.EDITOR_INDEX + 100)]
+        private static void Toggle_Extension1() => ToggleSymbol(Extension1, Menu_Extension1);
 
-        [MenuItem(FMODMenuPath, priority = Menus.EDITOR_INDEX + 100)]
-        private static void ToggleFMOD() => ToggleSymbol(FMODSymbol, FMODMenuPath);
+        [MenuItem(Menu_Extension1, true)]
+        private static bool Validate_Extension1() => ValidateSymbolToggle(Extension1, Menu_Extension1);
+        
+        // FMOD
+        private const string Extension2 = "FMOD";
+        private const string Menu_Extension2 = Menus.EXTENSIONS_MENU + Extension2;
 
-        [MenuItem(FMODMenuPath, true)]
-        private static bool ValidateFMOD() => ValidateSymbolToggle(FMODSymbol, FMODMenuPath);
+        [MenuItem(Menu_Extension2, priority = Menus.EDITOR_INDEX + 101)]
+        private static void Toggle_Extension2() => ToggleSymbol(Extension2, Menu_Extension2);
+
+        [MenuItem(Menu_Extension2, true)]
+        private static bool Validate_Extension2() => ValidateSymbolToggle(Extension2, Menu_Extension2);
     }
 }

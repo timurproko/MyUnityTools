@@ -8,6 +8,7 @@ using UnityEditor;
 
 namespace MyTools.Runtime
 {
+    [AddComponentMenu("My Tools/Houdini/" + "Add Instances")]
     public class AddInstances : MonoBehaviour
     {
         [TitleGroup("Instance Asset")] 

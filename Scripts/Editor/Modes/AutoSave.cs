@@ -8,7 +8,7 @@ namespace MyTools
     internal static class AutoSave
     {
         private const string MENU_NAME = Menus.MY_TOOLS_MENU + "Auto Save on Play";
-        private const int ITEM_INDEX = Menus.MODES_INDEX + 101;
+        private const int ITEM_INDEX = Menus.MODES_INDEX + 100;
         internal static bool _enabled;
 
         static AutoSave()

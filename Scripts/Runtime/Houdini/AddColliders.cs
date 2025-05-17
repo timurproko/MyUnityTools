@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 
 namespace MyTools.Runtime
 {
+    [AddComponentMenu("My Tools/Houdini/" + "Add Colliders")]
     public class AddColliders : MonoBehaviour
     {
         [SerializeField]

@@ -2,7 +2,7 @@
 
 namespace MyTools.Runtime    
 {
-    [AddComponentMenu("My Tools/Animation/" + nameof(AnimateOrientation))]
+    [AddComponentMenu("My Tools/Animation/" + "Animate Orientation")]
     public class AnimateOrientation : MonoBehaviour
     {
         private Transform MyTransform = null;

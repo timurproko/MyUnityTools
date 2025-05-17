@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace MyTools.Runtime
 {
-    [AddComponentMenu("My Tools/Animation/" + nameof(AnimateTransforms))]
+    [AddComponentMenu("My Tools/Animation/" + "Animate Transforms")]
     public class AnimateTransforms : MonoBehaviour
     {
         [Header("Axis")] 

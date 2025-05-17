@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(AnimancerComponent))]
+[AddComponentMenu("My Tools/Animation/" + "Play Animation")]
 public class PlayAnimation : MonoBehaviour
 {
     [SerializeField] private AnimationClip _Animation;

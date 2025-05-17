@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 namespace MyTools.Runtime
 {
-    [AddComponentMenu("My Tools/Utility/" + nameof(DebugPhysics))]
+    [AddComponentMenu("My Tools/Utility/" + "Debug Physics")]
     public class DebugPhysics : MonoBehaviour
     {
         [Header("Collision")]
