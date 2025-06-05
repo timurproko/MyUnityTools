@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
 
@@ -50,23 +51,25 @@ namespace MyTools
         }
         
         // ANIMANCER
-        private const string Extension1 = "ANIMANCER";
-        private const string Menu_Extension1 = Menus.EXTENSIONS_MENU + Extension1;
+        private const string Animancer = "ANIMANCER";
+        private const string Menu_Animancer = Menus.EXTENSIONS_MENU + Animancer;
 
-        [MenuItem(Menu_Extension1, priority = Menus.EDITOR_INDEX + 100)]
-        private static void Toggle_Extension1() => ToggleSymbol(Extension1, Menu_Extension1);
+        [MenuItem(Menu_Animancer, priority = Menus.EDITOR_INDEX + 101)]
+        private static void Toggle_Animancer() => ToggleSymbol(Animancer, Menu_Animancer);
 
-        [MenuItem(Menu_Extension1, true)]
-        private static bool Validate_Extension1() => ValidateSymbolToggle(Extension1, Menu_Extension1);
+        [MenuItem(Menu_Animancer, true)]
+        private static bool Validate_Animancer() => ValidateSymbolToggle(Animancer, Menu_Animancer);
         
         // FMOD
-        private const string Extension2 = "FMOD";
-        private const string Menu_Extension2 = Menus.EXTENSIONS_MENU + Extension2;
+        private const string FMOD = "FMOD";
+        private const string Menu_FMOD = Menus.EXTENSIONS_MENU + FMOD;
 
-        [MenuItem(Menu_Extension2, priority = Menus.EDITOR_INDEX + 101)]
-        private static void Toggle_Extension2() => ToggleSymbol(Extension2, Menu_Extension2);
+        [MenuItem(Menu_FMOD, priority = Menus.EDITOR_INDEX + 102)]
+        private static void Toggle_FMOD() => ToggleSymbol(FMOD, Menu_FMOD);
 
-        [MenuItem(Menu_Extension2, true)]
-        private static bool Validate_Extension2() => ValidateSymbolToggle(Extension2, Menu_Extension2);
+        [MenuItem(Menu_FMOD, true)]
+        private static bool Validate_FMOD() => ValidateSymbolToggle(FMOD, Menu_FMOD);
+        
     }
 }
+#endif

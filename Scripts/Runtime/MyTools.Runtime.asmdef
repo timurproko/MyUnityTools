@@ -1,4 +1,14 @@
 {
-    "name": "MyTools.Runtime",
-    "references":[ "GUID:4c25c05f410a3a447a75c3b0909152ef" ]
+  "name": "MyTools.Runtime",
+  "rootNamespace": "",
+  "references": [],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
 }

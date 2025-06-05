@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace MyTools.Runtime
 {
-    [AddComponentMenu("My Tools/Utility/" + "Debug.Log Controller")]
+    [AddComponentMenu("My Tools/Debug/" + "Debug.Log Controller")]
     public class DebugLogController : MonoBehaviour
     {
         [SerializeField] private bool _enableLogging = true;

@@ -1,4 +1,5 @@
-﻿namespace MyTools
+﻿#if UNITY_EDITOR
+namespace MyTools
 {
     public static class Menus
     {
@@ -25,3 +26,4 @@
         public const int MODES_INDEX = 99000;
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 namespace SceneViewTools
@@ -37,3 +38,4 @@ namespace SceneViewTools
         public static readonly Quaternion Right = Quaternion.Euler(0f, 270f, 0f);
     }
 }
+#endif

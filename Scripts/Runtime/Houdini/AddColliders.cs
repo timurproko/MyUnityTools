@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -259,3 +260,4 @@ namespace MyTools.Runtime
         }
     }
 }
+#endif

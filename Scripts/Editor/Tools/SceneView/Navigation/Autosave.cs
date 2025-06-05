@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using SceneViewTools;
 using UnityEditor;
 
@@ -21,3 +22,4 @@ namespace Autosave
         }
     }
 }
+#endif

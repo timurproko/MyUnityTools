@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 
 namespace SceneViewTools
@@ -46,3 +47,4 @@ namespace SceneViewTools
         }
     }
 }
+#endif

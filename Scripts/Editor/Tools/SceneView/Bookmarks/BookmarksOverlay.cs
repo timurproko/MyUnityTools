@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.Overlays;
 using UnityEditor.Toolbars;
@@ -77,3 +78,4 @@ namespace SceneViewTools
         }
     }
 }
+#endif
