@@ -1,4 +1,4 @@
-#if UNITY_EDITOR
+#if ODIN_INSPECTOR && UNITY_EDITOR
 using System.Collections.Generic;
 using System.IO;
 using Sirenix.OdinInspector;
