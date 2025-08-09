@@ -8,20 +8,7 @@ namespace SceneViewTools
     {
         static Startup()
         {
-            EditorApplication.delayCall += InitializePrefs;
             EditorApplication.delayCall += TryRestoreView;
-        }
-
-        private static void InitializePrefs()
-        {
-            if (!EditorPrefs.HasKey(SceneViewNavigationIO.CurrentViewTypeKey))
-            {
-                var viewType = SceneViewType.Perspective;
-                
-                SceneViewNavigationIO.WriteToEditorPrefs(viewType);
-                SceneViewNavigationMenu.SetSceneView(viewType);
-                SceneViewNavigationMenu.SetSceneView(viewType);
-            }
         }
 
         private static void TryRestoreView()
