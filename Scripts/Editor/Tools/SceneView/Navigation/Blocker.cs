@@ -12,10 +12,10 @@ namespace SceneViewTools
 
         static SceneViewNavigationBlocker()
         {
-            UnityEditor.SceneView.duringSceneGui += OnSceneGUI;
+            SceneView.duringSceneGui += OnSceneGUI;
         }
 
-        private static void OnSceneGUI(UnityEditor.SceneView sceneView)
+        private static void OnSceneGUI(SceneView sceneView)
         {
             Event e = Event.current;
 
@@ -54,10 +54,10 @@ namespace SceneViewTools
             isPanning = true;
             lastMousePosition = e.mousePosition;
             e.Use();
-            UnityEditor.SceneView.RepaintAll();
+            SceneView.RepaintAll();
         }
 
-        private static void PerformPanning(UnityEditor.SceneView sceneView, Event e)
+        private static void PerformPanning(SceneView sceneView, Event e)
         {
             Vector2 delta = e.mousePosition - lastMousePosition;
             delta *= sceneView.size / 500f; 
@@ -71,7 +71,7 @@ namespace SceneViewTools
         {
             isPanning = false;
             e.Use();
-            UnityEditor.SceneView.RepaintAll();
+            SceneView.RepaintAll();
         }
     }
 }

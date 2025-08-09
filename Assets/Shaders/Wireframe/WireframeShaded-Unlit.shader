@@ -33,7 +33,7 @@ Shader "My Tools/Wireframe/Shaded-Unlit"
 			uniform float4 _WireColor; 
 			uniform float4 _BaseColor;
 
-			struct Attributes
+			struct MeshData
 			{
 				float4 vertex : POSITION;
 				float2 texcoord0 : TEXCOORD0;
@@ -57,7 +57,7 @@ Shader "My Tools/Wireframe/Shaded-Unlit"
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
 			
-			v2g Vertex (Attributes v)
+			v2g Vertex (MeshData v)
 			{
 				v2g o;
 				UNITY_SETUP_INSTANCE_ID(v);

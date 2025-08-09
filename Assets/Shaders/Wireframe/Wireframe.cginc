@@ -5,7 +5,7 @@ uniform float4 _WireColor = float4(0.0, 1.0, 0.0, 1.0);
 uniform float4 _BaseColor = float4(0.0, 0.0, 0.0, 0.0);
 uniform float _MaxTriSize = 25.0;
 
-struct Attributes
+struct MeshData
 {
     float4 vertex : POSITION;
     UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -27,7 +27,7 @@ struct g2f
     UNITY_VERTEX_OUTPUT_STEREO
 };
 
-v2g Vertex (Attributes v)
+v2g Vertex (MeshData v)
 {
     v2g o;
     UNITY_SETUP_INSTANCE_ID(v);

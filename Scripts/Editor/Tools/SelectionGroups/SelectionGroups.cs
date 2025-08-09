@@ -20,47 +20,65 @@ namespace MyTools
             return $"{PrefsKeyPrefix}{projectName}_{displaySlot}";
         }
 
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 1 #1", priority = Menus.SELECTION_INDEX + 100)] private static void SaveSelectionSlot1() => SaveSelection(1);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 2 #2", priority = Menus.SELECTION_INDEX + 101)] private static void SaveSelectionSlot2() => SaveSelection(2);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 3 #3", priority = Menus.SELECTION_INDEX + 102)] private static void SaveSelectionSlot3() => SaveSelection(3);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 4 #4", priority = Menus.SELECTION_INDEX + 103)] private static void SaveSelectionSlot4() => SaveSelection(4);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 5 #5", priority = Menus.SELECTION_INDEX + 104)] private static void SaveSelectionSlot5() => SaveSelection(5);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 6 #6", priority = Menus.SELECTION_INDEX + 105)] private static void SaveSelectionSlot6() => SaveSelection(6);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 7 #7", priority = Menus.SELECTION_INDEX + 106)] private static void SaveSelectionSlot7() => SaveSelection(7);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 8 #8", priority = Menus.SELECTION_INDEX + 107)] private static void SaveSelectionSlot8() => SaveSelection(8);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 9 #9", priority = Menus.SELECTION_INDEX + 108)] private static void SaveSelectionSlot9() => SaveSelection(9);
-        [MenuItem(Menus.SELECTION_MENU + "Save Selection 0 #0", priority = Menus.SELECTION_INDEX + 109)] private static void SaveSelectionSlot10() => SaveSelection(10);
+        // --- Save slots ---
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 1 #1", priority = Menus.SELECTION_INDEX + 100)] private static void SaveSelectionSlot1() { if (State.disabled) return; SaveSelection(1); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 2 #2", priority = Menus.SELECTION_INDEX + 101)] private static void SaveSelectionSlot2() { if (State.disabled) return; SaveSelection(2); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 3 #3", priority = Menus.SELECTION_INDEX + 102)] private static void SaveSelectionSlot3() { if (State.disabled) return; SaveSelection(3); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 4 #4", priority = Menus.SELECTION_INDEX + 103)] private static void SaveSelectionSlot4() { if (State.disabled) return; SaveSelection(4); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 5 #5", priority = Menus.SELECTION_INDEX + 104)] private static void SaveSelectionSlot5() { if (State.disabled) return; SaveSelection(5); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 6 #6", priority = Menus.SELECTION_INDEX + 105)] private static void SaveSelectionSlot6() { if (State.disabled) return; SaveSelection(6); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 7 #7", priority = Menus.SELECTION_INDEX + 106)] private static void SaveSelectionSlot7() { if (State.disabled) return; SaveSelection(7); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 8 #8", priority = Menus.SELECTION_INDEX + 107)] private static void SaveSelectionSlot8() { if (State.disabled) return; SaveSelection(8); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 9 #9", priority = Menus.SELECTION_INDEX + 108)] private static void SaveSelectionSlot9() { if (State.disabled) return; SaveSelection(9); }
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 0 #0", priority = Menus.SELECTION_INDEX + 109)] private static void SaveSelectionSlot10(){ if (State.disabled) return; SaveSelection(10); }
 
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 1 _1", priority = Menus.SELECTION_INDEX + 200, validate = true)] private static bool ValidateLoadSelection1() => HasValidSavedSelection(1);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 1 _1", priority = Menus.SELECTION_INDEX + 200)] private static void LoadSelectionSlot1() => LoadSelection(1);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 2 _2", priority = Menus.SELECTION_INDEX + 201, validate = true)] private static bool ValidateLoadSelection2() => HasValidSavedSelection(2);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 2 _2", priority = Menus.SELECTION_INDEX + 201)] private static void LoadSelectionSlot2() => LoadSelection(2);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 3 _3", priority = Menus.SELECTION_INDEX + 202, validate = true)] private static bool ValidateLoadSelection3() => HasValidSavedSelection(3);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 3 _3", priority = Menus.SELECTION_INDEX + 202)] private static void LoadSelectionSlot3() => LoadSelection(3);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 4 _4", priority = Menus.SELECTION_INDEX + 203, validate = true)] private static bool ValidateLoadSelection4() => HasValidSavedSelection(4);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 4 _4", priority = Menus.SELECTION_INDEX + 203)] private static void LoadSelectionSlot4() => LoadSelection(4);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 5 _5", priority = Menus.SELECTION_INDEX + 204, validate = true)] private static bool ValidateLoadSelection5() => HasValidSavedSelection(5);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 5 _5", priority = Menus.SELECTION_INDEX + 204)] private static void LoadSelectionSlot5() => LoadSelection(5);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 6 _6", priority = Menus.SELECTION_INDEX + 205, validate = true)] private static bool ValidateLoadSelection6() => HasValidSavedSelection(6);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 6 _6", priority = Menus.SELECTION_INDEX + 205)] private static void LoadSelectionSlot6() => LoadSelection(6);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 7 _7", priority = Menus.SELECTION_INDEX + 206, validate = true)] private static bool ValidateLoadSelection7() => HasValidSavedSelection(7);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 7 _7", priority = Menus.SELECTION_INDEX + 206)] private static void LoadSelectionSlot7() => LoadSelection(7);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 8 _8", priority = Menus.SELECTION_INDEX + 207, validate = true)] private static bool ValidateLoadSelection8() => HasValidSavedSelection(8);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 8 _8", priority = Menus.SELECTION_INDEX + 207)] private static void LoadSelectionSlot8() => LoadSelection(8);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 9 _9", priority = Menus.SELECTION_INDEX + 208, validate = true)] private static bool ValidateLoadSelection9() => HasValidSavedSelection(9);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 9 _9", priority = Menus.SELECTION_INDEX + 208)] private static void LoadSelectionSlot9() => LoadSelection(9);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 0 _0", priority = Menus.SELECTION_INDEX + 209, validate = true)] private static bool ValidateLoadSelection10() => HasValidSavedSelection(10);
-        [MenuItem(Menus.SELECTION_MENU + "Load Selection 0 _0", priority = Menus.SELECTION_INDEX + 209)] private static void LoadSelectionSlot10() => LoadSelection(10);
+        // validate for Save (just disable when plugin disabled)
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 1 #1", validate = true, priority = Menus.SELECTION_INDEX + 100)] private static bool ValidateSaveSelectionSlot1()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 2 #2", validate = true, priority = Menus.SELECTION_INDEX + 101)] private static bool ValidateSaveSelectionSlot2()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 3 #3", validate = true, priority = Menus.SELECTION_INDEX + 102)] private static bool ValidateSaveSelectionSlot3()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 4 #4", validate = true, priority = Menus.SELECTION_INDEX + 103)] private static bool ValidateSaveSelectionSlot4()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 5 #5", validate = true, priority = Menus.SELECTION_INDEX + 104)] private static bool ValidateSaveSelectionSlot5()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 6 #6", validate = true, priority = Menus.SELECTION_INDEX + 105)] private static bool ValidateSaveSelectionSlot6()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 7 #7", validate = true, priority = Menus.SELECTION_INDEX + 106)] private static bool ValidateSaveSelectionSlot7()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 8 #8", validate = true, priority = Menus.SELECTION_INDEX + 107)] private static bool ValidateSaveSelectionSlot8()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 9 #9", validate = true, priority = Menus.SELECTION_INDEX + 108)] private static bool ValidateSaveSelectionSlot9()  => !State.disabled;
+        [MenuItem(Menus.SELECTION_MENU + "Save Selection 0 #0", validate = true, priority = Menus.SELECTION_INDEX + 109)] private static bool ValidateSaveSelectionSlot10() => !State.disabled;
 
+        // --- Load slots ---
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 1 _1", priority = Menus.SELECTION_INDEX + 200, validate = true)] private static bool ValidateLoadSelection1()  => !State.disabled && HasValidSavedSelection(1);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 1 _1", priority = Menus.SELECTION_INDEX + 200)] private static void LoadSelectionSlot1()  { if (State.disabled) return; LoadSelection(1); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 2 _2", priority = Menus.SELECTION_INDEX + 201, validate = true)] private static bool ValidateLoadSelection2()  => !State.disabled && HasValidSavedSelection(2);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 2 _2", priority = Menus.SELECTION_INDEX + 201)] private static void LoadSelectionSlot2()  { if (State.disabled) return; LoadSelection(2); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 3 _3", priority = Menus.SELECTION_INDEX + 202, validate = true)] private static bool ValidateLoadSelection3()  => !State.disabled && HasValidSavedSelection(3);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 3 _3", priority = Menus.SELECTION_INDEX + 202)] private static void LoadSelectionSlot3()  { if (State.disabled) return; LoadSelection(3); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 4 _4", priority = Menus.SELECTION_INDEX + 203, validate = true)] private static bool ValidateLoadSelection4()  => !State.disabled && HasValidSavedSelection(4);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 4 _4", priority = Menus.SELECTION_INDEX + 203)] private static void LoadSelectionSlot4()  { if (State.disabled) return; LoadSelection(4); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 5 _5", priority = Menus.SELECTION_INDEX + 204, validate = true)] private static bool ValidateLoadSelection5()  => !State.disabled && HasValidSavedSelection(5);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 5 _5", priority = Menus.SELECTION_INDEX + 204)] private static void LoadSelectionSlot5()  { if (State.disabled) return; LoadSelection(5); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 6 _6", priority = Menus.SELECTION_INDEX + 205, validate = true)] private static bool ValidateLoadSelection6()  => !State.disabled && HasValidSavedSelection(6);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 6 _6", priority = Menus.SELECTION_INDEX + 205)] private static void LoadSelectionSlot6()  { if (State.disabled) return; LoadSelection(6); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 7 _7", priority = Menus.SELECTION_INDEX + 206, validate = true)] private static bool ValidateLoadSelection7()  => !State.disabled && HasValidSavedSelection(7);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 7 _7", priority = Menus.SELECTION_INDEX + 206)] private static void LoadSelectionSlot7()  { if (State.disabled) return; LoadSelection(7); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 8 _8", priority = Menus.SELECTION_INDEX + 207, validate = true)] private static bool ValidateLoadSelection8()  => !State.disabled && HasValidSavedSelection(8);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 8 _8", priority = Menus.SELECTION_INDEX + 207)] private static void LoadSelectionSlot8()  { if (State.disabled) return; LoadSelection(8); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 9 _9", priority = Menus.SELECTION_INDEX + 208, validate = true)] private static bool ValidateLoadSelection9()  => !State.disabled && HasValidSavedSelection(9);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 9 _9", priority = Menus.SELECTION_INDEX + 208)] private static void LoadSelectionSlot9()  { if (State.disabled) return; LoadSelection(9); }
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 0 _0", priority = Menus.SELECTION_INDEX + 209, validate = true)] private static bool ValidateLoadSelection10() => !State.disabled && HasValidSavedSelection(10);
+        [MenuItem(Menus.SELECTION_MENU + "Load Selection 0 _0", priority = Menus.SELECTION_INDEX + 209)] private static void LoadSelectionSlot10(){ if (State.disabled) return; LoadSelection(10); }
+
+        // --- Remove from selection ---
         [MenuItem(Menus.SELECTION_MENU + "Remove From Selection #BACKSPACE", priority = Menus.SELECTION_INDEX + 300, validate = true)]
         private static bool ValidateRemoveFromSelection()
         {
+            if (State.disabled) return false;
             return Selection.gameObjects.Any(go => selectionPrefixRegex.IsMatch(go.name));
         }
 
         [MenuItem(Menus.SELECTION_MENU + "Remove From Selection #BACKSPACE", priority = Menus.SELECTION_INDEX + 300)]
         private static void RemoveFromSelection()
         {
+            if (State.disabled) return;
+
             var selectedObjects = Selection.gameObjects;
             if (selectedObjects.Length == 0)
                 return;
@@ -127,6 +145,8 @@ namespace MyTools
 
         private static void SaveSelection(int slot)
         {
+            if (State.disabled) return;
+
             var selectedObjects = Selection.gameObjects;
             if (selectedObjects.Length == 0)
                 return;
@@ -167,6 +187,8 @@ namespace MyTools
 
         private static void LoadSelection(int slot)
         {
+            if (State.disabled) return;
+
             var key = GetProjectSpecificKey(slot);
             var savedNames = EditorPrefs.GetString(key, string.Empty);
             if (string.IsNullOrEmpty(savedNames))

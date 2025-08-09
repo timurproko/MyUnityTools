@@ -1,26 +1,36 @@
 #if UNITY_EDITOR
-using MyTools;
 using UnityEditor;
 
-public static class SwitchViews
+namespace MyTools
 {
-    [MenuItem(Menus.EDITOR_MENU + "Switch SceneView _TAB", priority = Menus.EDITOR_INDEX + 200)]
-    private static void SwitchView()
+    public static class SwitchViews
     {
-        EditorWindow focusedWindow = EditorWindow.focusedWindow;
-
-        if (focusedWindow != null)
+        [MenuItem(Menus.EDITOR_MENU + "Switch SceneView _TAB", priority = Menus.EDITOR_INDEX + 200)]
+        private static void SwitchView()
         {
-            string windowType = focusedWindow.GetType().Name;
+            if (State.disabled) return;
 
-            if (windowType == "SceneView")
+            EditorWindow focusedWindow = EditorWindow.focusedWindow;
+
+            if (focusedWindow != null)
             {
-                EditorApplication.ExecuteMenuItem("Window/General/Game");
+                string windowType = focusedWindow.GetType().Name;
+
+                if (windowType == "SceneView")
+                {
+                    EditorApplication.ExecuteMenuItem("Window/General/Game");
+                }
+                else if (windowType == "GameView")
+                {
+                    EditorApplication.ExecuteMenuItem("Window/General/Scene");
+                }
             }
-            else if (windowType == "GameView")
-            {
-                EditorApplication.ExecuteMenuItem("Window/General/Scene");
-            }
+        }
+        
+        [MenuItem(Menus.EDITOR_MENU + "Switch SceneView _TAB", validate = true)]
+        static bool ValidateSwitchView()
+        {
+            return !State.disabled;
         }
     }
 }

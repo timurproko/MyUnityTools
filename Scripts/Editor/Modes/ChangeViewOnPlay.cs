@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace MyTools
@@ -36,18 +37,28 @@ namespace MyTools
         [MenuItem(MAXIMIZE_MENU, priority = MAXIMIZE_INDEX)]
         private static void ToggleMaximize()
         {
+            if (State.disabled) return;
+
             _maximizeEnabled = !_maximizeEnabled;
             SetMenuChecked(MAXIMIZE_MENU, _maximizeEnabled);
             Debug.Log($"MyTools: Maximize Active View on Play is {(_maximizeEnabled ? "Enabled" : "Disabled")}");
         }
 
+        [MenuItem(MAXIMIZE_MENU, validate = true, priority = MAXIMIZE_INDEX)]
+        private static bool ValidateToggleMaximize() => !State.disabled;
+
         [MenuItem(FOCUS_MENU, priority = FOCUS_INDEX)]
         private static void ToggleFocus()
         {
+            if (State.disabled) return;
+
             _focusEnabled = !_focusEnabled;
             SetMenuChecked(FOCUS_MENU, _focusEnabled);
             Debug.Log($"MyTools: Focus GameView on Play is {(_focusEnabled ? "Enabled" : "Disabled")}");
         }
+
+        [MenuItem(FOCUS_MENU, validate = true, priority = FOCUS_INDEX)]
+        private static bool ValidateToggleFocus() => !State.disabled;
 
         private static void SetMenuChecked(string menuName, bool enabled)
         {
@@ -57,6 +68,8 @@ namespace MyTools
 
         private static void OnPlayModeStateChanged(PlayModeStateChange state)
         {
+            if (State.disabled) return;
+
             if (state == PlayModeStateChange.EnteredPlayMode)
             {
                 _wasSceneViewActive = UnityEditor.SceneView.lastActiveSceneView != null && UnityEditor.SceneView.lastActiveSceneView.hasFocus;
@@ -82,6 +95,8 @@ namespace MyTools
 
         private static void ExecuteFocusAndMaximize()
         {
+            if (State.disabled) return;
+
             EditorApplication.update -= ExecuteFocusAndMaximize;
 
             FocusView("GameView");
@@ -91,6 +106,8 @@ namespace MyTools
 
         private static void ExecuteFocusLastActiveView()
         {
+            if (State.disabled) return;
+
             EditorApplication.update -= ExecuteFocusLastActiveView;
 
             if (_wasSceneViewActive)
@@ -111,6 +128,8 @@ namespace MyTools
 
         private static void ExecuteMaximize()
         {
+            if (State.disabled) return;
+
             EditorApplication.update -= ExecuteMaximize;
 
             if (_maximizeEnabled)
@@ -121,6 +140,8 @@ namespace MyTools
 
         private static void OnPauseStateChanged(PauseState state)
         {
+            if (State.disabled) return;
+
             if (_maximizeEnabled)
             {
                 MaximizeActiveView(state == PauseState.Unpaused);
@@ -129,6 +150,8 @@ namespace MyTools
 
         private static void MaximizeActiveView(bool maximize = true)
         {
+            if (State.disabled) return;
+
             var activeView = GetActiveView();
             if (activeView != null)
             {
@@ -177,6 +200,8 @@ namespace MyTools
 
         private static void RestoreSceneView()
         {
+            if (State.disabled) return;
+
             if (_wasSceneViewActive)
             {
                 FocusView("SceneView");

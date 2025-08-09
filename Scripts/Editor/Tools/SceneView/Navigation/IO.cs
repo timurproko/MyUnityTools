@@ -8,9 +8,10 @@ namespace SceneViewTools
 {
     public static class SceneViewNavigationIO
     {
+        public static string CurrentViewTypeKey => $"{ProjectUniqueKey}.CurrentViewType";
+        
         private static string ProjectUniqueKey => $"{Application.productName}_{Application.identifier}_SceneViewTools";
         private static string ViewStateKeyPrefix => $"{ProjectUniqueKey}.ViewState";
-        private static string CurrentViewTypeKey => $"{ProjectUniqueKey}.CurrentViewType";
 
         [Serializable]
         public struct ViewState

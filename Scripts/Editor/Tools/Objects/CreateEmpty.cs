@@ -12,6 +12,8 @@ namespace MyTools
         [MenuItem(Menus.OBJECT_MENU + "Create Empty %&n", priority = Menus.OBJECT_INDEX + 100)] // Ctrl+Alt+N
         static void Create()
         {
+            if (State.disabled) return;
+
             var selectedObjects = Selection.gameObjects;
 
             if (selectedObjects.Length == 0)
@@ -31,6 +33,9 @@ namespace MyTools
                 }
             }
         }
+
+        [MenuItem(Menus.OBJECT_MENU + "Create Empty %&n", validate = true)]
+        static bool ValidateCreate() => !State.disabled;
 
         private static void SelectAndRename(GameObject emptyObject)
         {

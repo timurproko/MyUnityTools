@@ -11,6 +11,8 @@ namespace MyTools
         [MenuItem(Menus.ASSETS_MENU + "Create Prefab from Selection", priority = Menus.ASSETS_INDEX + 100)]
         private static void CreatePrefabFromSelectedFBX()
         {
+            if (State.disabled) return;
+
             System.Object[] selectedObjects = Selection.objects;
 
             foreach (var selectedObject in selectedObjects)
@@ -36,10 +38,15 @@ namespace MyTools
                 }
             }
         }
-        
+
+        [MenuItem(Menus.ASSETS_MENU + "Create Prefab from Selection", validate = true)]
+        private static bool ValidateCreatePrefabFromSelectedFBX() => !State.disabled;
+
         [MenuItem(Menus.ASSETS_MENU + "Apply Prefab Overrides %&a", priority = Menus.ASSETS_INDEX + 101)] // Ctl+Alt+A
         public static void ApplySelectedPrefabOverrides()
         {
+            if (State.disabled) return;
+
             GameObject[] selectedObjects = Selection.gameObjects;
 
             if (selectedObjects.Length == 0)
@@ -67,9 +74,14 @@ namespace MyTools
             EditorApplication.delayCall += () => Selection.objects = selectedObjects;
         }
 
+        [MenuItem(Menus.ASSETS_MENU + "Apply Prefab Overrides %&a", validate = true)]
+        private static bool ValidateApplySelectedPrefabOverrides() => !State.disabled;
+
         [MenuItem(Menus.ASSETS_MENU + "Force Refresh Assets", priority = Menus.ASSETS_INDEX + 102)]
         private static void ForceRefreshSelectedAsset()
         {
+            if (State.disabled) return;
+
             var selectedObjects = Selection.objects;
 
             if (selectedObjects == null || selectedObjects.Length == 0)
@@ -91,10 +103,15 @@ namespace MyTools
                 }
             }
         }
-        
+
+        [MenuItem(Menus.ASSETS_MENU + "Force Refresh Assets", validate = true)]
+        private static bool ValidateForceRefreshSelectedAsset() => !State.disabled;
+
         [MenuItem(Menus.ASSETS_MENU + "Create Children LOD Groups", priority = Menus.ASSETS_INDEX + 103)]
         static void CopyLODGroupToFirstLevelChildren()
         {
+            if (State.disabled) return;
+
             GameObject selected = Selection.activeGameObject;
 
             if (selected == null)
@@ -135,6 +152,9 @@ namespace MyTools
             Debug.Log(
                 "LOD Group successfully copied to first-level children, renderers assigned, transition sizes set, and LOD Group removed from parent.");
         }
+
+        [MenuItem(Menus.ASSETS_MENU + "Create Children LOD Groups", validate = true)]
+        private static bool ValidateCopyLODGroupToFirstLevelChildren() => !State.disabled;
 
         static void CopyLODGroupSettings(LODGroup source, LODGroup destination)
         {
@@ -211,31 +231,21 @@ namespace MyTools
 
             for (int i = 0; i < lods.Length; i++)
             {
-                if (lods.Length == 2) // If there are 2 LODs
+                if (lods.Length == 2)
                 {
                     switch (i)
                     {
-                        case 0:
-                            lods[i].screenRelativeTransitionHeight = 0.25f; // LOD0 transition size
-                            break;
-                        case 1:
-                            lods[i].screenRelativeTransitionHeight = 0.01f; // LOD1 transition size
-                            break;
+                        case 0: lods[i].screenRelativeTransitionHeight = 0.25f; break;
+                        case 1: lods[i].screenRelativeTransitionHeight = 0.01f; break;
                     }
                 }
-                else if (lods.Length == 3) // If there are 3 LODs
+                else if (lods.Length == 3)
                 {
                     switch (i)
                     {
-                        case 0:
-                            lods[i].screenRelativeTransitionHeight = 0.25f; // LOD0 transition size
-                            break;
-                        case 1:
-                            lods[i].screenRelativeTransitionHeight = 0.13f; // LOD1 transition size
-                            break;
-                        case 2:
-                            lods[i].screenRelativeTransitionHeight = 0.01f; // LOD2 transition size
-                            break;
+                        case 0: lods[i].screenRelativeTransitionHeight = 0.25f; break;
+                        case 1: lods[i].screenRelativeTransitionHeight = 0.13f; break;
+                        case 2: lods[i].screenRelativeTransitionHeight = 0.01f; break;
                     }
                 }
             }

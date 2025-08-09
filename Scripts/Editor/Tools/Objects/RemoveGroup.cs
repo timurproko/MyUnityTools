@@ -9,6 +9,8 @@ namespace MyTools
         [MenuItem(Menus.OBJECT_MENU + "Ungroup %u", validate = true, priority = Menus.OBJECT_INDEX + 102)] // Ctrl+U
         static bool ValidateUngroup()
         {
+            if (State.disabled) return false;
+
             if (Selection.transforms.Length == 0)
                 return false;
 
@@ -24,6 +26,8 @@ namespace MyTools
         [MenuItem(Menus.OBJECT_MENU + "Ungroup %u", priority = Menus.OBJECT_INDEX + 102)] // Ctrl+U
         static void Ungroup()
         {
+            if (State.disabled) return;
+
             var selectedObjects = Selection.transforms;
             if (selectedObjects.Length == 0)
                 return;

@@ -12,12 +12,14 @@ namespace MyTools
         [MenuItem(Menus.OBJECT_MENU + "Group %g", validate = true, priority = Menus.OBJECT_INDEX + 101)]
         static bool ValidateGroup()
         {
-            return Selection.transforms.Length > 0;
+            return !State.disabled && Selection.transforms.Length > 0;
         }
 
         [MenuItem(Menus.OBJECT_MENU + "Group %g", priority = Menus.OBJECT_INDEX + 101)]
         static void Group()
         {
+            if (State.disabled) return;
+
             var selectedObjects = Selection.transforms;
             if (selectedObjects.Length == 0)
                 return;

@@ -8,7 +8,15 @@ namespace MyTools
         [MenuItem(Menus.EDITOR_MENU + "Clear Console %l", priority = Menus.EDITOR_INDEX + 300)] // Ctrl+L
         static void Clear()
         {
+            if (State.disabled) return;
+
             Functions.ClearConsole();
+        }
+        
+        [MenuItem(Menus.EDITOR_MENU + "Clear Console %l", validate = true)]
+        static bool ValidateClear()
+        {
+            return !State.disabled;
         }
     }
 }

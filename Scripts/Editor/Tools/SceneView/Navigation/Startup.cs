@@ -6,9 +6,6 @@ namespace SceneViewTools
     [InitializeOnLoad]
     public static class Startup
     {
-        private const string HasRestoredViewKey = "MyTools.SceneViewTools.HasRestoredView";
-        private const string CurrentViewTypeKey = "MyTools.SceneViewTools.CurrentViewType";
-
         static Startup()
         {
             EditorApplication.delayCall += InitializePrefs;
@@ -17,7 +14,7 @@ namespace SceneViewTools
 
         private static void InitializePrefs()
         {
-            if (!EditorPrefs.HasKey(CurrentViewTypeKey))
+            if (!EditorPrefs.HasKey(SceneViewNavigationIO.CurrentViewTypeKey))
             {
                 var viewType = SceneViewType.Perspective;
                 
@@ -29,15 +26,15 @@ namespace SceneViewTools
 
         private static void TryRestoreView()
         {
-            if (SessionState.GetBool(HasRestoredViewKey, false))
+            if (SessionState.GetBool(SceneViewNavigationIO.CurrentViewTypeKey, false))
                 return;
 
-            SessionState.SetBool(HasRestoredViewKey, true);
+            SessionState.SetBool(SceneViewNavigationIO.CurrentViewTypeKey, true);
 
             if (SceneView.lastActiveSceneView == null)
                 return;
 
-            if (!EditorPrefs.HasKey(CurrentViewTypeKey))
+            if (!EditorPrefs.HasKey(SceneViewNavigationIO.CurrentViewTypeKey))
                 return;
 
             var viewType = SceneViewNavigationIO.ReadFromEditorPrefs();

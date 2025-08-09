@@ -9,7 +9,7 @@ namespace SceneViewTools
     {
         public static void SetView(SceneViewType viewType)
         {
-            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
 
             if (ActiveSceneView.sceneView == null)
                 return;
@@ -67,7 +67,7 @@ namespace SceneViewTools
         public static void SetSceneViewGizmos(bool gizmosOn)
         {
 #if UNITY_EDITOR
-            UnityEditor.SceneView sv = EditorWindow.GetWindow<UnityEditor.SceneView>(null, false);
+            SceneView sv = EditorWindow.GetWindow<SceneView>(null, false);
             sv.drawGizmos = gizmosOn;
 #endif
         }
@@ -75,7 +75,7 @@ namespace SceneViewTools
         public static bool GetSceneViewGizmosEnabled()
         {
 #if UNITY_EDITOR
-            UnityEditor.SceneView sv = EditorWindow.GetWindow<UnityEditor.SceneView>(null, false);
+            SceneView sv = EditorWindow.GetWindow<SceneView>(null, false);
             return sv.drawGizmos;
 #else
             return false;
@@ -84,13 +84,13 @@ namespace SceneViewTools
 
         public static void DisableSkybox()
         {
-            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             ActiveSceneView.sceneView.sceneViewState.showSkybox = false;
         }
 
         public static void EnableSkybox()
         {
-            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             ActiveSceneView.sceneView.sceneViewState.showSkybox = true;
         }
 
@@ -122,7 +122,7 @@ namespace SceneViewTools
             Quaternion rotation = GetDefaultRotation(lastSavedViewType);
             bool orthographic = IsOrthographic(lastSavedViewType);
 
-            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             ActiveSceneView.sceneView.size = DefaultValues.size;
             ActiveSceneView.sceneView.pivot = DefaultValues.pivot;
             if (Is2DMode())
@@ -165,7 +165,7 @@ namespace SceneViewTools
 
         private static bool Is2DMode()
         {
-            if (UnityEditor.SceneView.lastActiveSceneView.in2DMode)
+            if (SceneView.lastActiveSceneView.in2DMode)
             {
                 return true;
             }
