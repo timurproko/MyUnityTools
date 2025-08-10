@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using MyTools;
 using UnityEditor;
 
 namespace SceneViewTools
@@ -13,6 +14,8 @@ namespace SceneViewTools
 
         private static void TryRestoreView()
         {
+            if (State.disabled) return;
+
             if (SessionState.GetBool(SceneViewNavigationIO.CurrentViewTypeKey, false))
                 return;
 

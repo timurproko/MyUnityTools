@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using MyTools;
 using SceneViewTools;
 using UnityEditor;
 
@@ -14,6 +15,8 @@ namespace Autosave
 
         private static void SaveCurrentViewOnExit()
         {
+            if (State.disabled) return;
+
             if (SceneView.lastActiveSceneView == null)
                 return;
 

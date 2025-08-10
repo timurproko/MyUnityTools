@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using MyTools;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ namespace SceneViewTools
 
         private static void OnSceneGUI(SceneView sceneView)
         {
+            if (State.disabled) return;
+
             Event e = Event.current;
 
             if (ActiveSceneView.SceneViewType != SceneViewType.Perspective && !sceneView.in2DMode && sceneView.orthographic)
