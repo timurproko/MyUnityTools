@@ -9,9 +9,12 @@ namespace SceneViewTools
     public static class SceneViewNavigationIO
     {
         public static string CurrentViewTypeKey => $"{ProjectUniqueKey}.CurrentViewType";
-        
+
         private static string ProjectUniqueKey => $"{Application.productName}_{Application.identifier}_SceneViewTools";
         private static string ViewStateKeyPrefix => $"{ProjectUniqueKey}.ViewState";
+        private static string LastViewStateKey => $"{ProjectUniqueKey}.LastViewState";
+
+        private static string UseLastPoseCallsKey => $"{ProjectUniqueKey}.UseLastPoseCalls";
 
         [Serializable]
         public struct ViewState
@@ -73,6 +76,31 @@ namespace SceneViewTools
             return ViewStateDictionary.TryGetValue(viewType, out viewState);
         }
 
+        public static void SaveLastViewState(float size, Quaternion rotation, Vector3 pivot, bool orthographic)
+        {
+            var viewState = new ViewState
+            {
+                size = size,
+                rotation = rotation,
+                pivot = pivot,
+                orthographic = orthographic
+            };
+            string json = JsonUtility.ToJson(viewState);
+            EditorPrefs.SetString(LastViewStateKey, json);
+        }
+
+        public static bool TryGetLastViewState(out ViewState viewState)
+        {
+            if (EditorPrefs.HasKey(LastViewStateKey))
+            {
+                string json = EditorPrefs.GetString(LastViewStateKey);
+                viewState = JsonUtility.FromJson<ViewState>(json);
+                return true;
+            }
+            viewState = default;
+            return false;
+        }
+
         public static SceneViewType ReadFromEditorPrefs()
         {
             return (SceneViewType)EditorPrefs.GetInt(CurrentViewTypeKey);
@@ -81,6 +109,23 @@ namespace SceneViewTools
         public static void WriteToEditorPrefs(SceneViewType viewType)
         {
             EditorPrefs.SetInt(CurrentViewTypeKey, (int)viewType);
+        }
+
+        public static void RequestUseLastPoseCalls(int calls)
+        {
+            SessionState.SetInt(UseLastPoseCallsKey, calls);
+        }
+
+        public static bool TryConsumeUseLastPoseRequest()
+        {
+            int remaining = SessionState.GetInt(UseLastPoseCallsKey, 0);
+            if (remaining > 0)
+            {
+                remaining--;
+                SessionState.SetInt(UseLastPoseCallsKey, remaining);
+                return true;
+            }
+            return false;
         }
     }
 }

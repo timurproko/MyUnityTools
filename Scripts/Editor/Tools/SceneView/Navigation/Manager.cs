@@ -10,15 +10,18 @@ namespace SceneViewTools
         public static void SetView(SceneViewType viewType)
         {
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
-
             if (ActiveSceneView.sceneView == null)
                 return;
 
-            if (Is2DMode())
+            if (SceneViewNavigationIO.TryConsumeUseLastPoseRequest() &&
+                SceneViewNavigationIO.TryGetLastViewState(out var last))
             {
-                ActiveSceneView.sceneView.orthographic = !ActiveSceneView.sceneView.orthographic;
+                ApplyNewValues(last);
+                ActiveSceneView.sceneView.Repaint();
+                return;
             }
-            else if (SceneViewNavigationIO.TryGetViewState(viewType, out var savedState))
+
+            if (SceneViewNavigationIO.TryGetViewState(viewType, out var savedState))
             {
                 ApplyNewValues(savedState);
             }
@@ -43,23 +46,21 @@ namespace SceneViewTools
             ActiveSceneView.sceneView.size = savedState.size;
             ActiveSceneView.sceneView.pivot = savedState.pivot;
             ActiveSceneView.sceneView.orthographic = savedState.orthographic;
-            if (!Is2DMode())
-            {
-                ActiveSceneView.sceneView.rotation = savedState.rotation;
-            }
+            ActiveSceneView.sceneView.rotation = savedState.rotation;
         }
 
         public static void SaveSceneView(SceneViewType viewType)
         {
             if (ActiveSceneView.sceneView != null)
             {
+                var sv = ActiveSceneView.sceneView;
+
                 SceneViewNavigationIO.SaveViewState(
                     ActiveSceneView.SceneViewType,
-                    ActiveSceneView.sceneView.size,
-                    ActiveSceneView.sceneView.rotation,
-                    ActiveSceneView.sceneView.pivot,
-                    ActiveSceneView.sceneView.orthographic
+                    sv.size, sv.rotation, sv.pivot, sv.orthographic
                 );
+                SceneViewNavigationIO.SaveLastViewState(sv.size, sv.rotation, sv.pivot, sv.orthographic);
+
                 SceneViewNavigationIO.WriteToEditorPrefs(viewType);
             }
         }
@@ -97,12 +98,10 @@ namespace SceneViewTools
         public static void ResetAllSceneViews()
         {
             var sceneViewTypes = Enum.GetValues(typeof(SceneViewType)) as SceneViewType[];
-
             foreach (var viewType in sceneViewTypes)
             {
                 ResetView(viewType);
             }
-
             RedrawLastSavedSceneView();
         }
 
@@ -125,15 +124,9 @@ namespace SceneViewTools
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             ActiveSceneView.sceneView.size = DefaultValues.size;
             ActiveSceneView.sceneView.pivot = DefaultValues.pivot;
-            if (Is2DMode())
-            {
-                ActiveSceneView.sceneView.orthographic = true;
-            }
-            else
-            {
-                ActiveSceneView.sceneView.rotation = rotation;
-                ActiveSceneView.sceneView.orthographic = orthographic;
-            }
+
+            ActiveSceneView.sceneView.rotation = rotation;
+            ActiveSceneView.sceneView.orthographic = orthographic;
 
             ActiveSceneView.sceneView.Repaint();
         }
@@ -155,22 +148,7 @@ namespace SceneViewTools
 
         private static bool IsOrthographic(SceneViewType viewType)
         {
-            if (viewType != SceneViewType.Perspective)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool Is2DMode()
-        {
-            if (SceneView.lastActiveSceneView.in2DMode)
-            {
-                return true;
-            }
-
-            return false;
+            return viewType != SceneViewType.Perspective;
         }
     }
 }

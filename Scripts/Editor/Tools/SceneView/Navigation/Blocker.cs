@@ -63,7 +63,7 @@ namespace SceneViewTools
         private static void PerformPanning(SceneView sceneView, Event e)
         {
             Vector2 delta = e.mousePosition - lastMousePosition;
-            delta *= sceneView.size / 500f; 
+            delta *= sceneView.size / 500f;
             Vector3 move = new Vector3(-delta.x, delta.y, 0);
             sceneView.pivot += sceneView.rotation * move;
             lastMousePosition = e.mousePosition;

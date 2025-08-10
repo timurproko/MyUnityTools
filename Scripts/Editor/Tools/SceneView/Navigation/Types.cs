@@ -14,13 +14,13 @@ namespace SceneViewTools
         Left = 5,
         Right = 6,
     }
-    
+
     public static class ActiveSceneView
     {
         public static SceneView sceneView;
         public static SceneViewType SceneViewType;
     }
-    
+
     public static class DefaultValues
     {
         public static float size = 10f;

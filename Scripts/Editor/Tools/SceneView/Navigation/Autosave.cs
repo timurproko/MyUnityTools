@@ -10,18 +10,25 @@ namespace Autosave
     {
         static SceneViewAutoSave()
         {
-            EditorApplication.quitting += SaveCurrentViewOnExit;
+            EditorApplication.quitting += SaveCurrentView;
+            EditorApplication.playModeStateChanged += _ => SaveCurrentView(); // extra safety
+            EditorApplication.focusChanged += _ => SaveCurrentView();         // extra safety
         }
 
-        private static void SaveCurrentViewOnExit()
+        private static void SaveCurrentView()
         {
             if (State.disabled) return;
 
-            if (SceneView.lastActiveSceneView == null)
-                return;
+            var sv = SceneView.lastActiveSceneView;
+            if (sv == null) return;
 
-            var viewType = SceneViewNavigationIO.ReadFromEditorPrefs();
-            SceneViewNavigationManager.SaveSceneView(viewType);
+            SceneViewNavigationIO.SaveLastViewState(sv.size, sv.rotation, sv.pivot, sv.orthographic);
+
+            ActiveSceneView.sceneView = sv;
+            SceneViewNavigationIO.SaveViewState(
+                ActiveSceneView.SceneViewType,
+                sv.size, sv.rotation, sv.pivot, sv.orthographic
+            );
         }
     }
 }

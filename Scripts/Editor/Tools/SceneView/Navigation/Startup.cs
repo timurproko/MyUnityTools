@@ -16,19 +16,24 @@ namespace SceneViewTools
         {
             if (State.disabled) return;
 
-            if (SessionState.GetBool(SceneViewNavigationIO.CurrentViewTypeKey, false))
+            const string restoredOnceKey = "SceneViewTools.RestoredOnce";
+            if (SessionState.GetBool(restoredOnceKey, false))
                 return;
-
-            SessionState.SetBool(SceneViewNavigationIO.CurrentViewTypeKey, true);
+            SessionState.SetBool(restoredOnceKey, true);
 
             if (SceneView.lastActiveSceneView == null)
                 return;
+
+            if (SceneViewNavigationIO.TryGetLastViewState(out _))
+            {
+                SceneViewNavigationIO.RequestUseLastPoseCalls(2); // consume in both calls
+            }
 
             if (!EditorPrefs.HasKey(SceneViewNavigationIO.CurrentViewTypeKey))
                 return;
 
             var viewType = SceneViewNavigationIO.ReadFromEditorPrefs();
-            
+
             SceneViewNavigationMenu.SetSceneView(viewType);
             SceneViewNavigationMenu.SetSceneView(viewType);
         }
