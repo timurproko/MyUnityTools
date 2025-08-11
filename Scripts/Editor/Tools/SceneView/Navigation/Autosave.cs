@@ -24,11 +24,15 @@ namespace Autosave
 
             SceneViewNavigationIO.SaveLastViewState(sv.size, sv.rotation, sv.pivot, sv.orthographic);
 
+            var currentType = SceneViewNavigationManager.GetCurrentViewType(sv);
+
             ActiveSceneView.sceneView = sv;
             SceneViewNavigationIO.SaveViewState(
-                ActiveSceneView.SceneViewType,
+                currentType,
                 sv.size, sv.rotation, sv.pivot, sv.orthographic
             );
+
+            SceneViewNavigationIO.WriteToEditorPrefs(currentType);
         }
     }
 }

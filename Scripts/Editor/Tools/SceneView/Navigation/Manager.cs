@@ -33,6 +33,73 @@ namespace SceneViewTools
             ActiveSceneView.sceneView.Repaint();
         }
 
+        public static SceneViewType GetCurrentViewType(SceneView sv)
+        {
+            if (sv == null) return ActiveSceneView.SceneViewType;
+
+            var rot = sv.rotation;
+
+            (SceneViewType type, Quaternion quat)[] candidates =
+            {
+                (SceneViewType.Top,    DefaultRotation.Top),
+                (SceneViewType.Bottom, DefaultRotation.Bottom),
+                (SceneViewType.Front,  DefaultRotation.Front),
+                (SceneViewType.Back,   DefaultRotation.Back),
+                (SceneViewType.Left,   DefaultRotation.Left),
+                (SceneViewType.Right,  DefaultRotation.Right),
+                (SceneViewType.Perspective, DefaultRotation.Perspective),
+            };
+
+            float best = float.MaxValue;
+            SceneViewType bestType = SceneViewType.Perspective;
+
+            foreach (var c in candidates)
+            {
+                float angle = Quaternion.Angle(rot, c.quat);
+                if (angle < best)
+                {
+                    best = angle;
+                    bestType = c.type;
+                }
+            }
+
+            const float axisSnapTolerance = 7.5f;
+
+            if (bestType == SceneViewType.Perspective)
+            {
+                float bestAxis = Mathf.Min(
+                    Quaternion.Angle(rot, DefaultRotation.Top),
+                    Quaternion.Angle(rot, DefaultRotation.Bottom),
+                    Quaternion.Angle(rot, DefaultRotation.Front),
+                    Quaternion.Angle(rot, DefaultRotation.Back),
+                    Quaternion.Angle(rot, DefaultRotation.Left),
+                    Quaternion.Angle(rot, DefaultRotation.Right)
+                );
+
+                if (bestAxis <= axisSnapTolerance)
+                {
+                    best = float.MaxValue;
+                    foreach (var c in candidates)
+                    {
+                        if (c.type == SceneViewType.Perspective) continue;
+                        float angle = Quaternion.Angle(rot, c.quat);
+                        if (angle < best)
+                        {
+                            best = angle;
+                            bestType = c.type;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (best > axisSnapTolerance)
+                    bestType = SceneViewType.Perspective;
+            }
+
+            return bestType;
+        }
+
         private static void ApplyDefaultValues(SceneViewType viewType)
         {
             ActiveSceneView.sceneView.size = DefaultValues.size;
@@ -49,50 +116,21 @@ namespace SceneViewTools
             ActiveSceneView.sceneView.rotation = savedState.rotation;
         }
 
-        public static void SaveSceneView(SceneViewType viewType)
+        public static void SaveSceneView(SceneViewType viewTypeAboutToSet)
         {
             if (ActiveSceneView.sceneView != null)
             {
                 var sv = ActiveSceneView.sceneView;
 
+                var currentType = GetCurrentViewType(sv);
+
                 SceneViewNavigationIO.SaveViewState(
-                    ActiveSceneView.SceneViewType,
+                    currentType,
                     sv.size, sv.rotation, sv.pivot, sv.orthographic
                 );
                 SceneViewNavigationIO.SaveLastViewState(sv.size, sv.rotation, sv.pivot, sv.orthographic);
-
-                SceneViewNavigationIO.WriteToEditorPrefs(viewType);
+                SceneViewNavigationIO.WriteToEditorPrefs(viewTypeAboutToSet);
             }
-        }
-
-        public static void SetSceneViewGizmos(bool gizmosOn)
-        {
-#if UNITY_EDITOR
-            SceneView sv = EditorWindow.GetWindow<SceneView>(null, false);
-            sv.drawGizmos = gizmosOn;
-#endif
-        }
-
-        public static bool GetSceneViewGizmosEnabled()
-        {
-#if UNITY_EDITOR
-            SceneView sv = EditorWindow.GetWindow<SceneView>(null, false);
-            return sv.drawGizmos;
-#else
-            return false;
-#endif
-        }
-
-        public static void DisableSkybox()
-        {
-            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
-            ActiveSceneView.sceneView.sceneViewState.showSkybox = false;
-        }
-
-        public static void EnableSkybox()
-        {
-            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
-            ActiveSceneView.sceneView.sceneViewState.showSkybox = true;
         }
 
         public static void ResetAllSceneViews()
@@ -105,7 +143,7 @@ namespace SceneViewTools
             RedrawLastSavedSceneView();
         }
 
-        public static void ResetView(SceneViewType viewType)
+        private static void ResetView(SceneViewType viewType)
         {
             float size = DefaultValues.size;
             Vector3 pivot = DefaultValues.pivot;

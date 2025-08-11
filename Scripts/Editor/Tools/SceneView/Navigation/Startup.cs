@@ -26,7 +26,7 @@ namespace SceneViewTools
 
             if (SceneViewNavigationIO.TryGetLastViewState(out _))
             {
-                SceneViewNavigationIO.RequestUseLastPoseCalls(2); // consume in both calls
+                SceneViewNavigationIO.RequestUseLastPoseCalls(2);
             }
 
             if (!EditorPrefs.HasKey(SceneViewNavigationIO.CurrentViewTypeKey))

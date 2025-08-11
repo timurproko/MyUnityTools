@@ -41,7 +41,7 @@ namespace SceneViewTools
         {
             if (MyTools.State.disabled) return;
 
-            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             if (ActiveSceneView.sceneView == null || ActiveSceneView.sceneView.in2DMode)
             {
                 return;
@@ -61,7 +61,7 @@ namespace SceneViewTools
         {
             if (MyTools.State.disabled) return;
 
-            ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
+            ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             if (ActiveSceneView.sceneView != null)
             {
                 ActiveSceneView.sceneView.in2DMode = !ActiveSceneView.sceneView.in2DMode;
@@ -82,11 +82,11 @@ namespace SceneViewTools
             ActiveSceneView.sceneView = UnityEditor.SceneView.lastActiveSceneView;
             if (ActiveSceneView.sceneView.sceneViewState.skyboxEnabled)
             {
-                SceneViewNavigationManager.DisableSkybox();
+                SceneViewTools.DisableSkybox();
             }
             else
             {
-                SceneViewNavigationManager.EnableSkybox();
+                SceneViewTools.EnableSkybox();
             }
         }
 
@@ -100,8 +100,8 @@ namespace SceneViewTools
         {
             if (MyTools.State.disabled) return;
 
-            var currentValue = SceneViewNavigationManager.GetSceneViewGizmosEnabled();
-            SceneViewNavigationManager.SetSceneViewGizmos(!currentValue);
+            var currentValue = SceneViewTools.GetSceneViewGizmosEnabled();
+            SceneViewTools.SetSceneViewGizmos(!currentValue);
         }
 
         [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle All Gizmos &g", validate = true,
