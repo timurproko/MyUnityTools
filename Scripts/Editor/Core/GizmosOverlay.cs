@@ -13,7 +13,7 @@ namespace MyTools
     [Overlay(typeof(SceneView), "My Gizmos")]
     internal class GizmosOverlay : ToolbarOverlay
     {
-        GizmosOverlay() : base(GizmosDropdown.id)
+        private GizmosOverlay() : base(GizmosDropdown.id)
         {
         }
     }
