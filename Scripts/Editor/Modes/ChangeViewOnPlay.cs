@@ -1,6 +1,5 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace MyTools
@@ -8,8 +7,8 @@ namespace MyTools
     [InitializeOnLoad]
     internal static class ChangeViewOnPlay
     {
-        private const int FOCUS_INDEX = Menus.MODES_INDEX + 102;
-        private const int MAXIMIZE_INDEX = Menus.MODES_INDEX + 103;
+        private const int FOCUS_INDEX = Menus.MODES_INDEX + 201;
+        private const int MAXIMIZE_INDEX = Menus.MODES_INDEX + 202;
         private const string FOCUS_MENU = Menus.MY_TOOLS_MENU + "Focus Game View on Play";
         private const string MAXIMIZE_MENU = Menus.MY_TOOLS_MENU + "Maximize Active View on Play";
 
@@ -41,7 +40,7 @@ namespace MyTools
 
             _maximizeEnabled = !_maximizeEnabled;
             SetMenuChecked(MAXIMIZE_MENU, _maximizeEnabled);
-            Debug.Log($"MyTools: Maximize Active View on Play is {(_maximizeEnabled ? "Enabled" : "Disabled")}");
+            Utils.Log($"Maximize Active View on Play is {(_maximizeEnabled ? "Enabled" : "Disabled")}");
         }
 
         [MenuItem(MAXIMIZE_MENU, validate = true, priority = MAXIMIZE_INDEX)]
@@ -54,7 +53,7 @@ namespace MyTools
 
             _focusEnabled = !_focusEnabled;
             SetMenuChecked(FOCUS_MENU, _focusEnabled);
-            Debug.Log($"MyTools: Focus GameView on Play is {(_focusEnabled ? "Enabled" : "Disabled")}");
+            Utils.Log($"Focus GameView on Play is {(_focusEnabled ? "Enabled" : "Disabled")}");
         }
 
         [MenuItem(FOCUS_MENU, validate = true, priority = FOCUS_INDEX)]
@@ -62,7 +61,7 @@ namespace MyTools
 
         private static void SetMenuChecked(string menuName, bool enabled)
         {
-            UnityEditor.Menu.SetChecked(menuName, enabled);
+            Menu.SetChecked(menuName, enabled);
             EditorPrefs.SetBool(menuName, enabled);
         }
 
@@ -72,7 +71,7 @@ namespace MyTools
 
             if (state == PlayModeStateChange.EnteredPlayMode)
             {
-                _wasSceneViewActive = UnityEditor.SceneView.lastActiveSceneView != null && UnityEditor.SceneView.lastActiveSceneView.hasFocus;
+                _wasSceneViewActive = SceneView.lastActiveSceneView != null && SceneView.lastActiveSceneView.hasFocus;
                 _wasGameViewActive = GetActiveView()?.GetType().Name == "GameView";
 
                 if (_focusEnabled)
@@ -120,7 +119,7 @@ namespace MyTools
             }
             else
             {
-                Debug.LogWarning("MyTools: No active SceneView or GameView found to focus.");
+                Utils.LogWarning("No active SceneView or GameView found to focus.");
             }
 
             EditorApplication.delayCall += () => EditorApplication.update += ExecuteMaximize;
@@ -182,7 +181,7 @@ namespace MyTools
                 }
             }
 
-            Debug.LogWarning("MyTools: No active GameView or SceneView found to maximize.");
+            Utils.LogWarning("No active GameView or SceneView found to maximize.");
             return null;
         }
 
@@ -190,7 +189,7 @@ namespace MyTools
         {
             EditorApplication.delayCall += () =>
             {
-                var view = Functions.GetView("UnityEditor." + name);
+                var view = Utils.GetView("UnityEditor." + name);
                 if (view != null)
                 {
                     view.Focus();

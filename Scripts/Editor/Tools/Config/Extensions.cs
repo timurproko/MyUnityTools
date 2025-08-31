@@ -78,6 +78,16 @@ namespace MyTools
 
         [MenuItem(Menu_FMOD, true)]
         private static bool Validate_FMOD() => ValidateToggleSymbol(FMOD, Menu_FMOD);
+        
+        // VCONTAINER
+        private const string VCONTAINER = "VCONTAINER";
+        private const string Menu_VCONTAINER = Menus.GLOBAL_MENU + VCONTAINER;
+
+        [MenuItem(Menu_VCONTAINER, priority = Menus.GLOBAL_INDEX + 102)]
+        private static void Toggle_VCONTAINER() => ToggleSymbol(VCONTAINER, Menu_VCONTAINER);
+
+        [MenuItem(Menu_VCONTAINER, true)]
+        private static bool Validate_VCONTAINER() => ValidateToggleSymbol(VCONTAINER, Menu_VCONTAINER);
     }
 }
 #endif

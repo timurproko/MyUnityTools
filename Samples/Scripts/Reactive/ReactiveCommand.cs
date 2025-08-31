@@ -1,4 +1,5 @@
-﻿using R3;
+﻿#if R3
+using R3;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -76,3 +77,4 @@ public class ReactiveCommand : MonoBehaviour
         _boolCmd.Execute(true);
     }
 }
+#endif

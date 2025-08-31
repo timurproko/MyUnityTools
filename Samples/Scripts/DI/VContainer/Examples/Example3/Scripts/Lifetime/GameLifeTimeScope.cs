@@ -1,4 +1,5 @@
-﻿using VContainer;
+﻿#if VCONTAINER
+using VContainer;
 using VContainer.Unity;
 
 namespace Example3
@@ -13,3 +14,4 @@ namespace Example3
         }
     }
 }
+#endif

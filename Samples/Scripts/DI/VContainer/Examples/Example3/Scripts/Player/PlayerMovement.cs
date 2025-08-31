@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if VCONTAINER
+using System;
 using UnityEngine;
 using VContainer;
 
@@ -53,3 +54,4 @@ namespace Example3
         }
     }
 }
+#endif

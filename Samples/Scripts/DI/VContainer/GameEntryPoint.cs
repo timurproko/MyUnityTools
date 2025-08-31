@@ -1,3 +1,4 @@
+#if VCONTAINER
 using UnityEngine;
 using VContainer.Unity;
 
@@ -12,3 +13,4 @@ public class GameEntryPoint : ITickable, IStartable
         Debug.Log("VContainer Start() has worked");
     }
 }
+#endif

@@ -2,10 +2,11 @@
 using System;
 using System.Reflection;
 using UnityEditor;
+using UnityEngine;
 
 namespace MyTools
 {
-    public static class Functions
+    public static class Utils
     {
         public static EditorWindow GetView(string name)
         {
@@ -28,6 +29,21 @@ namespace MyTools
             var logEntries = Type.GetType("UnityEditor.LogEntries,UnityEditor.dll");
             var clearMethod = logEntries.GetMethod("Clear", BindingFlags.Static | BindingFlags.Public);
             clearMethod.Invoke(null, null);
+        }
+
+        public static void Log(string message)
+        {
+            Debug.Log($"[MyTools] {message}");
+        }
+        
+        public static void LogWarning(string message)
+        {
+            Debug.LogWarning($"[MyTools] {message}");
+        }
+        
+        public static void LogError(string message)
+        {
+            Debug.LogError($"[MyTools] {message}");
         }
     }
 }

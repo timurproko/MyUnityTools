@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if VCONTAINER
+using System;
 using UnityEngine;
 using VContainer.Unity;
 
@@ -24,3 +25,4 @@ namespace Example3
         }
     }
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if VCONTAINER
+using UnityEngine;
 using VContainer;
 
 public class InjectExample : MonoBehaviour
@@ -26,3 +27,4 @@ public class InjectExample : MonoBehaviour
         _logger.PrintLog();
     }
 }
+#endif

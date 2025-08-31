@@ -1,7 +1,6 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
 
 namespace MyTools
 {
@@ -24,7 +23,7 @@ namespace MyTools
             if (State.disabled) return;
 
             PerformAction(!_enabled);
-            Debug.Log($"MyTools: Auto Save on Play is {(_enabled ? "Enabled" : "Disabled")}");
+            Utils.Log($"Auto Save on Play is {(_enabled ? "Enabled" : "Disabled")}");
         }
 
         [MenuItem(MENU_NAME, validate = true, priority = ITEM_INDEX)]
@@ -37,7 +36,7 @@ namespace MyTools
         {
             if (State.disabled) return;
 
-            UnityEditor.Menu.SetChecked(MENU_NAME, enabled);
+            Menu.SetChecked(MENU_NAME, enabled);
             EditorPrefs.SetBool(MENU_NAME, enabled);
             _enabled = enabled;
         }

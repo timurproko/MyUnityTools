@@ -180,7 +180,7 @@ namespace MyTools
             }
 
             EditorPrefs.SetString(key, string.Join(";", names));
-            Debug.Log($"MyTools: Selection saved to slot {displaySlot}.");
+            Utils.Log($"Selection saved to slot {displaySlot}.");
 
             EditorSceneManager.SaveScene(EditorSceneManager.GetActiveScene());
         }

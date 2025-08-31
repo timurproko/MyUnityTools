@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using MyTools;
 using UnityEditor;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ namespace SceneViewTools
             
             if (slot != previousViewSlot)
             {
-                Debug.Log("MyTools: Bookmarked Scene View in Slot " + slot);
+                Utils.Log("Bookmarked Scene View in Slot " + slot);
             }
         }
 

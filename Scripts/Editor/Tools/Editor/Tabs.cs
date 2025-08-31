@@ -93,7 +93,7 @@ namespace MyTools
         {
             if (State.disabled) return;
 
-            Functions.ActivateWindowUnderCursor();
+            Utils.ActivateWindowUnderCursor();
             EditorWindow window = EditorWindow.focusedWindow;
             if (window)
             {
@@ -109,7 +109,7 @@ namespace MyTools
         {
             if (State.disabled) return;
 
-            Functions.ActivateWindowUnderCursor();
+            Utils.ActivateWindowUnderCursor();
             EditorWindow window = EditorWindow.focusedWindow;
             if (window)
             {

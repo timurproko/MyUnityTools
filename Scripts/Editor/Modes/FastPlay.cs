@@ -1,6 +1,5 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
-using UnityEngine;
 
 namespace MyTools
 {
@@ -8,7 +7,7 @@ namespace MyTools
     internal static class FastPlay
     {
         private const string MENU_NAME = Menus.MY_TOOLS_MENU + "Fast Play Mode";
-        private const int ITEM_INDEX = Menus.MODES_INDEX + 101;
+        private const int ITEM_INDEX = Menus.MODES_INDEX + 301;
         private static bool _enabled;
 
         static FastPlay()
@@ -34,7 +33,7 @@ namespace MyTools
         {
             if (State.disabled) return;
 
-            UnityEditor.Menu.SetChecked(MENU_NAME, enabled);
+            Menu.SetChecked(MENU_NAME, enabled);
             EditorPrefs.SetBool(MENU_NAME, enabled);
 
             _enabled = enabled;
@@ -47,12 +46,9 @@ namespace MyTools
 
             EditorSettings.enterPlayModeOptionsEnabled = enabled;
             AssetDatabase.Refresh();
-            bool playModeState = EditorSettings.enterPlayModeOptionsEnabled;
+            var playModeState = EditorSettings.enterPlayModeOptionsEnabled;
 
-            if (playModeState)
-                Debug.Log("MyTools: Fast Play Mode is Enabled");
-            else
-                Debug.Log("MyTools: Fast Play Mode is Disabled");
+            Utils.Log(playModeState ? "Fast Play Mode is Enabled" : "Fast Play Mode is Disabled");
         }
     }
 }

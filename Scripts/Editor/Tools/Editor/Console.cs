@@ -10,7 +10,7 @@ namespace MyTools
         {
             if (State.disabled) return;
 
-            Functions.ClearConsole();
+            Utils.ClearConsole();
         }
         
         [MenuItem(Menus.EDITOR_MENU + "Clear Console %l", validate = true)]

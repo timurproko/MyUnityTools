@@ -23,18 +23,18 @@ namespace MyTools
                     GameObject fbxModel = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                     if (fbxModel == null)
                     {
-                        Debug.LogError("Could not load FBX model at path: " + path);
+                        Utils.LogError("Could not load FBX model at path: " + path);
                         return;
                     }
 
                     string prefabPath = Path.ChangeExtension(path, ".prefab");
                     PrefabUtility.SaveAsPrefabAsset(fbxModel, prefabPath);
 
-                    Debug.Log("Prefab created at: " + prefabPath);
+                    Utils.Log("Prefab created at: " + prefabPath);
                 }
                 else
                 {
-                    Debug.LogWarning("Selected object is not an FBX file: " + path);
+                    Utils.LogWarning("Selected object is not an FBX file: " + path);
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace MyTools
 
             if (selectedObjects.Length == 0)
             {
-                Debug.LogWarning("My Tools: No GameObjects selected.");
+                Utils.LogWarning("No GameObjects selected.");
                 return;
             }
 
@@ -62,11 +62,11 @@ namespace MyTools
                 if (prefabRoot != null)
                 {
                     PrefabUtility.ApplyPrefabInstance(obj, InteractionMode.UserAction);
-                    Debug.Log($"My Tools: Applied overrides to {prefabRoot.name}");
+                    Utils.Log($"Applied overrides to {prefabRoot.name}");
                 }
                 else
                 {
-                    Debug.LogWarning($"My Tools: No prefab found for {obj.name}");
+                    Utils.LogWarning($"No prefab found for {obj.name}");
                 }
             }
 
@@ -87,7 +87,7 @@ namespace MyTools
             if (selectedObjects == null || selectedObjects.Length == 0)
             {
                 AssetDatabase.Refresh();
-                Debug.Log("MyTools: All assets have been refreshed.");
+                Utils.Log("All assets have been refreshed.");
             }
             else
             {
@@ -98,7 +98,7 @@ namespace MyTools
                     if (!string.IsNullOrEmpty(assetPath))
                     {
                         AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
-                        Debug.Log($"MyTools: {assetPath} has been refreshed.");
+                        Utils.Log($"{assetPath} has been refreshed.");
                     }
                 }
             }
@@ -116,7 +116,7 @@ namespace MyTools
 
             if (selected == null)
             {
-                Debug.LogError("No GameObject selected.");
+                Utils.LogError("No GameObject selected.");
                 return;
             }
 
@@ -124,7 +124,7 @@ namespace MyTools
 
             if (rootLODGroup == null)
             {
-                Debug.LogError("Selected GameObject does not have an LODGroup component.");
+                Utils.LogError("Selected GameObject does not have an LODGroup component.");
                 return;
             }
 
@@ -149,7 +149,7 @@ namespace MyTools
 
             Undo.DestroyObjectImmediate(rootLODGroup);
 
-            Debug.Log(
+            Utils.Log(
                 "LOD Group successfully copied to first-level children, renderers assigned, transition sizes set, and LOD Group removed from parent.");
         }
 
@@ -160,7 +160,7 @@ namespace MyTools
         {
             if (source == null || destination == null)
             {
-                Debug.LogError("Source or destination LODGroup is null.");
+                Utils.LogError("Source or destination LODGroup is null.");
                 return;
             }
 

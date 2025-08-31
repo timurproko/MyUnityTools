@@ -1,13 +1,10 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Events1_Enemy : MonoBehaviour
 {
-
-    [Button]
+    [ContextMenu("Kill Enemy")]
     private void KillEnemy()
     {
         Events1_EventManager.SendEnemyKilled();
     }
-
 }

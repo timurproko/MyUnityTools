@@ -5,19 +5,18 @@ namespace MyTools
 {
     internal static class PlayWithDomainReload
     {
-        private static EnterPlayModeOptions _originalOptions;
         private static bool _wasFastPlayEnabled;
 
-        [MenuItem(Menus.MY_TOOLS_MENU + "Play With Reload %&#p", priority = Menus.MODES_INDEX + 999)]
-        static void PlayDomainReload()
+        [MenuItem(Menus.MY_TOOLS_MENU + "Play With Reload %&#p", validate = true, priority = Menus.MODES_INDEX + 999)]
+        private static bool ValidatePlayDomainReload() => !State.disabled;
+
+        [MenuItem(Menus.MY_TOOLS_MENU + "Play With Reload %&#p", priority = Menus.MODES_INDEX + 302)]
+        private static void PlayDomainReload()
         {
             if (State.disabled) return;
-
-            if (EditorApplication.isPlaying)
-                return;
+            if (EditorApplication.isPlaying) return;
 
             _wasFastPlayEnabled = EditorSettings.enterPlayModeOptionsEnabled;
-            _originalOptions = EditorSettings.enterPlayModeOptions;
 
             if (_wasFastPlayEnabled)
             {
@@ -25,31 +24,19 @@ namespace MyTools
                 EditorSettings.enterPlayModeOptions = EnterPlayModeOptions.None;
             }
 
-            EditorApplication.playModeStateChanged += RestoreFastPlayModeAfterExit;
+#if UNITY_EDITOR
+            try
+            {
+                var simulatorWasOn = ToggleXRSimulator.IsActivated();
+                if (simulatorWasOn)
+                    ToggleXRSimulator.DisableSimulator();
+            }
+            catch
+            {
+            }
+#endif
+            
             EditorApplication.isPlaying = true;
-        }
-
-        [MenuItem(Menus.MY_TOOLS_MENU + "Play With Reload %&#p", validate = true, priority = Menus.MODES_INDEX + 999)]
-        static bool ValidatePlayDomainReload() => !State.disabled;
-
-        private static void RestoreFastPlayModeAfterExit(PlayModeStateChange state)
-        {
-            if (State.disabled)
-            {
-                EditorApplication.playModeStateChanged -= RestoreFastPlayModeAfterExit;
-                return;
-            }
-
-            if (state == PlayModeStateChange.EnteredEditMode)
-            {
-                if (_wasFastPlayEnabled)
-                {
-                    EditorSettings.enterPlayModeOptions = _originalOptions;
-                    EditorSettings.enterPlayModeOptionsEnabled = true;
-                }
-
-                EditorApplication.playModeStateChanged -= RestoreFastPlayModeAfterExit;
-            }
         }
     }
 }

@@ -1,3 +1,4 @@
+#if VCONTAINER
 using VContainer;
 using VContainer.Unity;
 
@@ -67,3 +68,4 @@ public class GameLifetimeScope : LifetimeScope
     // MonoBehaviour on Scene
     // builder.RegisterComponentInHierarchy<SomeMonoBehaviourClassOnScene>();
 }
+#endif

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if VCONTAINER
+using UnityEngine;
 
 public interface ILogger
 {
@@ -29,3 +30,4 @@ public class Logger2 : ILogger
         Debug.Log("Hello VContainer Log2");
     }
 }
+#endif

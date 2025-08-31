@@ -1,4 +1,5 @@
-﻿using R3;
+﻿#if R3
+using R3;
 using UnityEngine;
 
 namespace Reactive
@@ -26,3 +27,4 @@ namespace Reactive
         }
     }
 }
+#endif

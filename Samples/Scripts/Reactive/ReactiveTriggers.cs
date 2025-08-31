@@ -1,3 +1,4 @@
+#if R3
 using R3;
 using R3.Triggers;
 using UnityEngine;
@@ -55,3 +56,4 @@ namespace Reactive
         }
     }
 }
+#endif
