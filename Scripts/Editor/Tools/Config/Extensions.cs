@@ -88,6 +88,16 @@ namespace MyTools
 
         [MenuItem(Menu_VCONTAINER, true)]
         private static bool Validate_VCONTAINER() => ValidateToggleSymbol(VCONTAINER, Menu_VCONTAINER);
+        
+        // MANUAL_DI
+        private const string MANUAL_DI = "MANUAL_DI";
+        private const string Menu_MANUAL_DI = Menus.GLOBAL_MENU + MANUAL_DI;
+
+        [MenuItem(Menu_MANUAL_DI, priority = Menus.GLOBAL_INDEX + 102)]
+        private static void Toggle_MANUAL_DI() => ToggleSymbol(MANUAL_DI, Menu_MANUAL_DI);
+
+        [MenuItem(Menu_MANUAL_DI, true)]
+        private static bool Validate_MANUAL_DI() => ValidateToggleSymbol(MANUAL_DI, Menu_MANUAL_DI);
     }
 }
 #endif

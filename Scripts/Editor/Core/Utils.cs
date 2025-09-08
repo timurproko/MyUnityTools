@@ -9,11 +9,11 @@ namespace MyTools
     public static class Utils
     {
         private const string PREFIX = "MyTools →";
-        private const string PREFIX_COLOR = "#00E0FF";
+        private const string PREFIX_COLOR = "#00FF66";
 
         public static EditorWindow GetView(string name)
         {
-            Type viewType = typeof(UnityEditor.Editor).Assembly.GetType(name);
+            Type viewType = typeof(Editor).Assembly.GetType(name);
             return EditorWindow.GetWindow(viewType);
         }
 
