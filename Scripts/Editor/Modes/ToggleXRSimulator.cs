@@ -69,7 +69,7 @@ namespace MyTools
             Persist(_enabled);
             ApplyUi(_enabled);
 
-            Utils.Log($"Meta XR Simulator {(_enabled ? "Enabled" : "Disabled")}");
+            Utils.Log($"Meta XR Simulator is {(_enabled ? "Enabled" : "Disabled")}");
         }
 
         private static void PollExternalChanges()

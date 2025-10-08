@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.XR;
 
 namespace MyTools.Runtime
 {
-    [AddComponentMenu("My Tools/XR/" + "Meta Tools")]
+    [AddComponentMenu("My Tools/XR/" + "XR Settings")]
 
-    public class MetaTools : MonoBehaviour
+    public class XRSettings : MonoBehaviour
     {
         [SerializeField] private bool _disableOcclusionMesh = true;
 
@@ -13,7 +12,7 @@ namespace MyTools.Runtime
         {
             if (_disableOcclusionMesh)
             {
-                XRSettings.useOcclusionMesh = false;
+                UnityEngine.XR.XRSettings.useOcclusionMesh = false;
             }
         }
     }
