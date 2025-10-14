@@ -138,21 +138,33 @@ namespace SceneViewTools
         {
             if (MyTools.State.disabled) return;
 
-            foreach (var sceneView in UnityEditor.SceneView.sceneViews)
+            foreach (var sceneView in SceneView.sceneViews)
             {
-                if (sceneView is UnityEditor.SceneView view)
+                if (sceneView is SceneView view)
                 {
                     view.showGrid = !view.showGrid;
                 }
             }
         }
 
-        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Grid %&#g", validate = true,
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle VR Rig %&#r",
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 206)] // Ctrl+Alt+Shift+R
+        private static void ToggleVRRig()
+        {
+            if (MyTools.State.disabled) return;
+            SceneViewTools.ToggleVRRig();
+        }
+
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Grid %&g", validate = true,
             priority = MyTools.Menus.SCENE_VIEW_INDEX + 205)]
         private static bool ValidateToggleGridVisibility() => !MyTools.State.disabled;
 
+        [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle VR Rig %&#r", validate = true,
+            priority = MyTools.Menus.SCENE_VIEW_INDEX + 206)]
+        private static bool ValidateToggleVRRig() => !MyTools.State.disabled;
+
         [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Isolation on Selection #\\", false,
-            MyTools.Menus.SCENE_VIEW_INDEX + 206)] // Shift+\
+            MyTools.Menus.SCENE_VIEW_INDEX + 207)] // Shift+\
         private static void ToggleObjectVisibility()
         {
             if (MyTools.State.disabled) return;
@@ -187,7 +199,7 @@ namespace SceneViewTools
         }
 
         [MenuItem(MyTools.Menus.TOOLS_MENU + "Toggle Isolation on Selection #\\", true,
-            MyTools.Menus.SCENE_VIEW_INDEX + 206)]
+            MyTools.Menus.SCENE_VIEW_INDEX + 207)]
         private static bool ValidateToggleObjectVisibility() => !MyTools.State.disabled;
 
         private static void HideAllExceptSelected(GameObject selectedObject)
@@ -239,7 +251,7 @@ namespace SceneViewTools
         static void FrameSelected()
         {
             if (MyTools.State.disabled) return;
-            UnityEditor.SceneView.FrameLastActiveSceneView();
+            SceneView.FrameLastActiveSceneView();
         }
 
         [MenuItem(MyTools.Menus.TOOLS_MENU + "Frame Selected &f", validate = true,
