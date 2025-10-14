@@ -16,18 +16,14 @@ namespace SceneViewTools
             if (SceneViewNavigationIO.TryConsumeUseLastPoseRequest() &&
                 SceneViewNavigationIO.TryGetLastViewState(out var last))
             {
-                ApplyNewValues(last);
+                ApplyNewValues(last, viewType);
                 ActiveSceneView.sceneView.Repaint();
                 return;
             }
 
             if (SceneViewNavigationIO.TryGetViewState(viewType, out var savedState))
             {
-                ApplyNewValues(savedState);
-            }
-            else
-            {
-                ApplyDefaultValues(viewType);
+                ApplyNewValues(savedState, viewType);
             }
 
             ActiveSceneView.sceneView.Repaint();
@@ -41,12 +37,12 @@ namespace SceneViewTools
 
             (SceneViewType type, Quaternion quat)[] candidates =
             {
-                (SceneViewType.Top,    DefaultRotation.Top),
+                (SceneViewType.Top, DefaultRotation.Top),
                 (SceneViewType.Bottom, DefaultRotation.Bottom),
-                (SceneViewType.Front,  DefaultRotation.Front),
-                (SceneViewType.Back,   DefaultRotation.Back),
-                (SceneViewType.Left,   DefaultRotation.Left),
-                (SceneViewType.Right,  DefaultRotation.Right),
+                (SceneViewType.Front, DefaultRotation.Front),
+                (SceneViewType.Back, DefaultRotation.Back),
+                (SceneViewType.Left, DefaultRotation.Left),
+                (SceneViewType.Right, DefaultRotation.Right),
                 (SceneViewType.Perspective, DefaultRotation.Perspective),
             };
 
@@ -108,12 +104,13 @@ namespace SceneViewTools
             ActiveSceneView.sceneView.orthographic = IsOrthographic(viewType);
         }
 
-        private static void ApplyNewValues(SceneViewNavigationIO.ViewState savedState)
+        private static void ApplyNewValues(SceneViewNavigationIO.ViewState savedState, SceneViewType viewType)
         {
             ActiveSceneView.sceneView.size = savedState.size;
             ActiveSceneView.sceneView.pivot = savedState.pivot;
-            ActiveSceneView.sceneView.orthographic = savedState.orthographic;
             ActiveSceneView.sceneView.rotation = savedState.rotation;
+            // Always enforce correct orthographic state based on view type
+            ActiveSceneView.sceneView.orthographic = IsOrthographic(viewType);
         }
 
         public static void SaveSceneView(SceneViewType viewTypeAboutToSet)
@@ -140,6 +137,7 @@ namespace SceneViewTools
             {
                 ResetView(viewType);
             }
+
             RedrawLastSavedSceneView();
         }
 

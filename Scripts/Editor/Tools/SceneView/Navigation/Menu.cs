@@ -6,6 +6,10 @@ namespace SceneViewTools
 {
     public static class SceneViewNavigationMenu
     {
+        private static SceneViewType _lastTopBottomView = SceneViewType.Top;
+        private static SceneViewType _lastFrontBackView = SceneViewType.Front;
+        private static SceneViewType _lastRightLeftView = SceneViewType.Right;
+
         [MenuItem(Menus.NAVIGATION_MENU + "Perspective &1", priority = Menus.SCENE_VIEW_INDEX + 100)]
         static void PerspectiveView()
         {
@@ -21,13 +25,22 @@ namespace SceneViewTools
         {
             if (State.disabled) return;
 
-            if (ActiveSceneView.SceneViewType == SceneViewType.Top)
-                SetSceneView(SceneViewType.Bottom);
+            var currentType = ActiveSceneView.SceneViewType;
+
+            if (currentType == SceneViewType.Top || currentType == SceneViewType.Bottom)
+            {
+                var newView = (currentType == SceneViewType.Top) ? SceneViewType.Bottom : SceneViewType.Top;
+                _lastTopBottomView = newView;
+                SetSceneView(newView);
+            }
             else
-                SetSceneView(SceneViewType.Top);
+            {
+                SetSceneView(_lastTopBottomView);
+            }
         }
 
-        [MenuItem(Menus.NAVIGATION_MENU + "Toggle Top-Bottom &2", validate = true, priority = Menus.SCENE_VIEW_INDEX + 101)]
+        [MenuItem(Menus.NAVIGATION_MENU + "Toggle Top-Bottom &2", validate = true,
+            priority = Menus.SCENE_VIEW_INDEX + 101)]
         static bool ValidateToggleTopBottomView() => !State.disabled;
 
         [MenuItem(Menus.NAVIGATION_MENU + "Toggle Front-Back &3", priority = Menus.SCENE_VIEW_INDEX + 102)]
@@ -35,13 +48,22 @@ namespace SceneViewTools
         {
             if (State.disabled) return;
 
-            if (ActiveSceneView.SceneViewType == SceneViewType.Front)
-                SetSceneView(SceneViewType.Back);
+            var currentType = ActiveSceneView.SceneViewType;
+
+            if (currentType == SceneViewType.Front || currentType == SceneViewType.Back)
+            {
+                var newView = (currentType == SceneViewType.Front) ? SceneViewType.Back : SceneViewType.Front;
+                _lastFrontBackView = newView;
+                SetSceneView(newView);
+            }
             else
-                SetSceneView(SceneViewType.Front);
+            {
+                SetSceneView(_lastFrontBackView);
+            }
         }
 
-        [MenuItem(Menus.NAVIGATION_MENU + "Toggle Front-Back &3", validate = true, priority = Menus.SCENE_VIEW_INDEX + 102)]
+        [MenuItem(Menus.NAVIGATION_MENU + "Toggle Front-Back &3", validate = true,
+            priority = Menus.SCENE_VIEW_INDEX + 102)]
         static bool ValidateToggleFrontBackView() => !State.disabled;
 
         [MenuItem(Menus.NAVIGATION_MENU + "Toggle Right-Left &4", priority = Menus.SCENE_VIEW_INDEX + 103)]
@@ -49,13 +71,22 @@ namespace SceneViewTools
         {
             if (State.disabled) return;
 
-            if (ActiveSceneView.SceneViewType == SceneViewType.Right)
-                SetSceneView(SceneViewType.Left);
+            var currentType = ActiveSceneView.SceneViewType;
+
+            if (currentType == SceneViewType.Right || currentType == SceneViewType.Left)
+            {
+                var newView = (currentType == SceneViewType.Right) ? SceneViewType.Left : SceneViewType.Right;
+                _lastRightLeftView = newView;
+                SetSceneView(newView);
+            }
             else
-                SetSceneView(SceneViewType.Right);
+            {
+                SetSceneView(_lastRightLeftView);
+            }
         }
 
-        [MenuItem(Menus.NAVIGATION_MENU + "Toggle Right-Left &4", validate = true, priority = Menus.SCENE_VIEW_INDEX + 103)]
+        [MenuItem(Menus.NAVIGATION_MENU + "Toggle Right-Left &4", validate = true,
+            priority = Menus.SCENE_VIEW_INDEX + 103)]
         static bool ValidateToggleRightLeftView() => !State.disabled;
 
         [MenuItem(Menus.NAVIGATION_MENU + "Top", priority = Menus.SCENE_VIEW_INDEX + 200)]
