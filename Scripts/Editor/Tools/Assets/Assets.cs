@@ -23,18 +23,18 @@ namespace MyTools
                     GameObject fbxModel = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                     if (fbxModel == null)
                     {
-                        Utils.LogError("Could not load FBX model at path: " + path);
+                        Debug.LogError(Debug.DefaultPrefix, $"Could not load FBX model at path: {path}");
                         return;
                     }
 
                     string prefabPath = Path.ChangeExtension(path, ".prefab");
                     PrefabUtility.SaveAsPrefabAsset(fbxModel, prefabPath);
 
-                    Utils.Log("Prefab created at: " + prefabPath);
+                    Debug.Log(Debug.DefaultPrefix, $"Prefab created at: {prefabPath}");
                 }
                 else
                 {
-                    Utils.LogWarning("Selected object is not an FBX file: " + path);
+                     Debug.LogWarning(Debug.DefaultPrefix, $"Selected object is not an FBX file: {path}");
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace MyTools
 
             if (selectedObjects.Length == 0)
             {
-                Utils.LogWarning("No GameObjects selected.");
+                Debug.LogWarning(Debug.DefaultPrefix, "No GameObjects selected.");
                 return;
             }
 
@@ -62,11 +62,11 @@ namespace MyTools
                 if (prefabRoot != null)
                 {
                     PrefabUtility.ApplyPrefabInstance(obj, InteractionMode.UserAction);
-                    Utils.Log($"Applied overrides to {prefabRoot.name}");
+                    Debug.Log(Debug.DefaultPrefix, $"Applied overrides to {prefabRoot.name}");
                 }
                 else
                 {
-                    Utils.LogWarning($"No prefab found for {obj.name}");
+                    Debug.LogWarning(Debug.DefaultPrefix, $"No prefab found for {obj.name}");
                 }
             }
 
@@ -87,7 +87,7 @@ namespace MyTools
             if (selectedObjects == null || selectedObjects.Length == 0)
             {
                 AssetDatabase.Refresh();
-                Utils.Log("All assets have been refreshed.");
+                Debug.Log(Debug.DefaultPrefix, "All assets have been refreshed.");
             }
             else
             {
@@ -98,7 +98,7 @@ namespace MyTools
                     if (!string.IsNullOrEmpty(assetPath))
                     {
                         AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
-                        Utils.Log($"{assetPath} has been refreshed.");
+                        Debug.Log(Debug.DefaultPrefix, $"{assetPath} has been refreshed.");
                     }
                 }
             }
@@ -116,7 +116,7 @@ namespace MyTools
 
             if (selected == null)
             {
-                Utils.LogError("No GameObject selected.");
+                Debug.LogError(Debug.DefaultPrefix, "No GameObject selected.");
                 return;
             }
 
@@ -124,7 +124,7 @@ namespace MyTools
 
             if (rootLODGroup == null)
             {
-                Utils.LogError("Selected GameObject does not have an LODGroup component.");
+                Debug.LogError(Debug.DefaultPrefix, "Selected GameObject does not have an LODGroup component.");
                 return;
             }
 
@@ -149,8 +149,7 @@ namespace MyTools
 
             Undo.DestroyObjectImmediate(rootLODGroup);
 
-            Utils.Log(
-                "LOD Group successfully copied to first-level children, renderers assigned, transition sizes set, and LOD Group removed from parent.");
+            Debug.Log(Debug.DefaultPrefix, "LOD Group successfully copied to first-level children, renderers assigned, transition sizes set, and LOD Group removed from parent.");
         }
 
         [MenuItem(Menus.ASSETS_MENU + "Create Children LOD Groups", validate = true)]
@@ -160,7 +159,7 @@ namespace MyTools
         {
             if (source == null || destination == null)
             {
-                Utils.LogError("Source or destination LODGroup is null.");
+                Debug.LogError(Debug.DefaultPrefix, "Source or destination LODGroup is null.");
                 return;
             }
 

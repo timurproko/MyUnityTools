@@ -23,7 +23,7 @@ namespace MyTools
             if (State.disabled) return;
 
             PerformAction(!_enabled);
-            Utils.Log($"Auto Save on Play is {(_enabled ? "Enabled" : "Disabled")}");
+            Debug.Log(Debug.DefaultPrefix, $"Auto Save on Play is {(_enabled ? "Enabled" : "Disabled")}");
         }
 
         [MenuItem(MENU_NAME, validate = true, priority = ITEM_INDEX)]

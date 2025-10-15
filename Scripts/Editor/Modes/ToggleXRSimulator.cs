@@ -54,7 +54,7 @@ namespace MyTools
             var enablerType = FindEnablerType();
             if (enablerType == null)
             {
-                Utils.LogWarning("Meta XR Simulator Enabler type not found. Is the Meta XR package installed?");
+                Debug.LogWarning(Debug.DefaultPrefix, "Meta XR Simulator Enabler type not found. Is the Meta XR package installed?");
                 return;
             }
 
@@ -69,7 +69,7 @@ namespace MyTools
             Persist(_enabled);
             ApplyUi(_enabled);
 
-            Utils.Log($"Meta XR Simulator is {(_enabled ? "Enabled" : "Disabled")}");
+            Debug.Log(Debug.DefaultPrefix, $"Meta XR Simulator is {(_enabled ? "Enabled" : "Disabled")}");
         }
 
         private static void PollExternalChanges()

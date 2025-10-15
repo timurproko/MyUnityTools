@@ -48,7 +48,7 @@ namespace MyTools
             AssetDatabase.Refresh();
             var playModeState = EditorSettings.enterPlayModeOptionsEnabled;
 
-            Utils.Log(playModeState ? "Fast Play Mode is Enabled" : "Fast Play Mode is Disabled");
+            Debug.Log(Debug.DefaultPrefix, $"Fast Play Mode is {(playModeState ? "Enabled" : "Disabled")}");
         }
     }
 }

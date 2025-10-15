@@ -40,7 +40,7 @@ namespace MyTools
 
             _maximizeEnabled = !_maximizeEnabled;
             SetMenuChecked(MAXIMIZE_MENU, _maximizeEnabled);
-            Utils.Log($"Maximize Active View on Play is {(_maximizeEnabled ? "Enabled" : "Disabled")}");
+            Debug.Log(Debug.DefaultPrefix, $"Maximize Active View on Play is {(_maximizeEnabled ? "Enabled" : "Disabled")}");
         }
 
         [MenuItem(MAXIMIZE_MENU, validate = true, priority = MAXIMIZE_INDEX)]
@@ -53,7 +53,7 @@ namespace MyTools
 
             _focusEnabled = !_focusEnabled;
             SetMenuChecked(FOCUS_MENU, _focusEnabled);
-            Utils.Log($"Focus GameView on Play is {(_focusEnabled ? "Enabled" : "Disabled")}");
+            Debug.Log(Debug.DefaultPrefix, $"Focus GameView on Play is {(_focusEnabled ? "Enabled" : "Disabled")}");
         }
 
         [MenuItem(FOCUS_MENU, validate = true, priority = FOCUS_INDEX)]
@@ -119,7 +119,7 @@ namespace MyTools
             }
             else
             {
-                Utils.LogWarning("No active SceneView or GameView found to focus.");
+                Debug.LogWarning(Debug.DefaultPrefix, "No active SceneView or GameView found to focus.");
             }
 
             EditorApplication.delayCall += () => EditorApplication.update += ExecuteMaximize;
@@ -181,7 +181,7 @@ namespace MyTools
                 }
             }
 
-            Utils.LogWarning("No active GameView or SceneView found to maximize.");
+            Debug.LogWarning(Debug.DefaultPrefix, "No active GameView or SceneView found to maximize.");
             return null;
         }
 

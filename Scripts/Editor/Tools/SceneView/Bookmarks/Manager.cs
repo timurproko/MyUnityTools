@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
-using MyTools;
 using UnityEditor;
 using UnityEngine;
+using Debug = MyTools.Debug;
 
 namespace SceneViewTools
 {
@@ -53,7 +53,7 @@ namespace SceneViewTools
             
             if (slot != previousViewSlot)
             {
-                Utils.Log("Bookmarked Scene View in Slot " + slot);
+                Debug.Log(Debug.DefaultPrefix, $"Bookmarked Scene View in Slot {slot}");
             }
         }
 
