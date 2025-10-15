@@ -3,11 +3,8 @@ using UnityEditor;
 using UnityEditor.Search;
 using UnityEngine;
 
-namespace SceneViewTools
+namespace MyTools
 {
-    /// <summary>
-    /// Adds an alternative way to access bookmarks via Unity's Search window.
-    /// </summary>
     internal static class SceneViewBookmarkSearchProvider
     {
         const string id = "scene-view-bookmarks";

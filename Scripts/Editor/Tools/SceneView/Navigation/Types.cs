@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace SceneViewTools
+namespace MyTools
 {
     public enum SceneViewType
     {

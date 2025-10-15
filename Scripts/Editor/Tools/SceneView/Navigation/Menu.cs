@@ -2,7 +2,7 @@
 using MyTools;
 using UnityEditor;
 
-namespace SceneViewTools
+namespace MyTools
 {
     public static class SceneViewNavigationMenu
     {

@@ -2,7 +2,7 @@
 using MyTools;
 using UnityEditor;
 
-namespace SceneViewTools
+namespace MyTools
 {
     [InitializeOnLoad]
     public static class Startup

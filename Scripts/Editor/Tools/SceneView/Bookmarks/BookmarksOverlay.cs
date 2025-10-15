@@ -4,9 +4,9 @@ using UnityEditor.Overlays;
 using UnityEditor.Toolbars;
 using UnityEngine;
 
-namespace SceneViewTools
+namespace MyTools
 {
-    [Overlay(typeof(UnityEditor.SceneView), "My Bookmarks")]
+    [Overlay(typeof(SceneView), "My Bookmarks")]
     [Icon(SceneViewBookmarkManager.iconPath)]
     internal class BookmarksOverlay : ToolbarOverlay
     {

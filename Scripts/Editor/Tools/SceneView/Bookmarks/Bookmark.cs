@@ -1,8 +1,7 @@
 #if UNITY_EDITOR
-using UnityEditor;
 using UnityEngine;
 
-namespace SceneViewTools
+namespace MyTools
 {
     internal struct SceneViewBookmark
     {
@@ -11,7 +10,6 @@ namespace SceneViewTools
         public float size;
         public bool orthographic;
         public SceneViewType type;
-
 
         public SceneViewBookmark(UnityEditor.SceneView sceneView)
         {

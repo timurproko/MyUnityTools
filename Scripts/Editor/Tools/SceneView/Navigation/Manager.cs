@@ -3,7 +3,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace SceneViewTools
+namespace MyTools
 {
     public static class SceneViewNavigationManager
     {
@@ -109,7 +109,6 @@ namespace SceneViewTools
             ActiveSceneView.sceneView.size = savedState.size;
             ActiveSceneView.sceneView.pivot = savedState.pivot;
             ActiveSceneView.sceneView.rotation = savedState.rotation;
-            // Always enforce correct orthographic state based on view type
             ActiveSceneView.sceneView.orthographic = IsOrthographic(viewType);
         }
 
@@ -160,10 +159,8 @@ namespace SceneViewTools
             ActiveSceneView.sceneView = SceneView.lastActiveSceneView;
             ActiveSceneView.sceneView.size = DefaultValues.size;
             ActiveSceneView.sceneView.pivot = DefaultValues.pivot;
-
             ActiveSceneView.sceneView.rotation = rotation;
             ActiveSceneView.sceneView.orthographic = orthographic;
-
             ActiveSceneView.sceneView.Repaint();
         }
 

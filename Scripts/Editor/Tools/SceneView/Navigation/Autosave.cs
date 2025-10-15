@@ -1,9 +1,7 @@
 #if UNITY_EDITOR
-using MyTools;
-using SceneViewTools;
 using UnityEditor;
 
-namespace Autosave
+namespace MyTools
 {
     [InitializeOnLoad]
     public static class SceneViewAutoSave
@@ -11,8 +9,8 @@ namespace Autosave
         static SceneViewAutoSave()
         {
             EditorApplication.quitting += SaveCurrentView;
-            EditorApplication.playModeStateChanged += _ => SaveCurrentView(); // extra safety
-            EditorApplication.focusChanged += _ => SaveCurrentView();         // extra safety
+            EditorApplication.playModeStateChanged += _ => SaveCurrentView();
+            EditorApplication.focusChanged += _ => SaveCurrentView();
         }
 
         private static void SaveCurrentView()

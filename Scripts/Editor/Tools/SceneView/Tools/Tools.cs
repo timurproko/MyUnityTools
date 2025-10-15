@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace SceneViewTools
+namespace MyTools
 {
     public static class SceneViewTools
     {

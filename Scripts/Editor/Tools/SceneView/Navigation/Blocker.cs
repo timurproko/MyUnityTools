@@ -3,7 +3,7 @@ using MyTools;
 using UnityEditor;
 using UnityEngine;
 
-namespace SceneViewTools
+namespace MyTools
 {
     [InitializeOnLoad]
     public class SceneViewNavigationBlocker
