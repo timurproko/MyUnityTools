@@ -1,5 +1,4 @@
 #if UNITY_EDITOR
-using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +9,72 @@ namespace SceneViewTools
     {
         private const string VR_RIG_PREF_KEY = "MyTools_VRRig_InstanceID";
         private static GameObject cachedVRRig;
+
+        [InitializeOnEnterPlayMode]
+        static void OnEnterPlayMode()
+        {
+            Debug.Log("OnEnterPlayMode - Enabling VR Rig FIRST");
+            EnableVRRigImmediately();
+        }
+
+        [InitializeOnLoadMethod]
+        static void Initialize()
+        {
+            EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
+        }
+
+        private static void OnPlayModeStateChanged(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.ExitingEditMode)
+            {
+                Debug.Log("ExitingEditMode - Pre-enabling VR Rig");
+                EnableVRRigImmediately();
+            }
+            else if (state == PlayModeStateChange.EnteredPlayMode)
+            {
+                Debug.Log("EnteredPlayMode - Ensuring VR Rig is enabled");
+                EditorApplication.delayCall += () =>
+                {
+                    EnsureVRRigEnabled();
+                };
+            }
+        }
+
+        private static void EnableVRRigImmediately()
+        {
+            cachedVRRig = null;
+            EditorPrefs.DeleteKey(VR_RIG_PREF_KEY);
+            
+            GameObject vrRig = GetVRRig();
+            
+            if (vrRig)
+            {
+                if (!vrRig.activeSelf)
+                {
+                    vrRig.SetActive(true);
+                    Debug.Log($"IMMEDIATELY ENABLED VR Rig: {vrRig.name}");
+                }
+                else
+                {
+                    Debug.Log($"VR Rig {vrRig.name} was already enabled");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No VR Rig found for immediate enable");
+            }
+        }
+
+        private static void EnsureVRRigEnabled()
+        {
+            GameObject vrRig = GetVRRig();
+            
+            if (vrRig && !vrRig.activeSelf)
+            {
+                vrRig.SetActive(true);
+                Debug.Log($"ENSURE ENABLED VR Rig: {vrRig.name}");
+            }
+        }
 
         public static void SetSceneViewGizmos(bool gizmosOn)
         {
@@ -48,6 +113,7 @@ namespace SceneViewTools
             if (vrRig)
             {
                 vrRig.SetActive(!vrRig.activeSelf);
+                Debug.Log($"VR Rig {(vrRig.activeSelf ? "enabled" : "disabled")}: {vrRig.name}");
             }
             else
             {
@@ -62,24 +128,42 @@ namespace SceneViewTools
                 return cachedVRRig;
             }
 
-            int savedInstanceID = EditorPrefs.GetInt(VR_RIG_PREF_KEY, 0);
-            if (savedInstanceID != 0)
+            if (!Application.isPlaying)
             {
-                cachedVRRig = EditorUtility.InstanceIDToObject(savedInstanceID) as GameObject;
-                if (cachedVRRig && IsValidSceneObject(cachedVRRig))
+                int savedInstanceID = EditorPrefs.GetInt(VR_RIG_PREF_KEY, 0);
+                if (savedInstanceID != 0)
                 {
-                    return cachedVRRig;
+                    cachedVRRig = EditorUtility.InstanceIDToObject(savedInstanceID) as GameObject;
+                    
+                    if (cachedVRRig && IsValidSceneObject(cachedVRRig) && IsVRRig(cachedVRRig))
+                    {
+                        return cachedVRRig;
+                    }
+                    
+                    cachedVRRig = null;
+                    EditorPrefs.DeleteKey(VR_RIG_PREF_KEY);
                 }
             }
 
             cachedVRRig = FindVRRigInScene();
 
-            if (cachedVRRig)
+            if (cachedVRRig && !Application.isPlaying)
             {
                 EditorPrefs.SetInt(VR_RIG_PREF_KEY, cachedVRRig.GetInstanceID());
             }
 
             return cachedVRRig;
+        }
+
+        private static bool IsVRRig(GameObject obj)
+        {
+            if (!obj) return false;
+            
+            if (obj.GetComponent("OVRCameraRig")) return true;
+            
+            return obj.name == "OVRCameraRig" || 
+                   obj.name == "VRRig" || 
+                   obj.name == "CameraRig";
         }
 
         private static GameObject FindVRRigInScene()
