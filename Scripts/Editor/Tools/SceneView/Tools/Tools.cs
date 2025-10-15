@@ -8,17 +8,18 @@ namespace SceneViewTools
     public static class SceneViewTools
     {
         private const string VR_RIG_PREF_KEY = "MyTools_VRRig_InstanceID";
+        private const string VR_RIG_STATE_PREF_KEY = "MyTools_VRRig_SavedState";
         private static GameObject cachedVRRig;
 
         [InitializeOnEnterPlayMode]
-        static void OnEnterPlayMode()
+        private static void OnEnterPlayMode()
         {
             Debug.Log("OnEnterPlayMode - Enabling VR Rig FIRST");
             EnableVRRigImmediately();
         }
 
         [InitializeOnLoadMethod]
-        static void Initialize()
+        private static void Initialize()
         {
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
@@ -27,16 +28,65 @@ namespace SceneViewTools
         {
             if (state == PlayModeStateChange.ExitingEditMode)
             {
-                Debug.Log("ExitingEditMode - Pre-enabling VR Rig");
-                EnableVRRigImmediately();
+                Debug.Log("ExitingEditMode - Saving VR Rig state and enabling it");
+                SaveVRRigStateAndEnable();
+            }
+            else if (state == PlayModeStateChange.EnteredEditMode)
+            {
+                Debug.Log("EnteredEditMode - Restoring VR Rig state");
+                EditorApplication.delayCall += RestoreVRRigState;
             }
             else if (state == PlayModeStateChange.EnteredPlayMode)
             {
                 Debug.Log("EnteredPlayMode - Ensuring VR Rig is enabled");
-                EditorApplication.delayCall += () =>
+                EditorApplication.delayCall += EnsureVRRigEnabled;
+            }
+        }
+
+        private static void SaveVRRigStateAndEnable()
+        {
+            cachedVRRig = null;
+            EditorPrefs.DeleteKey(VR_RIG_PREF_KEY);
+            
+            GameObject vrRig = GetVRRig();
+            
+            if (vrRig)
+            {
+                var wasEnabled = vrRig.activeSelf;
+                EditorPrefs.SetBool(VR_RIG_STATE_PREF_KEY, wasEnabled);
+                Debug.Log($"Saved VR Rig state to EditorPrefs: {(wasEnabled ? "enabled" : "disabled")}");
+                
+                if (!vrRig.activeSelf)
                 {
-                    EnsureVRRigEnabled();
-                };
+                    vrRig.SetActive(true);
+                    Debug.Log($"ENABLED VR Rig for play mode: {vrRig.name}");
+                }
+                else
+                {
+                    Debug.Log($"VR Rig {vrRig.name} was already enabled");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No VR Rig found to save state");
+            }
+        }
+
+        private static void RestoreVRRigState()
+        {
+            GameObject vrRig = GetVRRig();
+            
+            if (vrRig)
+            {
+                bool wasEnabled = EditorPrefs.GetBool(VR_RIG_STATE_PREF_KEY, true);
+                vrRig.SetActive(wasEnabled);
+                Debug.Log($"RESTORED VR Rig to {(wasEnabled ? "enabled" : "disabled")}: {vrRig.name}");
+                
+                EditorPrefs.DeleteKey(VR_RIG_STATE_PREF_KEY);
+            }
+            else
+            {
+                Debug.LogWarning("No VR Rig found to restore state");
             }
         }
 
@@ -161,9 +211,7 @@ namespace SceneViewTools
             
             if (obj.GetComponent("OVRCameraRig")) return true;
             
-            return obj.name == "OVRCameraRig" || 
-                   obj.name == "VRRig" || 
-                   obj.name == "CameraRig";
+            return obj.name is "OVRCameraRig" or "VRRig" or "CameraRig";
         }
 
         private static GameObject FindVRRigInScene()
@@ -182,9 +230,7 @@ namespace SceneViewTools
             }
 
             return allGameObjects.FirstOrDefault(obj =>
-                obj.name == "OVRCameraRig" ||
-                obj.name == "VRRig" ||
-                obj.name == "CameraRig");
+                obj.name is "OVRCameraRig" or "VRRig" or "CameraRig");
         }
 
         private static bool IsValidSceneObject(GameObject obj)
